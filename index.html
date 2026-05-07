@@ -3,372 +3,313 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valtech Nordics — Client Roles and Needs</title>
+<title>Strategy Productization — Commercial Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    --color-text-primary: #1a1a18;
-    --color-text-secondary: #4a4a46;
-    --color-text-tertiary: #888780;
-    --color-background-primary: #ffffff;
-    --color-background-secondary: #f5f4f0;
-    --color-border-tertiary: rgba(0,0,0,0.12);
-    --color-border-secondary: rgba(0,0,0,0.22);
-    --color-border-primary: rgba(0,0,0,0.35);
-    --border-radius-md: 8px;
-    --border-radius-lg: 12px;
+    --bg: #f4f1ec;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --rule: #d8d3cb;
+    --tile-bg: #ffffff;
+    --accent: #1a1a1a;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-text-primary: #e8e6de;
-      --color-text-secondary: #b0ae a6;
-      --color-text-tertiary: #6e6c66;
-      --color-background-primary: #1e1e1c;
-      --color-background-secondary: #272724;
-      --color-border-tertiary: rgba(255,255,255,0.10);
-      --color-border-secondary: rgba(255,255,255,0.18);
-      --color-border-primary: rgba(255,255,255,0.30);
-    }
-  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
 
   body {
-    font-family: var(--font-sans);
-    background: var(--color-background-secondary);
-    color: var(--color-text-primary);
-    padding: 32px 24px 48px;
-    max-width: 1100px;
-    margin: 0 auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
     line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
-  .meta { font-size: 11px; color: var(--color-text-tertiary); margin-bottom: 24px; }
-
-  .section-label {
-    font-size: 11px; font-weight: 500; text-transform: uppercase;
-    letter-spacing: 0.08em; color: var(--color-text-tertiary); margin-bottom: 4px;
-  }
-  .intro {
-    font-size: 12px; color: var(--color-text-secondary); margin-bottom: 18px; line-height: 1.6;
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 48px;
   }
 
-  .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
-  .tab {
-    font-size: 12px; padding: 5px 14px; border-radius: 20px;
-    border: 0.5px solid var(--color-border-secondary); cursor: pointer;
-    color: var(--color-text-secondary); background: transparent; transition: all 0.15s;
-  }
-  .tab.on { border-color: var(--color-text-primary); color: var(--color-text-primary); font-weight: 500; }
-  .panel { display: none; }
-  .panel.on { display: block; }
-
-  .level-badge {
-    display: inline-block; font-size: 9px; font-weight: 500;
-    text-transform: uppercase; letter-spacing: 0.07em;
-    padding: 2px 8px; border-radius: 10px; border: 0.5px solid;
-    white-space: nowrap;
+  /* Header */
+  header {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--rule);
   }
 
-  .roles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-  .role-card {
-    border: 0.5px solid var(--color-border-tertiary); border-radius: 8px;
-    padding: 14px 15px; cursor: pointer; transition: border-color 0.15s;
-    background: var(--color-background-primary);
-  }
-  .role-card:hover { border-color: var(--color-border-primary); }
-  .role-card.sel { border-color: var(--color-text-primary); }
-  .rc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 6px; }
-  .rc-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); line-height: 1.3; }
-  .rc-title { font-size: 10px; color: var(--color-text-tertiary); margin-bottom: 6px; }
-  .rc-jtbd-label {
-    font-size: 9.5px; font-weight: 500; color: var(--color-text-tertiary);
-    text-transform: uppercase; letter-spacing: 0.06em; margin: 6px 0 3px;
-  }
-  .rc-jtbd { font-size: 11px; color: var(--color-text-secondary); line-height: 1.45; }
-  .rc-fear {
-    font-size: 10.5px; color: var(--color-text-tertiary); margin-top: 6px;
-    font-style: italic; border-top: 0.5px solid var(--color-border-tertiary);
-    padding-top: 5px; line-height: 1.4;
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .drawer {
-    border: 0.5px solid var(--color-border-tertiary); border-radius: 8px;
-    padding: 16px 18px; margin-top: 10px; display: none;
-    background: var(--color-background-secondary);
+  .logo {
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    text-decoration: none;
   }
-  .drawer.open { display: block; }
-  .dh { display: flex; justify-content: space-between; margin-bottom: 12px; }
-  .dh-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
-  .dh-close { font-size: 11px; color: var(--color-text-tertiary); cursor: pointer; }
-  .d-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  @media (max-width: 700px) { .d-cols { grid-template-columns: 1fr 1fr; } }
-  .dc h4 {
-    font-size: 9.5px; font-weight: 500; color: var(--color-text-tertiary);
-    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
-  }
-  .dc ul { list-style: none; }
-  .dc li {
-    font-size: 10.5px; color: var(--color-text-secondary);
-    padding: 3px 0; border-bottom: 0.5px solid var(--color-border-tertiary); line-height: 1.4;
-  }
-  .dc li:last-child { border-bottom: none; }
 
-  .matrix-wrap { overflow-x: auto; }
-  table.matrix { width: 100%; border-collapse: collapse; font-size: 10.5px; }
-  table.matrix th, table.matrix td {
-    border: 0.5px solid var(--color-border-tertiary); padding: 9px 11px; vertical-align: top;
+  .logo-mark {
+    display: inline-block;
+    margin-right: 4px;
+    font-size: 32px;
+    line-height: 1;
+    transform: translateY(2px);
   }
-  table.matrix th {
-    font-size: 10px; font-weight: 500; color: var(--color-text-secondary);
-    text-align: left; background: var(--color-background-secondary);
+
+  nav {
+    font-size: 14px;
+    color: var(--ink-soft);
   }
-  table.matrix td { color: var(--color-text-secondary); line-height: 1.5; background: var(--color-background-primary); }
-  .role-name { font-weight: 500; color: var(--color-text-primary); font-size: 10.5px; display: block; margin-bottom: 2px; }
-  .offer-pill {
-    display: inline-block; font-size: 9px; padding: 1px 6px; border-radius: 8px;
-    border: 0.5px solid var(--color-border-secondary); color: var(--color-text-tertiary);
-    margin: 1px 2px 1px 0;
+
+  /* Hero */
+  .hero {
+    padding: 120px 0 96px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    max-width: 1100px;
+    margin-bottom: 32px;
+  }
+
+  .lead {
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 720px;
+    font-weight: 400;
+  }
+
+  /* Tiles */
+  .tiles-section {
+    padding: 96px 0;
+  }
+
+  .tiles-header {
+    margin-bottom: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+
+  .tiles-header h2 {
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+  }
+
+  .tiles-header p {
+    font-size: 16px;
+    color: var(--ink-soft);
+    max-width: 480px;
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .tile {
+    background: var(--tile-bg);
+    padding: 48px;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 360px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--rule);
+  }
+
+  .tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+  }
+
+  .tile-number {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+
+  .tile-tag {
+    display: inline-block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+    padding: 6px 12px;
+    margin-bottom: 24px;
+    font-weight: 500;
+    align-self: flex-start;
+  }
+
+  .tile h3 {
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+  }
+
+  .tile p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+  }
+
+  .tile-arrow {
+    font-size: 20px;
+    color: var(--ink);
+    align-self: flex-start;
+    transition: transform 0.3s ease;
+  }
+
+  .tile:hover .tile-arrow {
+    transform: translateX(8px);
+  }
+
+  /* Footer */
+  footer {
+    padding: 64px 0 48px;
+    border-top: 1px solid var(--rule);
+    margin-top: 96px;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero { padding: 64px 0 48px; }
+    .tiles-section { padding: 64px 0; }
+    .tiles { grid-template-columns: 1fr; }
+    .tile { padding: 32px; min-height: auto; }
+    .tile h3 { font-size: 24px; }
   }
 </style>
 </head>
 <body>
 
-<h1>Client roles and needs</h1>
-<p class="meta">Valtech Nordics — Strategy Offering · April 2026</p>
-
-<div class="section-label">Client roles and needs — Valtech Nordics Strategy Offering</div>
-<div class="intro">Three organisational levels — Board &amp; C-suite, VP/Director, and Operational Lead — each with distinct jobs to be done, fears and language. Valtech must address all three, but enters through different doors depending on the mandate.</div>
-
-<div class="tabs">
-  <div class="tab on" onclick="show('roles',this)">Role profiles</div>
-  <div class="tab" onclick="show('matrix',this)">Needs × offering matrix</div>
-</div>
-
-<div class="panel on" id="panel-roles">
-  <div id="roles-grid" class="roles-grid"></div>
-  <div class="drawer" id="role-drawer">
-    <div class="dh">
-      <span class="dh-title" id="d-title"></span>
-      <span class="dh-close" onclick="closeD()">Close ✕</span>
-    </div>
-    <div class="d-cols">
-      <div class="dc"><h4>Primary jobs to be done</h4><ul id="d-jtbd"></ul></div>
-      <div class="dc"><h4>Fears &amp; blockers</h4><ul id="d-fears"></ul></div>
-      <div class="dc"><h4>What they buy from Valtech</h4><ul id="d-buys"></ul></div>
-      <div class="dc"><h4>How to earn their trust</h4><ul id="d-trust"></ul></div>
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="logo"><span class="logo-mark">✱</span> Commercial Strategy</a>
+      <nav>Productization Workspace</nav>
     </div>
   </div>
-</div>
+</header>
 
-<div class="panel" id="panel-matrix">
-  <div class="matrix-wrap">
-    <table class="matrix" id="matrix-table"></table>
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Strategy Discipline / Nordics</div>
+    <h1>Productizing strategy offers in Commercial Strategy.</h1>
+    <p class="lead">Three strategy offerings shaped around the signals coming from Nordic and global enterprise clients — and one live brief used to pressure-test the work in practice.</p>
   </div>
-</div>
+</section>
 
-<script>
-const LEVELS = {
-  board: { label: 'Board / C-suite', color: '#185FA5' },
-  vp:    { label: 'VP / Director',   color: '#0F6E56' },
-  ops:   { label: 'Operational lead', color: '#534AB7' },
-};
+<section class="tiles-section">
+  <div class="container">
+    <div class="tiles-header">
+      <h2>The work</h2>
+      <p>Each tile leads to a working page with the offering's framing, structure, diagnostic zones, and supporting material as it develops.</p>
+    </div>
 
-const roles = [
-  {
-    level: 'board', name: 'CEO / President', title: 'Group CEO, Division President',
-    jtbd_short: 'Set direction, defend position, grow the business',
-    fear: '"We are moving too slowly. Competitors are already using AI and I cannot explain to the board why we are not."',
-    jtbd: ['Set and communicate a compelling digital and AI vision to the board','Understand where digital creates competitive advantage vs. where it is table stakes','Justify transformation investment in business terms, not technology terms','Manage shareholder expectations on digital progress','Ensure the org is moving with appropriate speed'],
-    fears: ['Being disrupted by a competitor who moves faster','Investing heavily and not seeing returns','Boards and investors asking questions they cannot answer on AI','Transformation fatigue setting in before results arrive','Picking the wrong strategic bets'],
-    buys: ['Board-level digital strategy framing','Market and competitive intelligence','Business case for transformation investment','AI opportunity sizing and narrative','External perspective and provocation'],
-    trust: ['Lead with business outcomes, not technology','Reference comparable global cases at board level','Be direct and concise — no jargon','Demonstrate pattern recognition across industries','Make them look good in front of their board'],
-  },
-  {
-    level: 'board', name: 'Chief Digital Officer', title: 'CDO / Chief Digital & Information Officer',
-    jtbd_short: 'Own the digital transformation agenda and deliver results',
-    fear: '"I have a mandate but not enough budget, talent or organisational alignment to actually execute it."',
-    jtbd: ['Define and own the digital transformation roadmap','Build internal digital capability that reduces vendor dependency over time','Land AI initiatives that show measurable impact quickly','Bridge the gap between business ambition and technology reality','Manage a complex vendor ecosystem without losing control'],
-    fears: ['Overpromising and underdelivering on AI','Being seen as a cost centre rather than a growth engine','Vendor relationships that create dependency rather than capability','Organisational resistance blocking execution','Losing credibility with the CEO if transformation stalls'],
-    buys: ['AI readiness assessment and use-case roadmap','Digital transformation strategy and sequencing','TOM design for the digital org','Build/buy/partner analysis','Vendor and platform strategy'],
-    trust: ['Show you have done this in their sector before','Bring proprietary data and benchmarks','Offer rapid, tangible entry engagements — not year-long programmes','Be honest about where AI actually delivers vs. hype','Propose outcome-based models, not just T&M staffing'],
-  },
-  {
-    level: 'board', name: 'Chief Marketing Officer', title: 'CMO / EVP Marketing & Communications',
-    jtbd_short: 'Build brand, drive growth, own the customer relationship',
-    fear: '"Digital and IT own the platforms I need to do my job, but I am accountable for the results."',
-    jtbd: ['Define brand positioning and digital brand experience','Grow digital channel revenue and reduce CAC','Own personalisation, CRM and loyalty at scale','Prove marketing ROI to the CFO in commercial terms','Build a marketing capability that works at speed'],
-    fears: ['Losing brand relevance to more digitally native competitors','Fragmented customer data preventing personalisation','IT blocking or slowing marketing initiatives','AI-generated content eroding brand authenticity','Being unable to justify marketing spend to the board'],
-    buys: ['Brand digital strategy and positioning','CX and omnichannel strategy','Personalisation and loyalty vision','Campaign strategy and content strategy','Digital marketing performance strategy'],
-    trust: ['Show luxury and brand credentials — this differentiates Valtech','Demonstrate CX and brand design craft, not just delivery','Speak in commercial outcomes (revenue, NPS, CAC)','Understand their brand voice and respect it','Offer sharp creative provocation, not just frameworks'],
-  },
-  {
-    level: 'vp', name: 'VP Strategy & Business Dev.', title: 'VP Strategy, Head of Business Development',
-    jtbd_short: 'Shape commercial direction and new growth opportunities',
-    fear: '"I need external rigour and data to back up what I already believe — but also to be challenged on my assumptions."',
-    jtbd: ['Define market entry and growth hypotheses','Conduct competitive intelligence and opportunity sizing','Design new commercial models and pricing strategies','Shape M&A logic and integration strategy','Build the business case for new ventures or platform investments'],
-    fears: ['Strategy based on incomplete data or internal bias','Being wrong about market timing','Recommendations that cannot be operationalised','Losing credibility with CEO if strategy does not land','Spending on strategy that produces no action'],
-    buys: ['Market and competitive landscape analysis','GTM strategy and segmentation','Commercial model design (product → service)','New business case development','AI opportunity sizing and investment rationale'],
-    trust: ['Bring external data and benchmarks they do not have internally','Be willing to challenge their assumptions respectfully','Deliver outputs that are actionable, not academic','Structured, hypothesis-led approach — show your method','Credibility in their specific sector'],
-  },
-  {
-    level: 'vp', name: 'VP / Head of Digital Products', title: 'Head of Digital Products & Services, VP Digital',
-    jtbd_short: 'Translate strategy into products that customers actually use',
-    fear: '"I live between strategy and delivery and get blamed by both sides when things go wrong."',
-    jtbd: ['Define product vision and roadmap grounded in user needs','Prioritise the portfolio and manage trade-offs','Design service propositions that create measurable user value','Drive adoption and engagement of digital products','Build internal product capability over time'],
-    fears: ['Building the wrong thing at the wrong time','Strategy disconnected from execution reality','Stakeholder misalignment blocking product decisions','Technical debt accumulating faster than the team can repay it','Users not adopting what is built'],
-    buys: ['Product and experience strategy','Service design and journey mapping','Opportunity framing and concept validation','Digital vision and north star definition','Prototype and BML loop facilitation'],
-    trust: ['Show you can bridge strategy and design — not just one','Use their language: user stories, OKRs, backlogs','Be willing to co-create, not just present','Demonstrate that strategy will be handed off to delivery naturally','Respect the product team\'s existing knowledge'],
-  },
-  {
-    level: 'vp', name: 'CTO / VP Engineering', title: 'Chief Technology Officer, VP Engineering, Head of Architecture',
-    jtbd_short: 'Build the technical foundation for digital ambition without accumulating crippling debt',
-    fear: '"Everyone wants AI yesterday but no one has done the data foundation work that makes it possible."',
-    jtbd: ['Define the technology architecture and platform strategy','Validate AI and data capabilities against business ambition','Manage build/buy/partner decisions rigorously','Reduce technical debt while modernising at speed','Evaluate and select the right technology partners'],
-    fears: ['Vendor lock-in from poor architecture decisions','AI investments that fail due to poor data foundations','Being bypassed in strategy conversations that assume tech is just an enabler','Security and compliance exposure from rapid digital expansion','Promising timelines that engineering cannot deliver'],
-    buys: ['AI readiness and data maturity assessment','Technical roadmap prioritisation','Build/buy/partner analysis and TCO modelling','Platform strategy and composable architecture advice','Technology partner evaluation'],
-    trust: ['Speak engineering — understand composable, MACH, cloud-native','Be honest about what AI can and cannot do today','Show Valtech\'s technical delivery track record alongside strategy','Do not over-claim; bring humility about complexity','Propose concrete next steps, not abstract frameworks'],
-  },
-  {
-    level: 'ops', name: 'Head of Digital / E-commerce', title: 'Head of Digital Channels, Head of E-commerce, Digital Director',
-    jtbd_short: 'Run and optimise digital channels that generate measurable revenue',
-    fear: '"I have a delivery team and a platform but no clear strategic direction to prioritise against."',
-    jtbd: ['Optimise digital channel performance (conversion, revenue, AOV)','Define the e-commerce and digital experience roadmap','Manage platform vendors and agency relationships','Build the case for investment in new digital capabilities','Connect digital channel data to business decisions'],
-    fears: ['Lack of strategic mandate leading to tactical firefighting','Platform complexity getting in the way of moving fast','Analytics and attribution that do not tell a clear story','Being passed over for budget in favour of offline channels','Agency relationships that do not deliver measurable impact'],
-    buys: ['Digital channel strategy and prioritisation','Commerce strategy and experience roadmap','Analytics and measurement framework','CRO and personalisation strategy','Agency and vendor brief development'],
-    trust: ['Know the commerce platform landscape in depth','Speak in KPIs: conversion, AOV, CAC, LTV','Demonstrate results from comparable engagements','Be quick to activate — they have backlogs, not bandwidth','Propose phased work that shows results fast'],
-  },
-  {
-    level: 'ops', name: 'Head of Marketing / Brand', title: 'Marketing Director, Brand Manager, Head of Communications',
-    jtbd_short: 'Deliver campaigns and content that build the brand and drive measurable demand',
-    fear: '"I am judged on short-term metrics but my most important work — brand building — takes years to show up in data."',
-    jtbd: ['Plan and execute campaigns that drive brand and commercial outcomes','Manage content strategy, production and distribution','Build and maintain brand consistency across channels and markets','Measure marketing effectiveness in a way the CFO believes','Identify and activate the most effective channel mix'],
-    fears: ['Brand dilution through inconsistent execution across markets','Marketing budget being cut because ROI is hard to prove','Falling behind on AI-generated content and personalisation','Agency relationships that prioritise creativity over performance','Being excluded from product and digital platform decisions'],
-    buys: ['Brand and content strategy','Digital marketing strategy and channel planning','Marketing measurement and attribution framework','Campaign development and creative strategy','Segmentation and audience strategy'],
-    trust: ['Show brand and creative credentials — not just data','Respect their brand constraints and market knowledge','Speak both brand and performance fluently','Deliver tangible campaign tools, not just frameworks','Be honest about what can be measured and what cannot'],
-  },
-  {
-    level: 'ops', name: 'IT Sourcing / Procurement', title: 'Head of IT Procurement, Global Category Manager IT',
-    jtbd_short: 'Control vendor risk, manage the approved list, and ensure value for money',
-    fear: '"I will be held responsible if a vendor relationship goes wrong — so I default to the names I already know."',
-    jtbd: ['Maintain the approved vendor list and manage onboarding','Negotiate contracts that protect the company on risk and IP','Ensure vendor delivery quality and SLA compliance','Manage budget visibility and cost control across vendor spend','Reduce vendor proliferation and complexity over time'],
-    fears: ['A new vendor creating dependency or IP issues','Being bypassed by business units who bring in their own vendors','Vendor failure creating operational disruption','Overpaying relative to market rates','A contract dispute that escalates to legal'],
-    buys: ['Does not buy strategy — but controls access. Must be managed as a gate-keeper, not a buyer.','Valtech\'s goal: get onto the approved list, demonstrate compliance capability, use existing relationships at business unit level to create pull.'],
-    trust: ['Be transparent on pricing and contract structure','Provide references from comparable clients proactively','Do not bypass them — involve them early','Show compliance credentials and data handling robustness','Make their job easier by being professionally buttoned-up'],
-  },
-];
+    <div class="tiles">
 
-const matrixRows = [
-  {
-    level: 'board', label: 'Board / C-suite',
-    roles: ['CEO / President', 'Chief Digital Officer', 'Chief Marketing Officer'],
-    need: 'Strategic direction, competitive clarity, AI narrative for the board, transformation investment justification',
-    offer: ['Business & commercial strategy','AI opportunity framing','Market and competitive intelligence','Board-level narrative and business case'],
-    format: 'Executive workshops (1–2 days), Strategic reports, Board-ready summaries',
-    budget: 'Entry: SEK 300–800K\nProject: SEK 1–4M',
-    trigger: 'New CEO or CDO mandate, board pressure on AI, competitor threat, M&A event, failed transformation',
-  },
-  {
-    level: 'vp', label: 'VP / Director',
-    roles: ['VP Strategy & Business Dev.', 'VP / Head of Digital Products', 'CTO / VP Engineering'],
-    need: 'Validated strategy with an actionable roadmap, product vision, technical architecture clarity, commercial model design',
-    offer: ['Product & experience strategy','AI readiness assessment and roadmap','Build/buy/partner analysis','GTM strategy and segmentation','TOM design'],
-    format: 'Discovery sprints (3–6 weeks), Concept and roadmap workshops, Validated hypotheses with data',
-    budget: 'Entry: SEK 500K–1.5M\nProject: SEK 2–8M',
-    trigger: 'Platform decision upcoming, major product launch, AI pilot failing, reorg or new leadership, digital budget cycle',
-  },
-  {
-    level: 'ops', label: 'Operational lead',
-    roles: ['Head of Digital / E-commerce', 'Head of Marketing / Brand', 'IT Sourcing / Procurement'],
-    need: 'Prioritised backlog, measurement framework, channel strategy, campaign tools, vendor governance — practical and fast',
-    offer: ['Commerce and channel strategy','Digital marketing and content strategy','Analytics and measurement framework','Service design and journey mapping','Agency and vendor brief development'],
-    format: 'Short-cycle sprints (2–4 weeks), Playbooks and toolkits, Activation workshops',
-    budget: 'Entry: SEK 150–500K\nProject: SEK 500K–2M',
-    trigger: 'Channel underperforming, new platform going live, agency brief needed, measurement gaps, attribution challenges',
-  },
-];
+      <a href="commercial-engine/" class="tile">
+        <div>
+          <div class="tile-number">01 — DOOR-OPENER</div>
+          <span class="tile-tag">Industrial · Nordic enterprise</span>
+          <h3>The Connected Commercial Engine</h3>
+          <p>A three-week pulse for industrial leaders. Surfaces where commercial value is leaking, quantifies what is at stake, and aligns the leadership team on three high-leverage plays.</p>
+        </div>
+        <div class="tile-arrow">→</div>
+      </a>
 
-let activeCard = null;
+      <a href="coherent-customer/" class="tile">
+        <div>
+          <div class="tile-number">02 — DOOR-OPENER</div>
+          <span class="tile-tag">Retail · Consumer brands</span>
+          <h3>The Coherent Customer</h3>
+          <p>AI raises the ceiling on personalisation at every touchpoint and the floor on what coherence has to deliver. A diagnostic for brands whose channels, identity, and commercial model need to compound rather than cancel.</p>
+        </div>
+        <div class="tile-arrow">→</div>
+      </a>
 
-function renderRoles() {
-  const grid = document.getElementById('roles-grid');
-  roles.forEach(r => {
-    const lv = LEVELS[r.level];
-    const c = document.createElement('div');
-    c.className = 'role-card';
-    c.innerHTML = `
-      <div class="rc-top">
-        <div class="rc-name">${r.name}</div>
-        <span class="level-badge" style="border-color:${lv.color};color:${lv.color};">${lv.label}</span>
-      </div>
-      <div class="rc-title">${r.title}</div>
-      <div class="rc-jtbd-label">Primary job</div>
-      <div class="rc-jtbd">${r.jtbd_short}</div>
-      <div class="rc-fear">${r.fear}</div>
-    `;
-    c.addEventListener('click', () => openD(r, c));
-    grid.appendChild(c);
-  });
-}
+      <a href="pilot-to-pnl/" class="tile">
+        <div>
+          <div class="tile-number">03 — EXTENSIVE</div>
+          <span class="tile-tag">Cross-sector · Service innovation</span>
+          <h3>From Pilot to P&amp;L</h3>
+          <p>A ten-to-fourteen-week program for organisations turning AI experimentation into recurring service revenue. Ends in a portfolio of validated opportunities, commercial models, a roadmap, and an investment case.</p>
+        </div>
+        <div class="tile-arrow">→</div>
+      </a>
 
-function openD(r, card) {
-  if (activeCard) activeCard.classList.remove('sel');
-  activeCard = card;
-  card.classList.add('sel');
-  const lv = LEVELS[r.level];
-  document.getElementById('d-title').textContent = r.name + ' — ' + lv.label;
-  document.getElementById('d-jtbd').innerHTML = r.jtbd.map(x => `<li>${x}</li>`).join('');
-  document.getElementById('d-fears').innerHTML = r.fears.map(x => `<li>${x}</li>`).join('');
-  document.getElementById('d-buys').innerHTML = r.buys.map(x => `<li>${x}</li>`).join('');
-  document.getElementById('d-trust').innerHTML = r.trust.map(x => `<li>${x}</li>`).join('');
-  const d = document.getElementById('role-drawer');
-  d.classList.add('open');
-  d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
+      <a href="bp-brief/" class="tile">
+        <div>
+          <div class="tile-number">04 — LIVE BRIEF</div>
+          <span class="tile-tag">Reference case</span>
+          <h3>BP Brief</h3>
+          <p>A real client brief used to pressure-test the productized offerings against an enterprise-scale digital content platform engagement. Notes, framing, and working analysis.</p>
+        </div>
+        <div class="tile-arrow">→</div>
+      </a>
 
-function closeD() {
-  document.getElementById('role-drawer').classList.remove('open');
-  if (activeCard) activeCard.classList.remove('sel');
-  activeCard = null;
-}
+    </div>
+  </div>
+</section>
 
-function renderMatrix() {
-  const t = document.getElementById('matrix-table');
-  t.innerHTML = `
-    <thead><tr>
-      <th style="width:110px">Org level</th>
-      <th style="width:155px">Key roles</th>
-      <th>Primary need</th>
-      <th>Valtech offering</th>
-      <th>Engagement format</th>
-      <th style="width:140px">Budget range</th>
-      <th>Typical trigger</th>
-    </tr></thead>
-    <tbody>${matrixRows.map(row => {
-      const lv = LEVELS[row.level];
-      return `<tr>
-        <td><span class="level-badge" style="border-color:${lv.color};color:${lv.color};">${row.label}</span></td>
-        <td>${row.roles.map(r => `<span class="role-name">${r}</span>`).join('')}</td>
-        <td>${row.need}</td>
-        <td>${row.offer.map(o => `<span class="offer-pill">${o}</span>`).join('')}</td>
-        <td>${row.format}</td>
-        <td style="white-space:pre-line">${row.budget}</td>
-        <td>${row.trigger}</td>
-      </tr>`;
-    }).join('')}</tbody>`;
-}
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <p>Commercial Strategy productization · Working repository</p>
+      <p>Nordics Strategy Discipline</p>
+    </div>
+  </div>
+</footer>
 
-function show(id, btn) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
-  document.getElementById('panel-' + id).classList.add('on');
-  btn.classList.add('on');
-}
-
-renderRoles();
-renderMatrix();
-</script>
 </body>
 </html>
