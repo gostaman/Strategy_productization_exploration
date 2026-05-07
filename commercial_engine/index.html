@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style guide — Commercial Strategy</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  /* ----- Page-specific layout ----- */
+
+  .hero {
+    padding: var(--space-10) 0 var(--space-8);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: var(--type-display-1);
+    letter-spacing: var(--tracking-tight);
+    line-height: 0.95;
+    margin-bottom: var(--space-5);
+  }
+
+  .hero .lead {
+    max-width: 720px;
+  }
+
+  section.guide-section {
+    padding: var(--space-9) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  section.guide-section.surface-ink {
+    border-bottom-color: var(--rule-on-dark);
+  }
+
+  .guide-section-header {
+    margin-bottom: var(--space-7);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-7);
+    align-items: end;
+  }
+
+  .guide-section-header h2 {
+    font-size: var(--type-heading-2);
+  }
+
+  .guide-section-header p {
+    color: var(--ink-soft);
+    max-width: 560px;
+  }
+
+  .surface-ink .guide-section-header p {
+    color: var(--ink-soft-on-dark);
+  }
+
+  .subsection {
+    margin-top: var(--space-8);
+  }
+
+  .subsection:first-child { margin-top: 0; }
+
+  .subsection-label {
+    font-size: var(--type-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    font-weight: var(--weight-medium);
+    color: var(--ink-muted);
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .surface-ink .subsection-label {
+    color: var(--ink-muted-on-dark);
+    border-bottom-color: var(--rule-on-dark);
+  }
+
+  /* ----- Colour swatches ----- */
+
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+  }
+
+  .swatch {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .swatch-chip {
+    height: 200px;
+    border-radius: 2px;
+    margin-bottom: var(--space-3);
+    border: 1px solid var(--rule);
+  }
+
+  .swatch-chip.cream { background: var(--bg-cream); }
+  .swatch-chip.ink { background: var(--bg-ink); border-color: transparent; }
+  .swatch-chip.indigo { background: var(--bg-indigo); border-color: transparent; }
+  .swatch-chip.spark { background: var(--bg-spark); border-color: transparent; }
+  .swatch-chip.coral { background: var(--coral); border-color: transparent; }
+  .swatch-chip.ink-soft { background: var(--ink-soft); border-color: transparent; }
+  .swatch-chip.ink-muted { background: var(--ink-muted); border-color: transparent; }
+  .swatch-chip.rule { background: var(--rule); border-color: transparent; }
+
+  .swatch-name {
+    font-size: var(--type-body);
+    font-weight: var(--weight-medium);
+    color: var(--ink);
+    margin-bottom: var(--space-1);
+  }
+
+  .swatch-hex {
+    font-size: var(--type-small);
+    color: var(--ink-soft);
+    font-family: var(--font-functional);
+    margin-bottom: var(--space-1);
+  }
+
+  .swatch-token {
+    font-size: var(--type-micro);
+    color: var(--ink-muted);
+    font-family: var(--font-functional);
+  }
+
+  /* ----- Type specimen ----- */
+
+  .type-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--space-6);
+    padding: var(--space-5) 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+
+  .type-row:last-child { border-bottom: none; }
+
+  .type-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-top: var(--space-2);
+  }
+
+  .type-name {
+    font-size: var(--type-body);
+    font-weight: var(--weight-medium);
+    color: var(--ink);
+  }
+
+  .type-token {
+    font-size: var(--type-micro);
+    color: var(--ink-muted);
+  }
+
+  .type-sample {
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+
+  .type-sample.display-1 {
+    line-height: 0.95;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .type-sample.display-2 {
+    line-height: 1.0;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .type-sample.h1-sample {
+    font-family: var(--font-display);
+    font-size: var(--type-heading-1);
+    line-height: 1.05;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .type-sample.h2-sample {
+    font-family: var(--font-display);
+    font-size: var(--type-heading-2);
+    line-height: 1.05;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .type-sample.h3-sample {
+    font-family: var(--font-display);
+    font-size: var(--type-heading-3);
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .type-sample.h4-sample {
+    font-family: var(--font-display);
+    font-size: var(--type-heading-4);
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .type-sample.body-large-sample {
+    font-size: var(--type-body-large);
+    line-height: 1.5;
+  }
+
+  .type-sample.body-sample {
+    font-size: var(--type-body);
+    line-height: 1.5;
+  }
+
+  .type-sample.small-sample {
+    font-size: var(--type-small);
+  }
+
+  .type-sample.eyebrow-sample {
+    font-size: var(--type-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    font-weight: var(--weight-medium);
+    color: var(--ink-soft);
+  }
+
+  /* ----- Asterisk gallery ----- */
+
+  .mark-gallery {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-7);
+    flex-wrap: wrap;
+  }
+
+  .mark-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .mark-display {
+    color: var(--ink);
+  }
+
+  .mark-display.coral { color: var(--coral); }
+
+  .mark-caption {
+    font-size: var(--type-small);
+    color: var(--ink-soft);
+  }
+
+  /* ----- Spacing scale ----- */
+
+  .spacing-row {
+    display: grid;
+    grid-template-columns: 200px 100px 1fr;
+    gap: var(--space-5);
+    align-items: center;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .spacing-row:last-child { border-bottom: none; }
+
+  .spacing-name {
+    font-size: var(--type-body);
+    font-weight: var(--weight-medium);
+  }
+
+  .spacing-value {
+    font-size: var(--type-small);
+    color: var(--ink-soft);
+  }
+
+  .spacing-bar {
+    height: 32px;
+    background: var(--ink);
+  }
+
+  /* ----- Buttons gallery ----- */
+
+  .button-row {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-5);
+  }
+
+  .button-row:last-child { margin-bottom: 0; }
+
+  /* ----- Surface demo (alternation) ----- */
+
+  .surface-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+  }
+
+  .surface-demo-card {
+    padding: var(--space-7);
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .surface-demo-card h3 {
+    font-size: var(--type-heading-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .surface-demo-card p {
+    font-size: var(--type-body);
+  }
+
+  /* ----- Notes section ----- */
+
+  .notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+  }
+
+  .note-block h3 {
+    font-size: var(--type-heading-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .note-block p {
+    color: var(--ink-soft);
+    margin-bottom: var(--space-3);
+  }
+
+  /* ----- Responsive ----- */
+
+  @media (max-width: 1024px) {
+    .swatch-grid { grid-template-columns: repeat(2, 1fr); }
+    .guide-section-header { grid-template-columns: 1fr; gap: var(--space-3); }
+    .surface-demo { grid-template-columns: 1fr; }
+    .notes-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .type-row { grid-template-columns: 1fr; gap: var(--space-3); }
+    .spacing-row { grid-template-columns: 1fr; gap: var(--space-2); }
+    .spacing-bar { height: 16px; }
+    section.guide-section { padding: var(--space-7) 0; }
+    .hero { padding: var(--space-7) 0 var(--space-6); }
+  }
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../" class="site-logo">
+      <span>Valtech</span>
+      <span class="mark-asterisk mark-asterisk--coral">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <line x1="50" y1="8" x2="50" y2="92" stroke="currentColor" stroke-width="6"/>
+          <line x1="86.4" y1="29" x2="13.6" y2="71" stroke="currentColor" stroke-width="6"/>
+          <line x1="13.6" y1="29" x2="86.4" y2="71" stroke="currentColor" stroke-width="6"/>
+        </svg>
+      </span>
+    </a>
+    <nav class="site-nav">Style guide · Commercial Strategy</nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero surface-cream">
+  <div class="container">
+    <p class="eyebrow" style="margin-bottom: var(--space-5);">Foundations</p>
+    <h1>Style guide.</h1>
+    <p class="lead">The shared visual language for the Commercial Strategy productization workspace. Built on Valtech's brand system, with placeholder type for the public repo.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     COLOURS
+     ============================================================ -->
+<section class="guide-section surface-cream">
+  <div class="container">
+
+    <header class="guide-section-header">
+      <h2>Colours</h2>
+      <p>Two surfaces dominate — cream and near-black. Indigo and spark green appear as full-section accents on selected pages. Coral is reserved for the mark and small active-state indicators. Hex values are eyeballed from screenshots and may need adjustment to match the canonical brand portal exactly.</p>
+    </header>
+
+    <div class="subsection">
+      <p class="subsection-label">Surfaces</p>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-chip cream"></div>
+          <div class="swatch-name">Cream</div>
+          <div class="swatch-hex">#EDE8DF</div>
+          <div class="swatch-token">--bg-cream</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip ink"></div>
+          <div class="swatch-name">Ink</div>
+          <div class="swatch-hex">#0F0F0F</div>
+          <div class="swatch-token">--bg-ink</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip indigo"></div>
+          <div class="swatch-name">Indigo</div>
+          <div class="swatch-hex">#1E30A0</div>
+          <div class="swatch-token">--bg-indigo</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip spark"></div>
+          <div class="swatch-name">Spark</div>
+          <div class="swatch-hex">#9FFF4D</div>
+          <div class="swatch-token">--bg-spark</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <p class="subsection-label">Accents and ink</p>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-chip coral"></div>
+          <div class="swatch-name">Coral</div>
+          <div class="swatch-hex">#FF5C5C</div>
+          <div class="swatch-token">--coral</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip ink-soft"></div>
+          <div class="swatch-name">Ink soft</div>
+          <div class="swatch-hex">#4A4A4A</div>
+          <div class="swatch-token">--ink-soft</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip ink-muted"></div>
+          <div class="swatch-name">Ink muted</div>
+          <div class="swatch-hex">#8A8580</div>
+          <div class="swatch-token">--ink-muted</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip rule"></div>
+          <div class="swatch-name">Rule</div>
+          <div class="swatch-hex">#D8D3CB</div>
+          <div class="swatch-token">--rule</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     TYPOGRAPHY
+     ============================================================ -->
+<section class="guide-section surface-cream">
+  <div class="container">
+
+    <header class="guide-section-header">
+      <h2>Typography</h2>
+      <p>Production typography uses Valtech Neue (custom by Folch Studios) for display and Söhne (Klim Type Foundry) for functional text. This repo uses Inter as a placeholder for both — see Notes for the rationale.</p>
+    </header>
+
+    <div class="subsection">
+      <p class="subsection-label">Display sizes</p>
+
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Display 1</span>
+          <span class="type-token">--type-display-1</span>
+          <span class="type-token">clamp(56px, 9vw, 132px)</span>
+        </div>
+        <div class="type-sample display-1">The connected commercial engine.</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Display 2</span>
+          <span class="type-token">--type-display-2</span>
+          <span class="type-token">clamp(48px, 7vw, 96px)</span>
+        </div>
+        <div class="type-sample display-2">From efficiency to top line.</div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <p class="subsection-label">Headings</p>
+
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Heading 1</span>
+          <span class="type-token">--type-heading-1</span>
+          <span class="type-token">clamp(40px, 5.5vw, 72px)</span>
+        </div>
+        <div class="type-sample h1-sample">Five forces are arriving at once</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Heading 2</span>
+          <span class="type-token">--type-heading-2</span>
+          <span class="type-token">clamp(32px, 4vw, 48px)</span>
+        </div>
+        <div class="type-sample h2-sample">The ignition sequence</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Heading 3</span>
+          <span class="type-token">--type-heading-3</span>
+          <span class="type-token">32px</span>
+        </div>
+        <div class="type-sample h3-sample">Week 1: Outside-in benchmark</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Heading 4</span>
+          <span class="type-token">--type-heading-4</span>
+          <span class="type-token">24px</span>
+        </div>
+        <div class="type-sample h4-sample">Buyer expectations</div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <p class="subsection-label">Body and supporting</p>
+
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Body large</span>
+          <span class="type-token">--type-body-large</span>
+          <span class="type-token">18px</span>
+        </div>
+        <div class="type-sample body-large-sample">A focused diagnostic across the five zones a Nordic P&amp;L lead actually controls. Built to surface where value is leaking, quantify what is at stake, and align the leadership team on three plays worth committing to.</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Body</span>
+          <span class="type-token">--type-body</span>
+          <span class="type-token">16px</span>
+        </div>
+        <div class="type-sample body-sample">For two decades, industrial digital was a story about efficiency. Cost takeout, process automation, system consolidation. The mandate has changed.</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Small</span>
+          <span class="type-token">--type-small</span>
+          <span class="type-token">14px</span>
+        </div>
+        <div class="type-sample small-sample">Used for captions, source attribution, and supporting metadata.</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Eyebrow</span>
+          <span class="type-token">--type-micro</span>
+          <span class="type-token">11px · uppercase · tracked</span>
+        </div>
+        <div class="type-sample eyebrow-sample">Door-opener · Industrial · Nordic enterprise</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     THE MARK
+     ============================================================ -->
+<section class="guide-section surface-cream">
+  <div class="container">
+
+    <header class="guide-section-header">
+      <h2>The mark</h2>
+      <p>Six spokes radiating from the centre — three lines crossing at sixty-degree intervals. Used at small sizes as part of the wordmark, at medium sizes as a meta-element on slides and pages, and at large sizes in coral as a display element.</p>
+    </header>
+
+    <div class="mark-gallery">
+
+      <div class="mark-item">
+        <div class="mark-display" style="font-size: 16px;">
+          <span class="mark-asterisk">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <line x1="50" y1="8" x2="50" y2="92" stroke="currentColor" stroke-width="6"/>
+              <line x1="86.4" y1="29" x2="13.6" y2="71" stroke="currentColor" stroke-width="6"/>
+              <line x1="13.6" y1="29" x2="86.4" y2="71" stroke="currentColor" stroke-width="6"/>
+            </svg>
+          </span>
+        </div>
+        <div class="mark-caption">16px · UI</div>
+      </div>
+
+      <div class="mark-item">
+        <div class="mark-display" style="font-size: 32px;">
+          <span class="mark-asterisk">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <line x1="50" y1="8" x2="50" y2="92" stroke="currentColor" stroke-width="6"/>
+              <line x1="86.4" y1="29" x2="13.6" y2="71" stroke="currentColor" stroke-width="6"/>
+              <line x1="13.6" y1="29" x2="86.4" y2="71" stroke="currentColor" stroke-width="6"/>
+            </svg>
+          </span>
+        </div>
+        <div class="mark-caption">32px · Meta</div>
+      </div>
+
+      <div class="mark-item">
+        <div class="mark-display" style="font-size: 64px;">
+          <span class="mark-asterisk">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <line x1="50" y1="8" x2="50" y2="92" stroke="currentColor" stroke-width="6"/>
+              <line x1="86.4" y1="29" x2="13.6" y2="71" stroke="currentColor" stroke-width="6"/>
+              <line x1="13.6" y1="29" x2="86.4" y2="71" stroke="currentColor" stroke-width="6"/>
+            </svg>
+          </span>
+        </div>
+        <div class="mark-caption">64px · Heading</div>
+      </div>
+
+      <div class="mark-item">
+        <div class="mark-display coral" style="font-size: 128px;">
+          <span class="mark-asterisk">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <line x1="50" y1="8" x2="50" y2="92" stroke="currentColor" stroke-width="6"/>
+              <line x1="86.4" y1="29" x2="13.6" y2="71" stroke="currentColor" stroke-width="6"/>
+              <line x1="13.6" y1="29" x2="86.4" y2="71" stroke="currentColor" stroke-width="6"/>
+            </svg>
+          </span>
+        </div>
+        <div class="mark-caption">128px · Display, coral</div>
+      </div>
+
+    </div>
+
+    <div class="subsection">
+      <p class="subsection-label">Wordmark</p>
+      <div class="site-logo" style="font-size: 32px;">
+        <span>Valtech</span>
+        <span class="mark-asterisk mark-asterisk--coral" style="width: 32px; height: 32px;">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="50" y1="8" x2="50" y2="92" stroke="currentColor" stroke-width="6"/>
+            <line x1="86.4" y1="29" x2="13.6" y2="71" stroke="currentColor" stroke-width="6"/>
+            <line x1="13.6" y1="29" x2="86.4" y2="71" stroke="currentColor" stroke-width="6"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     SPACING
+     ============================================================ -->
+<section class="guide-section surface-cream">
+  <div class="container">
+
+    <header class="guide-section-header">
+      <h2>Spacing</h2>
+      <p>A 4px-based scale, exposed as ten tokens from <code>--space-1</code> through <code>--space-10</code>. Used for padding, gaps, and section rhythm. Most layouts can be expressed using only steps 3 through 8.</p>
+    </header>
+
+    <div class="subsection">
+      <div class="spacing-row">
+        <div class="spacing-name">--space-1</div>
+        <div class="spacing-value">4px</div>
+        <div class="spacing-bar" style="width: 4px;"></div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-name">--space-2</div>
+        <div class="spacing-value">8px</div>
+        <div class="spacing-bar" style="width: 8px;"></div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-name">--space-3</div>
+        <div class="spacing-value">16px</div>
+        <div class="spacing-bar" style="width: 16px;"></div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-name">--space-4</div>
+        <div class="spacing-value">24px</div>
+        <div class="spacing-bar" style="width: 24px;"></div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-name">--space-5</div>
+        <div class="spacing-value">32px</div>
+        <div class="spacing-bar" style="width: 32px;"></div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-name">--space-6</div>
+        <div class="spacing-value">48px</div>
+        <div class="spacing-bar" style="width: 48px;"></div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-name">--space-7</div>
+        <div class="spacing-value">64px</div>
+        <div class="spacing-bar" style="width: 64px;"></div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-name">--space-8</div>
+        <div class="spacing-value">96px</div>
+        <div class="spacing-bar" style="width: 96px;"></div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-name">--space-9</div>
+        <div class="spacing-value">128px</div>
+        <div class="spacing-bar" style="width: 128px;"></div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-name">--space-10</div>
+        <div class="spacing-value">192px</div>
+        <div class="spacing-bar" style="width: 192px;"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPONENTS — BUTTONS
+     ============================================================ -->
+<section class="guide-section surface-cream">
+  <div class="container">
+
+    <header class="guide-section-header">
+      <h2>Buttons</h2>
+      <p>Pill-shaped, high border-radius, minimal stroke. Three variants: primary on light surfaces, light on dark surfaces, and ghost where the surrounding context already provides emphasis.</p>
+    </header>
+
+    <div class="subsection">
+      <p class="subsection-label">On cream</p>
+      <div class="button-row">
+        <a href="#" class="button">Read the brief</a>
+        <a href="#" class="button button--ghost">Skip ahead</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="guide-section surface-ink">
+  <div class="container">
+    <div class="subsection">
+      <p class="subsection-label">On ink</p>
+      <div class="button-row">
+        <a href="#" class="button button--light">Read the brief</a>
+        <a href="#" class="button button--ghost">Skip ahead</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PATTERNS — SURFACE ALTERNATION
+     ============================================================ -->
+<section class="guide-section surface-cream">
+  <div class="container">
+
+    <header class="guide-section-header">
+      <h2>Surface alternation</h2>
+      <p>The visual rhythm of the system comes from stacking cream and ink sections vertically. White is barely used. Indigo and spark function as full-section accents — used sparingly, never two adjacent. The example below shows the pattern in miniature.</p>
+    </header>
+
+    <div class="surface-demo">
+      <div class="surface-demo-card surface-cream" style="border: 1px solid var(--rule);">
+        <div>
+          <p class="eyebrow" style="margin-bottom: var(--space-3);">Surface · Cream</p>
+          <h3>The default light surface.</h3>
+        </div>
+        <p style="color: var(--ink-soft);">Headlines, body copy, and case study cards live here. Cream is the primary working surface for content-heavy sections.</p>
+      </div>
+      <div class="surface-demo-card surface-ink">
+        <div>
+          <p class="eyebrow" style="margin-bottom: var(--space-3);">Surface · Ink</p>
+          <h3>The default dark surface.</h3>
+        </div>
+        <p>Used for offerings sections, footers, and dramatic introductions. The contrast against cream creates the page's vertical rhythm.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     NOTES
+     ============================================================ -->
+<section class="guide-section surface-cream">
+  <div class="container">
+
+    <header class="guide-section-header">
+      <h2>Notes</h2>
+      <p>What's substituted, approximated, or pending — flagged openly so anyone working with this repo knows the gaps between this and the canonical brand system.</p>
+    </header>
+
+    <div class="notes-grid">
+
+      <div class="note-block">
+        <h3>Typography substitution</h3>
+        <p>Production Valtech work uses two typefaces — Valtech Neue (custom commission from Folch Studios) for display, and Söhne (Klim Type Foundry) for functional text. Neither is licensable for use in a public repository.</p>
+        <p>This repo uses Inter from Google Fonts as a placeholder for both roles. Inter is the closest open-source approximation of Söhne and shares its neo-grotesque foundations. The visible difference between display and functional type that exists in production is therefore not present here.</p>
+        <p>When this work moves into a Valtech-hosted environment with the licensed font files available, the substitution is two <code>@font-face</code> blocks and the <code>--font-display</code> and <code>--font-functional</code> token values.</p>
+      </div>
+
+      <div class="note-block">
+        <h3>Colour values</h3>
+        <p>Hex codes were extracted from screenshots of valtech.com and the brand expression mood board. They're within roughly 3-5% of the canonical values but should be treated as approximate until confirmed against the brand portal.</p>
+        <p>The four anchor colours — cream, ink, indigo, spark — are visually accurate. Coral and the ink scale (soft, muted) are best estimates. Sub-token values like rule colours are derived rather than measured.</p>
+        <p>To correct any value, edit the relevant CSS custom property in <code>styles.css</code>. Every page in the repo references the same tokens.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>Commercial Strategy productization · Working repository</p>
+    <p>Nordics Strategy Discipline</p>
+  </div>
+</footer>
+
+</body>
+</html>
