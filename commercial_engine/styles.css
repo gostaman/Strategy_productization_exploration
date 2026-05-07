@@ -1,0 +1,399 @@
+/* =============================================================================
+   STYLES.CSS — Shared design system
+   Commercial Strategy productization workspace
+   
+   Production typefaces (when available in Valtech-hosted environments):
+   - Display: Valtech Neue (custom by Folch Studios)
+   - Functional: Söhne (Klim Type Foundry)
+   
+   Placeholder used in this public repo:
+   - Inter (Google Fonts) — closest open-source neo-grotesque to Söhne
+   ============================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+
+/* =============================================================================
+   DESIGN TOKENS
+   ============================================================================= */
+
+:root {
+
+  /* --- Surfaces --- */
+  --bg-cream: #EDE8DF;
+  --bg-ink: #0F0F0F;
+  --bg-indigo: #1E30A0;
+  --bg-spark: #9FFF4D;
+
+  /* --- Ink (text) --- */
+  --ink: #0F0F0F;
+  --ink-on-dark: #FFFFFF;
+  --ink-soft: #4A4A4A;
+  --ink-soft-on-dark: #B3B3B3;
+  --ink-muted: #8A8580;
+  --ink-muted-on-dark: #6E6E6E;
+
+  /* --- Accents --- */
+  --coral: #FF5C5C;
+  --indigo: #1E30A0;
+  --spark: #9FFF4D;
+
+  /* --- Rules / borders --- */
+  --rule: #D8D3CB;
+  --rule-on-dark: #2A2A2A;
+
+  /* --- Typography stacks --- */
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-functional: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* --- Type scale (fluid) --- */
+  --type-display-1: clamp(56px, 9vw, 132px);
+  --type-display-2: clamp(48px, 7vw, 96px);
+  --type-heading-1: clamp(40px, 5.5vw, 72px);
+  --type-heading-2: clamp(32px, 4vw, 48px);
+  --type-heading-3: 32px;
+  --type-heading-4: 24px;
+  --type-body-large: 18px;
+  --type-body: 16px;
+  --type-small: 14px;
+  --type-micro: 11px;
+
+  /* --- Type weights --- */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  /* --- Letter spacing --- */
+  --tracking-tight: -2px;
+  --tracking-display: -1.5px;
+  --tracking-heading: -0.5px;
+  --tracking-normal: 0;
+  --tracking-wide: 1.5px;
+
+  /* --- Spacing scale (4px base) --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 96px;
+  --space-9: 128px;
+  --space-10: 192px;
+
+  /* --- Layout --- */
+  --max-width: 1440px;
+  --page-padding-x: 48px;
+  --page-padding-x-mobile: 24px;
+  --header-height: 80px;
+
+  /* --- Motion --- */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+}
+
+
+/* =============================================================================
+   RESET
+   ============================================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-functional);
+  background: var(--bg-cream);
+  color: var(--ink);
+  font-size: var(--type-body);
+  line-height: 1.5;
+  font-weight: var(--weight-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+}
+
+
+/* =============================================================================
+   TYPOGRAPHY
+   ============================================================================= */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  line-height: 1.05;
+  letter-spacing: var(--tracking-display);
+}
+
+h1 { font-size: var(--type-heading-1); }
+h2 { font-size: var(--type-heading-2); }
+h3 { font-size: var(--type-heading-3); letter-spacing: var(--tracking-heading); }
+h4 { font-size: var(--type-heading-4); letter-spacing: var(--tracking-heading); }
+
+p {
+  font-size: var(--type-body);
+  line-height: 1.5;
+}
+
+.display-1 {
+  font-family: var(--font-display);
+  font-size: var(--type-display-1);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-tight);
+  line-height: 0.95;
+}
+
+.display-2 {
+  font-family: var(--font-display);
+  font-size: var(--type-display-2);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.0;
+}
+
+.eyebrow {
+  font-size: var(--type-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  font-weight: var(--weight-medium);
+  color: var(--ink-soft);
+}
+
+.lead {
+  font-size: var(--type-body-large);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+
+/* =============================================================================
+   LAYOUT
+   ============================================================================= */
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--page-padding-x);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--page-padding-x-mobile);
+  }
+}
+
+
+/* =============================================================================
+   SURFACES
+   Use these classes on <section> elements for the cream/ink alternation
+   that defines the Valtech visual rhythm.
+   ============================================================================= */
+
+.surface-cream {
+  background: var(--bg-cream);
+  color: var(--ink);
+}
+
+.surface-ink {
+  background: var(--bg-ink);
+  color: var(--ink-on-dark);
+}
+
+.surface-ink p { color: var(--ink-soft-on-dark); }
+.surface-ink .lead { color: var(--ink-soft-on-dark); }
+.surface-ink .eyebrow { color: var(--ink-soft-on-dark); }
+
+.surface-indigo {
+  background: var(--bg-indigo);
+  color: var(--ink-on-dark);
+}
+
+.surface-spark {
+  background: var(--bg-spark);
+  color: var(--ink);
+}
+
+
+/* =============================================================================
+   ASTERISK MARK
+   The Valtech logomark — six spokes, three lines crossing at the centre.
+   Uses currentColor so it inherits from its container.
+   
+   Markup pattern:
+   <span class="mark-asterisk">
+     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+       <line x1="50" y1="8" x2="50" y2="92" stroke="currentColor" stroke-width="6"/>
+       <line x1="86.4" y1="29" x2="13.6" y2="71" stroke="currentColor" stroke-width="6"/>
+       <line x1="13.6" y1="29" x2="86.4" y2="71" stroke="currentColor" stroke-width="6"/>
+     </svg>
+   </span>
+   ============================================================================= */
+
+.mark-asterisk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+}
+
+.mark-asterisk svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mark-asterisk--coral { color: var(--coral); }
+
+
+/* =============================================================================
+   SITE HEADER
+   ============================================================================= */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  background: var(--bg-cream);
+  border-bottom: 1px solid var(--rule);
+  z-index: 50;
+}
+
+.site-header.is-dark {
+  background: rgba(15,15,15,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--rule-on-dark);
+  color: var(--ink-on-dark);
+}
+
+.site-header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-4) var(--page-padding-x);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  color: inherit;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: var(--weight-regular);
+  letter-spacing: -0.5px;
+}
+
+.site-logo .mark-asterisk {
+  width: 22px;
+  height: 22px;
+}
+
+.site-nav {
+  font-size: var(--type-small);
+  color: var(--ink-soft);
+  letter-spacing: 0.3px;
+}
+
+.site-header.is-dark .site-nav {
+  color: var(--ink-soft-on-dark);
+}
+
+@media (max-width: 768px) {
+  .site-header-inner {
+    padding: var(--space-3) var(--page-padding-x-mobile);
+  }
+}
+
+
+/* =============================================================================
+   BUTTONS
+   ============================================================================= */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: var(--ink);
+  color: var(--ink-on-dark);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: var(--type-body);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.button:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.button--light {
+  background: var(--ink-on-dark);
+  color: var(--ink);
+  border-color: var(--ink-on-dark);
+}
+
+.button--ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.surface-ink .button--ghost {
+  color: var(--ink-on-dark);
+  border-color: var(--ink-on-dark);
+}
+
+
+/* =============================================================================
+   SITE FOOTER
+   ============================================================================= */
+
+.site-footer {
+  background: var(--bg-ink);
+  color: var(--ink-on-dark);
+  padding: var(--space-7) 0 var(--space-6);
+  margin-top: var(--space-9);
+}
+
+.site-footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--page-padding-x);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.site-footer p {
+  font-size: var(--type-small);
+  color: var(--ink-soft-on-dark);
+}
+
+@media (max-width: 768px) {
+  .site-footer-inner {
+    padding: 0 var(--page-padding-x-mobile);
+  }
+}
