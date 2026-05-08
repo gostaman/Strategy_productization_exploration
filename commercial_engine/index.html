@@ -469,7 +469,7 @@
   .lens-circle {
     width: 140px;
     height: 140px;
-    border: 1.5px solid var(--ink);
+    border: 6px solid var(--ink);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -590,12 +590,19 @@
   }
 
   .team-icon {
-    font-size: 28px;
-    color: var(--ink-soft);
-    line-height: 1;
+    display: flex;
+    gap: 8px;
+    align-items: center;
     flex-shrink: 0;
-    width: 40px;
-    text-align: center;
+    min-width: 120px;
+    line-height: 1;
+  }
+
+  .team-icon img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    filter: invert(1);
   }
 
   .team-text h4 { font-size: 14px; color: var(--ink); margin-bottom: 4px; }
@@ -906,21 +913,29 @@
           <h3>Delivery team</h3>
           <div class="team-grid">
             <div class="team-item">
-              <div class="team-icon">○</div>
+              <div class="team-icon">
+                <img src="images/consultant.png" alt="">
+              </div>
               <div class="team-text">
                 <h4>Dedicated strategist</h4>
                 <p>Commercial Strategy</p>
               </div>
             </div>
             <div class="team-item">
-              <div class="team-icon">○○○</div>
+              <div class="team-icon">
+                <img src="images/consultant.png" alt="">
+                <img src="images/consultant.png" alt="">
+                <img src="images/consultant.png" alt="">
+              </div>
               <div class="team-text">
                 <h4>Senior strategy consultants</h4>
                 <p>Engaged flexibly for domain-specific expertise — Experience, Data &amp; AI, Organisation</p>
               </div>
             </div>
             <div class="team-item">
-              <div class="team-icon">⌐¬</div>
+              <div class="team-icon">
+                <img src="images/agentic-framework.jpg" alt="">
+              </div>
               <div class="team-text">
                 <h4>Agentic AI framework</h4>
                 <p>Supporting analysis and synthesis</p>
