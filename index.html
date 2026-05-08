@@ -1,1 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Connected Commercial Engine — Commercial Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #000000;
+    --ink: #ffffff;
+    --ink-soft: #b3b3b3;
+    --ink-muted: #6e6e6e;
+    --rule: #2a2a2a;
+    --accent: #c8ff3d;
+  }
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--ink);
+    width: 0%;
+    z-index: 100;
+    transition: width 0.1s linear;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    z-index: 50;
+  }
+
+  .header-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .back-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 14px;
+    transition: opacity 0.2s ease;
+  }
+
+  .back-link:hover { opacity: 0.7; }
+
+  .logo-mark { font-size: 24px; line-height: 1; }
+  .back-arrow { color: var(--ink-soft); }
+
+  nav {
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.5px;
+  }
+
+  .slide {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 96px 48px;
+    min-height: calc(100vh - 65px);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .slide-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 64px;
+    font-weight: 500;
+    position: relative;
+    z-index: 5;
+  }
+
+  .slide-meta .asterisk {
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  .slide-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  h1 {
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -2px;
+  }
+
+  h2 {
+    font-size: clamp(40px, 5.5vw, 72px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 48px;
+  }
+
+  h3 {
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+
+  h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 0.2px;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* SLIDE 1 — Internal review */
+  .review-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 96px;
+    align-items: start;
+  }
+
+  .review-title h1 {
+    font-size: clamp(40px, 5vw, 72px);
+    margin-bottom: 32px;
+  }
+
+  .review-subtitle {
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+
+  .review-block { margin-bottom: 40px; }
+  .review-block h4 { color: var(--ink); margin-bottom: 12px; }
+
+  .review-block .accent-text {
+    color: var(--ink);
+    font-style: italic;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .review-block p { margin-bottom: 12px; }
+
+  .questions-list { list-style: none; padding: 0; }
+
+  .questions-list li {
+    padding-left: 16px;
+    position: relative;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+
+  .questions-list li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--ink-soft);
+  }
+
+  /* SLIDE 2 — Cover (with image) */
+  .cover-slide {
+    position: relative;
+    overflow: hidden;
+    min-height: calc(100vh - 65px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .cover-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 75%;
+    height: 100%;
+    background-image: url('images/cover-warehouse.png');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  .cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to right,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.85) 25%,
+      rgba(0,0,0,0.5) 55%,
+      rgba(0,0,0,0.25) 100%
+    );
+    z-index: 1;
+  }
+
+  .cover-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 96px 48px;
+    min-height: calc(100vh - 65px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cover-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 900px;
+  }
+
+  .cover-content h1 {
+    font-size: clamp(56px, 9vw, 132px);
+    line-height: 0.95;
+  }
+
+  .cover-content .subtitle {
+    font-size: clamp(20px, 2.5vw, 32px);
+    margin-top: 32px;
+    color: var(--ink);
+    font-weight: 300;
+    max-width: 640px;
+  }
+
+  .cover-footer {
+    font-size: 18px;
+    color: var(--ink);
+    margin-top: 48px;
+  }
+
+  /* SLIDE 3 — From efficiency to top line (with image) */
+  .efficiency-slide {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .efficiency-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 96px 48px;
+  }
+
+  .efficiency-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: stretch;
+  }
+
+  .efficiency-image {
+    background-image: url('images/industrial-discussion.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 560px;
+    border-radius: 2px;
+  }
+
+  .efficiency-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 16px;
+  }
+
+  .efficiency-content h2 {
+    margin-bottom: 32px;
+  }
+
+  .efficiency-text p {
+    margin-bottom: 24px;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  .efficiency-text .emphasis {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  blockquote {
+    font-size: clamp(22px, 2.2vw, 28px);
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--ink);
+    font-weight: 300;
+    border: none;
+    margin: 32px 0 0;
+    padding: 32px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  blockquote cite {
+    display: block;
+    margin-top: 20px;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+
+  /* SLIDE 4 — Five forces */
+  .forces-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .forces-list .force-item { margin-bottom: 32px; }
+  .forces-list .force-item h4 { font-size: 17px; margin-bottom: 6px; }
+  .forces-list .force-item p { font-size: 14px; line-height: 1.5; }
+
+  .forces-diagram {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 480px;
+    position: relative;
+  }
+
+  .forces-svg {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+  }
+
+  .force-bubble-text {
+    fill: #ffffff;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    text-anchor: middle;
+  }
+
+  .force-center-text {
+    fill: #000000;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    text-anchor: middle;
+  }
+
+  .forces-framing p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: var(--ink-soft);
+  }
+
+  .forces-framing strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* SLIDE 5 — Ignition sequence (with prism) */
+  .ignition-slide {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ignition-prism {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 65%;
+    height: 100%;
+    background-image: url('images/prism-light.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.7;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .ignition-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to right,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.7) 30%,
+      rgba(0,0,0,0.3) 65%,
+      rgba(0,0,0,0.6) 100%
+    );
+    z-index: 1;
+  }
+
+  .ignition-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 96px 48px;
+    min-height: calc(100vh - 65px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .ignition-intro { margin-bottom: 80px; }
+  .ignition-intro p { font-size: 18px; color: var(--ink-soft); }
+
+  .lenses {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+  }
+
+  .lens {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .lens-circle {
+    width: 140px;
+    height: 140px;
+    border: 6px solid var(--ink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    margin-bottom: 24px;
+    text-align: center;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .lens-circle span {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .lens-description {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  /* SLIDE 6 — Igniting */
+  .igniting-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 96px;
+    align-items: start;
+  }
+
+  .igniting-title h2 { margin-bottom: 24px; }
+  .igniting-subtitle { font-size: 18px; color: var(--ink-soft); }
+
+  .igniting-content .intro {
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 56px;
+    max-width: 720px;
+  }
+
+  .week-block { margin-bottom: 48px; }
+  .week-block h3 { font-size: 28px; margin-bottom: 12px; }
+  .week-block p { font-size: 16px; }
+
+  /* SLIDE 7 — Delivery */
+  .delivery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    gap: 96px;
+    align-items: start;
+  }
+
+  .delivery-title h2 { margin-bottom: 48px; }
+
+  .delivery-bullets {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 48px;
+  }
+
+  .delivery-bullets li {
+    padding-left: 28px;
+    position: relative;
+    color: var(--ink);
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+
+  .delivery-bullets li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--ink-soft);
+  }
+
+  .price-block { margin-top: 48px; }
+
+  .price-block .price {
+    font-size: 56px;
+    font-weight: 300;
+    color: var(--ink);
+    letter-spacing: -2px;
+  }
+
+  .price-block .price-label {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-left: 8px;
+  }
+
+  .deliverable-block { margin-bottom: 40px; }
+  .deliverable-block h3 { font-size: 32px; margin-bottom: 8px; }
+  .deliverable-block p { font-size: 16px; }
+
+  .delivery-team {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .delivery-team h3 { font-size: 24px; margin-bottom: 32px; }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .team-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .team-icon {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+    min-width: 120px;
+    line-height: 1;
+  }
+
+  .team-icon img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    filter: invert(1);
+  }
+
+  .team-text h4 { font-size: 14px; color: var(--ink); margin-bottom: 4px; }
+  .team-text p { font-size: 13px; color: var(--ink-soft); line-height: 1.4; }
+
+  /* SLIDE 8 — Thank you */
+  .thanks-slide {
+    justify-content: space-between;
+    min-height: calc(100vh - 65px);
+  }
+
+  .thanks-content {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 64px;
+  }
+
+  .thanks-content h1 {
+    font-size: clamp(72px, 14vw, 200px);
+    line-height: 0.9;
+  }
+
+  .legal {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    padding-top: 48px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .legal p {
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--ink-muted);
+    max-width: 720px;
+  }
+
+  .copyright {
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .lenses { grid-template-columns: repeat(2, 1fr); }
+    .forces-grid { grid-template-columns: 1fr; gap: 48px; }
+    .efficiency-layout, .igniting-grid, .delivery-grid, .review-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .efficiency-image { min-height: 400px; }
+    .team-grid { grid-template-columns: 1fr; }
+    .cover-image { width: 100%; opacity: 0.6; }
+    .ignition-prism { width: 100%; opacity: 0.4; }
+  }
+
+  @media (max-width: 768px) {
+    .header-inner { padding: 16px 24px; }
+    .slide { padding: 64px 24px; }
+    .cover-inner { padding: 64px 24px; }
+    .efficiency-inner { padding: 64px 24px; }
+    .ignition-inner { padding: 64px 24px; }
+    .lenses { grid-template-columns: 1fr; gap: 24px; }
+    .lens-circle { width: 120px; height: 120px; }
+    .legal { grid-template-columns: 1fr; }
+    .copyright { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header>
+  <div class="header-inner">
+    <a href="../" class="back-link">
+      <span class="logo-mark">✱</span>
+      <span class="back-arrow">←</span>
+      <span>Back to overview</span>
+    </a>
+    <nav>01 — Door-opener</nav>
+  </div>
+</header>
+
+<!-- SLIDE 1 — Cover (with image) -->
+<section class="cover-slide">
+  <div class="cover-image"></div>
+  <div class="cover-overlay"></div>
+  <div class="cover-inner">
+    <div class="slide-meta">
+      <span class="asterisk">✱</span>
+      <span>Commercial Strategy</span>
+      <span>Valtech</span>
+      <span>01</span>
+    </div>
+    <div class="cover-content">
+      <h1>The Connected<br>Commercial Engine</h1>
+      <p class="subtitle">A B2B commerce and transformation ignition for industrial leaders.</p>
+      <p class="cover-footer">Valtech | Commercial Strategy</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2 — From efficiency to top line (with image) -->
+<section class="efficiency-slide">
+  <div class="efficiency-inner">
+    <div class="slide-meta">
+      <span class="asterisk">✱</span>
+      <span>Commercial Strategy</span>
+      <span>Valtech</span>
+      <span>02</span>
+    </div>
+    <div class="efficiency-layout">
+      <div class="efficiency-image"></div>
+      <div class="efficiency-content">
+        <h2>From efficiency<br>to top line</h2>
+        <div class="efficiency-text">
+          <p>For two decades, industrial digital was a story about efficiency. Cost takeout, process automation, system consolidation.</p>
+          <p><span class="emphasis">The mandate has changed.</span> Industrial buyers now expect B2C-grade journeys. Aftermarket and service revenues are growing faster than product revenue. Commercial systems built for catalogs and order entry are being asked to do something they were never designed for.</p>
+        </div>
+        <blockquote>
+          "Efficiency is still a business value, but it's growing from reducing cost to growing the top line."
+          <cite>— Thomas Areskoug, VP Digital Sales, Marketing &amp; Service, Atlas Copco Industrial Technique</cite>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — Five forces -->
+<section class="slide">
+  <div class="slide-meta">
+    <span class="asterisk">✱</span>
+    <span>Commercial Strategy</span>
+    <span>Valtech</span>
+    <span>03</span>
+  </div>
+  <div class="slide-content">
+    <h2>Five forces are<br>arriving at once</h2>
+    <div class="forces-grid">
+      <div class="forces-list">
+        <div class="force-item">
+          <h4>Buyer expectations</h4>
+          <p>Industrial buyers now arrive with B2C-grade expectations for self-service, transparency and speed. Commercial setups built for catalogs and order entry are being asked to deliver something they were never designed for.</p>
+        </div>
+        <div class="force-item">
+          <h4>Commercial model strain</h4>
+          <p>Pricing, channel mix, service wrap and aftermarket logic were tuned for a different market. Buyers, competitors and growth pools have moved, and the commercial model has not always moved with them.</p>
+        </div>
+        <div class="force-item">
+          <h4>Global–local friction</h4>
+          <p>Global platforms, group standards and central decisions increasingly dictate how commerce gets built and run.</p>
+        </div>
+        <div class="force-item">
+          <h4>Ownership drift</h4>
+          <p>Digital, commercial, marketing, IT and product each own a piece of the commercial result, but no one owns the whole. Decisions stall in the gaps between functions, and accountability blurs as initiatives scale.</p>
+        </div>
+        <div class="force-item">
+          <h4>Data and AI readiness</h4>
+          <p>AI is collapsing the cost of personalisation, configuration and decision support across the commercial function. The companies that capture the value are the ones whose data foundation and commercial logic are ready to use it.</p>
+        </div>
+      </div>
+
+      <div class="forces-diagram">
+        <svg class="forces-svg" viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="240" cy="100" r="78" fill="#2a2a2a" opacity="0.95"/>
+          <text class="force-bubble-text" x="240" y="96"><tspan x="240" dy="0">Buyer</tspan><tspan x="240" dy="18">expectations</tspan></text>
+
+          <circle cx="370" cy="200" r="78" fill="#2a2a2a" opacity="0.95"/>
+          <text class="force-bubble-text" x="370" y="196"><tspan x="370" dy="0">Commercial</tspan><tspan x="370" dy="18">model strain</tspan></text>
+
+          <circle cx="320" cy="360" r="78" fill="#2a2a2a" opacity="0.95"/>
+          <text class="force-bubble-text" x="320" y="356"><tspan x="320" dy="0">Global–local</tspan><tspan x="320" dy="18">friction</tspan></text>
+
+          <circle cx="160" cy="360" r="78" fill="#2a2a2a" opacity="0.95"/>
+          <text class="force-bubble-text" x="160" y="356"><tspan x="160" dy="0">Ownership</tspan><tspan x="160" dy="18">drift</tspan></text>
+
+          <circle cx="110" cy="200" r="78" fill="#2a2a2a" opacity="0.95"/>
+          <text class="force-bubble-text" x="110" y="196"><tspan x="110" dy="0">AI</tspan><tspan x="110" dy="18">acceleration</tspan></text>
+
+          <circle cx="240" cy="240" r="72" fill="#c8ff3d"/>
+          <text class="force-center-text" x="240" y="232"><tspan x="240" dy="0">Your</tspan><tspan x="240" dy="16">commercial</tspan><tspan x="240" dy="16">system</tspan></text>
+        </svg>
+      </div>
+
+      <div class="forces-framing">
+        <p><strong>None of these can be addressed in isolation.</strong> Together they compress timelines and narrow the margin for error.</p>
+        <p>The companies that move ahead are not the ones with more answers — they are the ones making coherent decisions across experience, organization, data and technology while pressure mounts.</p>
+        <p>The hard part is not knowing the forces are arriving. It is <strong>deciding where to act first.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — Ignition sequence (with prism) -->
+<section class="ignition-slide">
+  <div class="ignition-prism"></div>
+  <div class="ignition-overlay"></div>
+  <div class="ignition-inner">
+    <div class="slide-meta">
+      <span class="asterisk">✱</span>
+      <span>Commercial Strategy</span>
+      <span>Valtech</span>
+      <span>04</span>
+    </div>
+    <h2>The ignition sequence</h2>
+    <div class="ignition-intro">
+      <p>We will view your situation through 5 lenses</p>
+    </div>
+    <div class="lenses">
+      <div class="lens">
+        <div class="lens-circle"><span>Local vs Global Coherence</span></div>
+        <p class="lens-description">Where group platforms, decisions and global standards help, and where they create friction</p>
+      </div>
+      <div class="lens">
+        <div class="lens-circle"><span>Commercial Model Readiness</span></div>
+        <p class="lens-description">Pricing, channel mix, service wrap and aftermarket logic</p>
+      </div>
+      <div class="lens">
+        <div class="lens-circle"><span>Buyer Experience &amp; Conversion</span></div>
+        <p class="lens-description">How the digital and assisted buyer journey performs against industrial peers</p>
+      </div>
+      <div class="lens">
+        <div class="lens-circle"><span>Organisation &amp; Governance</span></div>
+        <p class="lens-description">Governance models &amp; where unclear ownership is slowing decisions or blocking value</p>
+      </div>
+      <div class="lens">
+        <div class="lens-circle"><span>Data &amp; AI Readiness</span></div>
+        <p class="lens-description">Can existing data models support commercial scaling and utilization of AI?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 — Igniting -->
+<section class="slide">
+  <div class="slide-meta">
+    <span class="asterisk">✱</span>
+    <span>Commercial Strategy</span>
+    <span>Valtech</span>
+    <span>05</span>
+  </div>
+  <div class="slide-content">
+    <div class="igniting-grid">
+      <div class="igniting-title">
+        <h2>Igniting the commercial engine</h2>
+        <p class="igniting-subtitle">A three-week focused diagnostic for industrial and enterprise leaders.</p>
+      </div>
+      <div class="igniting-content">
+        <p class="intro">A focused diagnostic across the five zones you as leaders actually control. Built to surface where value is leaking, quantify what is at stake, and align the leadership team on three plays worth committing to.</p>
+        <div class="week-block">
+          <h3>Week 1: Outside-in benchmark</h3>
+          <p>We compare your buyer experience and commercial model against industrial peers in your category, drawing on Valtech's work across global industry players and AI supported data-scans.</p>
+        </div>
+        <div class="week-block">
+          <h3>Week 2: Inside-out review</h3>
+          <p>We work through the five zones with your team using a structured method, combining stakeholder conversations, a review of existing commercial and digital assets and performance data.</p>
+        </div>
+        <div class="week-block">
+          <h3>Week 3: Executive working session</h3>
+          <p>A half-day session with the leadership team to pressure-test findings, prioritise the value-at-stake estimates, and align on which plays to commit to.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — Delivery -->
+<section class="slide">
+  <div class="slide-meta">
+    <span class="asterisk">✱</span>
+    <span>Commercial Strategy</span>
+    <span>Valtech</span>
+    <span>06</span>
+  </div>
+  <div class="slide-content">
+    <div class="delivery-grid">
+      <div class="delivery-title">
+        <h2>The delivery</h2>
+        <ul class="delivery-bullets">
+          <li>Speed of clarity</li>
+          <li>Outside-in benchmark</li>
+          <li>Ranked decisions</li>
+          <li>Actionable insights</li>
+        </ul>
+        <div class="price-block">
+          <span class="price">€20K</span>
+          <span class="price-label">Fixed cost</span>
+        </div>
+      </div>
+      <div>
+        <div class="deliverable-block">
+          <h3>A heatmap</h3>
+          <p>showing where commercial value is leaking across the five zones, calibrated against industrial peer benchmarks.</p>
+        </div>
+        <div class="deliverable-block">
+          <h3>An estimate of the value at stake</h3>
+          <p>in each prioritised zone, framed in terms the executive committee can act on.</p>
+        </div>
+        <div class="deliverable-block">
+          <h3>Three high-leverage plays</h3>
+          <p>ranked, with a scoped recommendation for the next step — whether that is a deeper engagement, a focused initiative your own teams can run, or a build-buy-partner decision.</p>
+        </div>
+        <div class="delivery-team">
+          <h3>Delivery team</h3>
+          <div class="team-grid">
+            <div class="team-item">
+              <div class="team-icon">
+                <img src="images/consultant.png" alt="">
+              </div>
+              <div class="team-text">
+                <h4>Dedicated strategist</h4>
+                <p>Commercial Strategy</p>
+              </div>
+            </div>
+            <div class="team-item">
+              <div class="team-icon">
+                <img src="images/consultant.png" alt="">
+                <img src="images/consultant.png" alt="">
+                <img src="images/consultant.png" alt="">
+              </div>
+              <div class="team-text">
+                <h4>Senior strategy consultants</h4>
+                <p>Engaged flexibly for domain-specific expertise — Experience, Data &amp; AI, Organisation</p>
+              </div>
+            </div>
+            <div class="team-item">
+              <div class="team-icon">
+                <img src="images/agentic-framework.jpg" alt="">
+              </div>
+              <div class="team-text">
+                <h4>Agentic AI framework</h4>
+                <p>Supporting analysis and synthesis</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7 — Thank you -->
+<section class="slide thanks-slide">
+  <div class="slide-meta">
+    <span class="asterisk">✱</span>
+    <span>Commercial Strategy</span>
+    <span>Valtech</span>
+    <span>07</span>
+  </div>
+  <div class="thanks-content">
+    <h1>Thank you</h1>
+  </div>
+  <div class="legal">
+    <p>This presentation is provided with the understanding and expectation that its recipient will keep it confidential. Neither party is obliged to enter into any form of contractual arrangement with the other. This presentation does not create a contractual relationship between Valtech and the recipient, nor does it form the basis for any contract or contract terms including, without limitation, any statements regarding indicative pricing, timelines, or services. It will not be binding unless expressly agreed to by the parties in a definitive agreement.</p>
+    <p class="copyright">© 2024 Valtech Group Holding Limited<br>or its affiliates. All rights reserved.<br>Confidential.</p>
+  </div>
+</section>
+
+<script>
+  window.addEventListener('scroll', function() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById('progressBar').style.width = scrolled + '%';
+  });
+</script>
+
+</body>
+</html>
