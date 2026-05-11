@@ -1,1 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rebrief — BP brief · Valtech Nordics Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F1EA;
+    --cream-deep: #EDE6DA;
+    --ink: #0B0B0B;
+    --ink-soft: #2A2A2A;
+    --ink-mute: #6B6B6B;
+    --line: #D9D2C4;
+    --coral: #FF6A4D;
+    --bp-green: #0E7E1F;
+    --bp-green-deep: #0A6217;
+    --bp-lime: #BFFF38;
+    --bp-pale: #D5F09E;
+    --bp-pale-soft: #EAF7CE;
+  }
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Site header */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .brand-mark { color: var(--coral); font-size: 22px; line-height: 1; font-weight: 400; }
+  .brand-divider { color: var(--ink-mute); font-weight: 300; }
+  .brand-context { color: var(--ink-mute); font-weight: 400; }
+  .site-nav { display: flex; gap: 28px; font-size: 13px; }
+  .site-nav a { color: var(--ink-mute); text-decoration: none; transition: color 0.15s; }
+  .site-nav a:hover { color: var(--ink); }
+
+  /* Brief sticky sub-nav */
+  .brief-nav {
+    position: sticky;
+    top: 60px;
+    z-index: 40;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+  }
+  .brief-nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 14px 40px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    overflow-x: auto;
+  }
+  .brief-nav-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    white-space: nowrap;
+    padding-right: 20px;
+    border-right: 1px solid var(--line);
+  }
+  .brief-nav a {
+    font-size: 13px;
+    color: var(--ink-mute);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s;
+    font-weight: 400;
+  }
+  .brief-nav a:hover { color: var(--ink); }
+  .brief-nav a.current { color: var(--ink); font-weight: 500; }
+  .brief-nav a.current::before {
+    content: "● ";
+    color: var(--bp-green);
+    font-size: 9px;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  /* Page hero — lighter, cream, text-forward */
+  .page-hero {
+    padding: 120px 40px 88px;
+    border-bottom: 1px solid var(--line);
+  }
+  .page-hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .page-hero-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--bp-green);
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .page-hero-title {
+    font-size: clamp(40px, 5.5vw, 68px);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    max-width: 980px;
+    margin-bottom: 24px;
+  }
+  .page-hero-subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 720px;
+  }
+
+  /* Section base */
+  section { padding: 88px 40px; }
+  .section-inner { max-width: 1280px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .section-title {
+    font-size: clamp(28px, 3.4vw, 40px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+    margin-bottom: 28px;
+    max-width: 820px;
+  }
+
+  /* Plain words section */
+  .plain-words-body {
+    font-size: 22px;
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+    max-width: 920px;
+  }
+
+  /* Numbered list — used for objectives and reframes */
+  .numbered-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 48px;
+    margin-top: 48px;
+  }
+  .numbered-item {
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+  }
+  .numbered-item-num {
+    font-size: 12px;
+    color: var(--bp-green);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    margin-bottom: 14px;
+  }
+  .numbered-item-title {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .numbered-item-body {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* Reframes — bp pale background to differentiate */
+  .reframes {
+    background: var(--bp-pale-soft);
+  }
+  .reframes .numbered-item {
+    border-top-color: rgba(14, 126, 31, 0.25);
+  }
+  .reframes .numbered-item-num {
+    color: var(--bp-green-deep);
+  }
+
+  /* Partner profile section */
+  .partner {
+    background: var(--cream-deep);
+  }
+  .partner-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    margin-top: 36px;
+  }
+  .partner-lead {
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+  .partner-body p:not(.partner-lead) {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  /* Page foot nav (prev / next) */
+  .page-foot-nav {
+    padding: 36px 40px;
+    border-top: 1px solid var(--line);
+    background: var(--cream);
+  }
+  .page-foot-nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+  .foot-nav-link {
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: color 0.15s;
+  }
+  .foot-nav-link:hover { color: var(--bp-green); }
+  .foot-nav-link-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+  .foot-nav-link-title {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .foot-nav-link.next { text-align: right; }
+  .foot-nav-link.disabled {
+    color: var(--ink-mute);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--ink);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 56px 40px;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    font-size: 13px;
+  }
+  .footer-mark { color: var(--coral); font-size: 18px; margin-right: 8px; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .site-header-inner, .brief-nav-inner, section, footer, .page-foot-nav { padding-left: 24px; padding-right: 24px; }
+    section { padding-top: 56px; padding-bottom: 56px; }
+    .page-hero { padding: 64px 24px 56px; }
+    .site-nav { display: none; }
+    .numbered-list { grid-template-columns: 1fr; gap: 24px; }
+    .partner-body { grid-template-columns: 1fr; gap: 24px; }
+    .page-foot-nav-inner { flex-direction: column; align-items: stretch; gap: 16px; }
+    .foot-nav-link.next { text-align: left; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Site header -->
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark">✱</span>
+      <span>Valtech Nordics Strategy</span>
+      <span class="brand-divider">·</span>
+      <span class="brand-context">Productization workspace</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html">Home</a>
+      <a href="../../commercial_engine/">Commercial Engine</a>
+      <a href="../" style="color: var(--ink); font-weight: 500;">BP brief</a>
+    </nav>
+  </div>
+</header>
+
+<!-- BP brief sub-nav -->
+<nav class="brief-nav">
+  <div class="brief-nav-inner">
+    <span class="brief-nav-label">BP brief</span>
+    <a href="../">Overview</a>
+    <a href="./" class="current">Rebrief</a>
+    <a href="../approach/">Approach</a>
+    <a href="../responses/">Responses</a>
+    <a href="../financials/">Financials</a>
+  </div>
+</nav>
+
+<!-- Page hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">Rebrief · 01 of 04</div>
+    <h1 class="page-hero-title">BP is rebuilding its global digital estate from the ground up.</h1>
+    <p class="page-hero-subtitle">BP is replatforming its global web estate on Contentful, consolidating ~30 country sites into a Global experience plus a separate China instance, retiring Adobe AEM, and preparing the estate for AI-driven discovery. The RFI is the first of a two-stage procurement and tests how a partner thinks and partners — not only what they deliver. Six questions, 28 pages, anonymous. The chosen supplier goes live 4 January 2027.</p>
+  </div>
+</section>
+
+<!-- What we need to deliver -->
+<section>
+  <div class="section-inner">
+    <div class="section-eyebrow">What we need to deliver</div>
+    <h2 class="section-title">Five outcomes a credible response has to win on.</h2>
+
+    <div class="numbered-list">
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">01</div>
+        <div class="numbered-item-title">Modernise the platform and design</div>
+        <div class="numbered-item-body">Replace ageing on-prem Adobe AEM with a Contentful-based, API-first foundation. Refresh an 8-year-old design to align with BP's 2025 brand evolution and modern audience expectations.</div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">02</div>
+        <div class="numbered-item-title">Consolidate the estate</div>
+        <div class="numbered-item-body">~30 country sites consolidate into Global plus China. Content volume drops by ~45%. A centralised UK–India publishing model replaces fragmented country teams.</div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">03</div>
+        <div class="numbered-item-title">Prepare for AI-driven discovery</div>
+        <div class="numbered-item-body">Position bp.com for AI-driven search, accessibility, and omnichannel delivery. Introduce data-driven governance over content quality and lifecycle.</div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">04</div>
+        <div class="numbered-item-title">Migrate the wider estate over time</div>
+        <div class="numbered-item-body">DCP is the strategic foundation for 200+ wider sites and apps across multiple countries and brands. The long-term move is to retire AEM across the whole estate.</div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">05</div>
+        <div class="numbered-item-title">Increase bp's autonomy over time</div>
+        <div class="numbered-item-body">Build internal capability, governance, and operating models. Reduce dependency on partners as BP matures — knowledge transfer, role clarity, in-house versus partner placement.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Where it's won -->
+<section class="reframes">
+  <div class="section-inner">
+    <div class="section-eyebrow">Where it's won</div>
+    <h2 class="section-title">Three things the brief doesn't say — and where the response is differentiated.</h2>
+
+    <div class="numbered-list">
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">01</div>
+        <div class="numbered-item-title">The consolidation is an operating-model shift, not a platform project.</div>
+        <div class="numbered-item-body">~30 country sites exist because country teams want autonomy. Moving them into a centralised UK–India publishing model is the hardest part of this engagement. The technical migration is the easy half.</div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">02</div>
+        <div class="numbered-item-title">bp.com is the proof point. The wider estate is the prize.</div>
+        <div class="numbered-item-body">The RFI focuses heavily on bp.com, but the strategic value sits in onboarding 200+ wider sites to DCP and retiring AEM across the estate. A partner that solves only for bp.com is solving for the smaller half.</div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">03</div>
+        <div class="numbered-item-title">"Anti-dependency" inverts the standard agency curve.</div>
+        <div class="numbered-item-body">Most agency engagements grow. BP is asking for one that shrinks. That requires a different commercial logic and a different team shape from day one — not bolted on later when capability transfer becomes a slide in a steering committee.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Who wins this -->
+<section class="partner">
+  <div class="section-inner">
+    <div class="section-eyebrow">Who wins this</div>
+    <h2 class="section-title">What it takes to win this — and to deserve to.</h2>
+    <div class="partner-body">
+      <p class="partner-lead">A partner that brings constructive challenge as much as delivery muscle. Reads and responds to internal operating-model friction, not only platform constraints. Has Contentful depth without being dogmatic. Designs for its own diminishing footprint.</p>
+      <p>This is not an order-taker brief. The six questions and the "how you think and partner" framing make that explicit. A strong response demonstrates point of view and lessons learnt — not a list of capabilities or a portfolio of brand logos. The brief invites disagreement, calibrated and earned.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Page foot nav -->
+<nav class="page-foot-nav">
+  <div class="page-foot-nav-inner">
+    <a class="foot-nav-link prev" href="../">
+      <span class="foot-nav-link-label">← Back to</span>
+      <span class="foot-nav-link-title">Overview</span>
+    </a>
+    <a class="foot-nav-link next" href="../approach/">
+      <span class="foot-nav-link-label">Next →</span>
+      <span class="foot-nav-link-title">Approach</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <p><span class="footer-mark">✱</span>Commercial Strategy productization · Working repository</p>
+    <p>Nordics Strategy Discipline</p>
+  </div>
+</footer>
+
+</body>
+</html>
