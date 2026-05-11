@@ -244,7 +244,7 @@
     margin-bottom: 18px;
   }
 
-  /* Tiles — four section entries */
+  /* Tiles — four section entries with images */
   .tiles {
     background: var(--cream-deep);
   }
@@ -257,19 +257,41 @@
   .tile {
     background: var(--cream);
     border: 1px solid var(--line);
-    padding: 36px 36px 32px;
     text-decoration: none;
     color: var(--ink);
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    overflow: hidden;
     transition: border-color 0.2s, transform 0.2s;
     position: relative;
-    min-height: 240px;
   }
   .tile:hover {
     border-color: var(--bp-green);
     transform: translateY(-2px);
+  }
+  .tile-image-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--cream-deep);
+    border-bottom: 1px solid var(--line);
+  }
+  .tile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .tile-image.diagram {
+    object-fit: contain;
+    padding: 32px;
+    background: var(--cream);
+  }
+  .tile-content {
+    padding: 32px 36px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
   }
   .tile-num {
     font-size: 12px;
@@ -286,7 +308,7 @@
   }
   .tile-body {
     font-size: 14px;
-    line-height: 1.55;
+    line-height: 1.6;
     color: var(--ink-mute);
     flex: 1;
   }
@@ -308,16 +330,19 @@
   }
   .tile-status {
     position: absolute;
-    top: 24px;
-    right: 24px;
+    top: 16px;
+    right: 16px;
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--ink-mute);
-    background: var(--cream-deep);
-    padding: 4px 10px;
+    color: var(--ink);
+    background: rgba(245, 241, 234, 0.92);
+    padding: 5px 12px;
     border-radius: 100px;
     border: 1px solid var(--line);
+    z-index: 2;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 
   /* Feature image — full-bleed editorial */
@@ -465,6 +490,8 @@
     .hero-meta { grid-template-columns: repeat(2, 1fr); gap: 24px; }
     .overview-grid { grid-template-columns: 1fr; gap: 32px; }
     .tiles-grid { grid-template-columns: 1fr; }
+    .tile-content { padding: 24px; }
+    .tile-image.diagram { padding: 20px; }
     .feature-img-wrap { aspect-ratio: 4 / 3; }
     .feature-overlay { bottom: 20px; padding: 0 24px; }
     .feature-overlay-inner { padding: 14px 18px; max-width: 100%; }
@@ -500,7 +527,7 @@
     <a href="./" class="current">Overview</a>
     <a href="./rebrief/">Rebrief</a>
     <a href="./approach/">Approach</a>
-    <a href="./responses/">Responses</a>
+    <a href="./process/">Process</a>
     <a href="./financials/">Financials</a>
   </div>
 </nav>
@@ -539,11 +566,11 @@
     <h2 class="section-title">A multi-year transformation of BP's digital estate, built on Contentful and consolidated to two global experiences.</h2>
     <div class="overview-grid">
       <div class="overview-lead">
-        BP is consolidating ~30 country sites into a single global experience plus a separate China instance, modernising an 8-year-old design, and preparing for AI-driven discovery — all while incr[...]
+        BP is consolidating ~30 country sites into a single global experience plus a separate China instance, modernising an 8-year-old design, and preparing for AI-driven discovery — all while increasing internal capability and reducing dependency on partners over time.
       </div>
       <div class="overview-body">
-        <p>The RFI is the first stage of a two-stage procurement. It tests how partners think and partner, not just what they deliver — across experience design, enterprise-scale platforms, operatin[...]
-        <p>This workspace holds our reasoning. The four sections below are how we'd read the brief, the position we'd take, the substance behind each of the six RFI responses, and an indicative shape [...]
+        <p>The RFI is the first stage of a two-stage procurement. It tests how partners think and partner, not just what they deliver — across experience design, enterprise-scale platforms, operating models, and AI in digital delivery.</p>
+        <p>This workspace holds our reasoning. The four sections below are how we'd read the brief, the position we'd take, the process that would shape the engagement, and an indicative shape of effort. Each section opens as its own page.</p>
       </div>
     </div>
   </div>
@@ -558,34 +585,54 @@
 
       <a class="tile" href="./rebrief/">
         <span class="tile-status">Draft</span>
-        <div class="tile-num">01</div>
-        <div class="tile-title">Rebrief</div>
-        <div class="tile-body">Our reading of what BP is actually asking for, the constraints that matter most, and where the brief leaves room to shape the conversation.</div>
-        <div class="tile-cta">Read the rebrief</div>
+        <div class="tile-image-wrap">
+          <img class="tile-image" src="./images/bp_image_3.jpg" alt="Workshop collaboration">
+        </div>
+        <div class="tile-content">
+          <div class="tile-num">01</div>
+          <div class="tile-title">Rebrief</div>
+          <div class="tile-body">Our reading of what BP is actually asking for — the stated objectives, the constraints that matter most, and the reframes that shape how we'd respond credibly.</div>
+          <div class="tile-cta">Read the rebrief</div>
+        </div>
       </a>
 
       <a class="tile" href="./approach/">
         <span class="tile-status">Draft</span>
-        <div class="tile-num">02</div>
-        <div class="tile-title">Approach</div>
-        <div class="tile-body">The position we'd take into the response — how we'd answer the brief's six questions as a coherent point of view, not six separate ones.</div>
-        <div class="tile-cta">See the approach</div>
+        <div class="tile-image-wrap">
+          <img class="tile-image diagram" src="./images/quadruple_diamond.png" alt="Valtech Quadruple Diamond framework">
+        </div>
+        <div class="tile-content">
+          <div class="tile-num">02</div>
+          <div class="tile-title">Approach</div>
+          <div class="tile-body">Three areas of strategy that thread one argument through six answers — design for our own shrinking footprint, from day one.</div>
+          <div class="tile-cta">See the approach</div>
+        </div>
       </a>
 
-      <a class="tile" href="./responses/">
-        <span class="tile-status">In progress</span>
-        <div class="tile-num">03</div>
-        <div class="tile-title">Responses</div>
-        <div class="tile-body">Substance behind each of the six RFI questions — customer experience, Contentful proficiency, priority opportunities, near-term future, AI value, and operating model.<[...]
-        <div class="tile-cta">Open responses</div>
+      <a class="tile" href="./process/">
+        <span class="tile-status">Draft</span>
+        <div class="tile-image-wrap">
+          <img class="tile-image" src="./images/bp_image_1.jpg" alt="Modern architectural structure">
+        </div>
+        <div class="tile-content">
+          <div class="tile-num">03</div>
+          <div class="tile-title">Process</div>
+          <div class="tile-body">Four phases from mobilisation to background advisory, with a senior core team and four mechanisms that make the shrinking partner footprint work in practice.</div>
+          <div class="tile-cta">View the process</div>
+        </div>
       </a>
 
       <a class="tile" href="./financials/">
-        <span class="tile-status">To do</span>
-        <div class="tile-num">04</div>
-        <div class="tile-title">Financials</div>
-        <div class="tile-body">Indicative shape of effort, team composition, and commercial model — a frame to test the response against, not a binding number.</div>
-        <div class="tile-cta">View financials</div>
+        <span class="tile-status">Draft</span>
+        <div class="tile-image-wrap">
+          <img class="tile-image" src="./images/bp_image_2.jpg" alt="Landscape aerial view">
+        </div>
+        <div class="tile-content">
+          <div class="tile-num">04</div>
+          <div class="tile-title">Financials</div>
+          <div class="tile-body">Two buckets — onboard and run, plus a standing delivery team for the 2027 Roadmap — with a cost trajectory that falls as BP capability grows.</div>
+          <div class="tile-cta">View financials</div>
+        </div>
       </a>
 
     </div>
@@ -595,7 +642,7 @@
 <!-- Feature image — full-bleed editorial -->
 <section class="feature">
   <div class="feature-img-wrap">
-    <img class="feature-img" src="./images/BP_image_4.jpg" alt="BP at scale">
+    <img class="feature-img" src="./images/bp_image_4.jpg" alt="BP at scale">
     <div class="feature-overlay">
       <div class="feature-overlay-inner">
         <div class="feature-overlay-tag">The estate</div>
@@ -638,14 +685,14 @@
     <h2 class="section-title">Two sides of how we'd work alongside BP.</h2>
     <div class="closing-grid">
       <div class="closing-item">
-        <img class="closing-img" src="./images/BP_image_5.jpg" alt="Strategic conversation">
+        <img class="closing-img" src="./images/bp_image_5.jpg" alt="Strategic conversation">
         <div class="closing-caption">
           <strong>Strategic challenge</strong>
           Constructive thinking at the moments that shape direction — not just delivery against a backlog.
         </div>
       </div>
       <div class="closing-item">
-        <img class="closing-img" src="./images/BP_image_6.jpg" alt="Hands-on collaboration">
+        <img class="closing-img" src="./images/bp_image_6.jpg" alt="Hands-on collaboration">
         <div class="closing-caption">
           <strong>Hands-on delivery</strong>
           Co-delivery that builds BP's capability over time, with the partner footprint shrinking as autonomy grows.
