@@ -1,1 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financials — BP brief · Valtech Nordics Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F1EA;
+    --cream-deep: #EDE6DA;
+    --ink: #0B0B0B;
+    --ink-soft: #2A2A2A;
+    --ink-mute: #6B6B6B;
+    --line: #D9D2C4;
+    --coral: #FF6A4D;
+    --bp-green: #0E7E1F;
+    --bp-green-deep: #0A6217;
+    --bp-lime: #BFFF38;
+    --bp-pale: #D5F09E;
+    --bp-pale-soft: #EAF7CE;
+  }
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Site header */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .brand-mark { color: var(--coral); font-size: 22px; line-height: 1; font-weight: 400; }
+  .brand-divider { color: var(--ink-mute); font-weight: 300; }
+  .brand-context { color: var(--ink-mute); font-weight: 400; }
+  .site-nav { display: flex; gap: 28px; font-size: 13px; }
+  .site-nav a { color: var(--ink-mute); text-decoration: none; transition: color 0.15s; }
+  .site-nav a:hover { color: var(--ink); }
+
+  /* Brief sticky sub-nav */
+  .brief-nav {
+    position: sticky;
+    top: 60px;
+    z-index: 40;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+  }
+  .brief-nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 14px 40px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    overflow-x: auto;
+  }
+  .brief-nav-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    white-space: nowrap;
+    padding-right: 20px;
+    border-right: 1px solid var(--line);
+  }
+  .brief-nav a {
+    font-size: 13px;
+    color: var(--ink-mute);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s;
+    font-weight: 400;
+  }
+  .brief-nav a:hover { color: var(--ink); }
+  .brief-nav a.current { color: var(--ink); font-weight: 500; }
+  .brief-nav a.current::before {
+    content: "● ";
+    color: var(--bp-green);
+    font-size: 9px;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  /* Page hero */
+  .page-hero {
+    padding: 120px 40px 88px;
+    border-bottom: 1px solid var(--line);
+  }
+  .page-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .page-hero-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--bp-green);
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .page-hero-title {
+    font-size: clamp(40px, 5.5vw, 68px);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    max-width: 980px;
+    margin-bottom: 24px;
+  }
+  .page-hero-subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 820px;
+  }
+
+  /* Section base */
+  section { padding: 88px 40px; }
+  .section-inner { max-width: 1280px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .section-title {
+    font-size: clamp(28px, 3.4vw, 40px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+    margin-bottom: 28px;
+    max-width: 880px;
+  }
+  .section-lead {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 880px;
+    font-weight: 300;
+  }
+
+  /* Roadmap */
+  .roadmap-section {
+    background: var(--cream-deep);
+  }
+  .roadmap {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 48px 40px;
+    margin-top: 48px;
+  }
+  .roadmap-axis {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .roadmap-axis-cell {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 600;
+    text-align: left;
+    padding-left: 16px;
+  }
+  .roadmap-phases {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-top: 24px;
+  }
+  .roadmap-phase {
+    color: white;
+    padding: 22px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 110px;
+  }
+  .roadmap-phase.phase-1 { background: var(--bp-green-deep); grid-column: 1; }
+  .roadmap-phase.phase-2 { background: var(--bp-green); grid-column: 2; }
+  .roadmap-phase.phase-3 { background: #2A9A3A; grid-column: 3; }
+  .roadmap-phase.phase-4 {
+    background: #5FB970;
+    grid-column: 4 / 6;
+  }
+  .phase-tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+  }
+  .phase-title {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin-top: 4px;
+  }
+  .phase-meta {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: auto;
+  }
+  .roadmap-milestones {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--line);
+  }
+  .milestone {
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .milestone-marker {
+    width: 8px;
+    height: 8px;
+    background: var(--bp-green);
+    border-radius: 50%;
+  }
+  .milestone-text {
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+  .milestone-text strong {
+    color: var(--ink);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* Bucket section */
+  .bucket {
+    padding: 88px 40px;
+  }
+  .bucket.alt { background: var(--cream-deep); }
+
+  .bucket-header {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 56px;
+  }
+  .bucket-num {
+    font-size: 56px;
+    font-weight: 300;
+    color: var(--bp-green);
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+  }
+  .bucket-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .bucket-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+  .bucket-title {
+    font-size: clamp(28px, 3.2vw, 38px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+    max-width: 880px;
+  }
+  .bucket-description {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 880px;
+    margin-top: 8px;
+  }
+
+  /* Budget block */
+  .budget-block {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 40px;
+    margin-bottom: 16px;
+  }
+  .bucket.alt .budget-block { background: var(--cream); }
+  .budget-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .budget-block-title {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+  }
+  .budget-block-meta {
+    font-size: 13px;
+    color: var(--ink-mute);
+  }
+
+  /* Assumptions */
+  .assumptions {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    margin-bottom: 36px;
+  }
+  .assumptions-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bp-green);
+    font-weight: 600;
+  }
+  .assumptions-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .assumptions-list li {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    padding-left: 18px;
+    position: relative;
+  }
+  .assumptions-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--bp-green);
+    font-weight: 500;
+  }
+
+  /* Role table */
+  .role-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .role-table thead th {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    text-align: left;
+    padding: 0 0 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .role-table thead th.numeric { text-align: right; }
+  .role-table tbody td {
+    font-size: 14px;
+    color: var(--ink);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.4;
+  }
+  .role-table tbody td.role-name { font-weight: 500; }
+  .role-table tbody td.numeric { text-align: right; font-variant-numeric: tabular-nums; }
+  .role-table tbody td.engagement {
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+  .role-table tfoot td {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    padding: 18px 0 0 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .role-table tfoot td.numeric { text-align: right; }
+  .role-table tfoot td.total-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+  }
+
+  /* Trajectory chart */
+  .trajectory {
+    background: var(--bp-pale-soft);
+  }
+  .trajectory-chart {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 40px;
+    margin-top: 48px;
+  }
+  .trajectory-chart-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .trajectory-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .trajectory-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 130px;
+    gap: 24px;
+    align-items: center;
+  }
+  .trajectory-row-label {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .trajectory-row-sublabel {
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .trajectory-row-bar {
+    height: 14px;
+    background: rgba(14, 126, 31, 0.1);
+    border-radius: 7px;
+    overflow: hidden;
+  }
+  .trajectory-row-fill {
+    height: 100%;
+    background: var(--bp-green);
+    border-radius: 7px;
+  }
+  .trajectory-row-value {
+    font-size: 16px;
+    color: var(--ink);
+    font-weight: 500;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .trajectory-note {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 880px;
+    margin-top: 32px;
+    font-style: italic;
+  }
+
+  /* Notes */
+  .notes {
+    background: var(--ink);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 64px 40px;
+  }
+  .notes-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .notes-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bp-lime);
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .notes-title {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: white;
+    margin-bottom: 24px;
+    max-width: 880px;
+  }
+  .notes-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 48px;
+    max-width: 980px;
+  }
+  .notes-list li {
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.7);
+    padding-left: 18px;
+    position: relative;
+  }
+  .notes-list li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--bp-lime);
+    font-weight: 600;
+  }
+
+  /* Page foot nav */
+  .page-foot-nav {
+    padding: 36px 40px;
+    border-top: 1px solid var(--line);
+    background: var(--cream);
+  }
+  .page-foot-nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+  .foot-nav-link {
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: color 0.15s;
+  }
+  .foot-nav-link:hover { color: var(--bp-green); }
+  .foot-nav-link-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+  .foot-nav-link-title {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .foot-nav-link.next { text-align: right; }
+  .foot-nav-link.disabled { color: var(--ink-mute); pointer-events: none; opacity: 0.5; }
+
+  /* Footer */
+  footer {
+    background: var(--ink);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 56px 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    font-size: 13px;
+  }
+  .footer-mark { color: var(--coral); font-size: 18px; margin-right: 8px; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .site-header-inner, .brief-nav-inner, section, footer, .page-foot-nav, .bucket, .notes { padding-left: 24px; padding-right: 24px; }
+    section, .bucket { padding-top: 56px; padding-bottom: 56px; }
+    .page-hero { padding: 64px 24px 56px; }
+    .site-nav { display: none; }
+    .roadmap { padding: 24px 20px; }
+    .roadmap-axis, .roadmap-phases, .roadmap-milestones { grid-template-columns: 1fr; gap: 8px; }
+    .roadmap-phase, .roadmap-phase.phase-1, .roadmap-phase.phase-2, .roadmap-phase.phase-3, .roadmap-phase.phase-4 { grid-column: 1; min-height: 70px; }
+    .roadmap-milestones { border-top: none; padding-top: 0; }
+    .milestone { padding: 12px 0; border-top: 1px solid var(--line); }
+    .bucket-header { grid-template-columns: 1fr; gap: 16px; }
+    .bucket-num { font-size: 40px; }
+    .budget-block { padding: 24px; }
+    .assumptions { grid-template-columns: 1fr; gap: 12px; }
+    .role-table thead th:nth-child(2), .role-table tbody td.engagement { display: none; }
+    .trajectory-row { grid-template-columns: 1fr; gap: 8px; }
+    .trajectory-row-value { text-align: left; }
+    .notes-list { grid-template-columns: 1fr; }
+    .page-foot-nav-inner { flex-direction: column; align-items: stretch; gap: 16px; }
+    .foot-nav-link.next { text-align: left; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Site header -->
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark">✱</span>
+      <span>Valtech Nordics Strategy</span>
+      <span class="brand-divider">·</span>
+      <span class="brand-context">Productization workspace</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html">Home</a>
+      <a href="../../commercial_engine/">Commercial Engine</a>
+      <a href="../" style="color: var(--ink); font-weight: 500;">BP brief</a>
+    </nav>
+  </div>
+</header>
+
+<!-- BP brief sub-nav -->
+<nav class="brief-nav">
+  <div class="brief-nav-inner">
+    <span class="brief-nav-label">BP brief</span>
+    <a href="../">Overview</a>
+    <a href="../rebrief/">Rebrief</a>
+    <a href="../approach/">Approach</a>
+    <a href="../process/">Process</a>
+    <a href="./" class="current">Financials</a>
+  </div>
+</nav>
+
+<!-- Page hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">Financials · 04 of 04</div>
+    <h1 class="page-hero-title">Indicative financials, structured as BP asked.</h1>
+    <p class="page-hero-subtitle">Two buckets — onboard and run, plus a standing delivery team for the 2027 Roadmap. Team composition flexes as the engagement shape evolves.</p>
+  </div>
+</section>
+
+<!-- High level road map -->
+<section class="roadmap-section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Engagement timeline</div>
+    <h2 class="section-title">High level road map.</h2>
+    <p class="section-lead">A four-phase engagement that starts at full Valtech share and ends with BP operating the estate. The financials below follow this timeline.</p>
+
+    <div class="roadmap">
+      <div class="roadmap-axis">
+        <div class="roadmap-axis-cell">Q4 2026</div>
+        <div class="roadmap-axis-cell">2027</div>
+        <div class="roadmap-axis-cell">2028</div>
+        <div class="roadmap-axis-cell">2029</div>
+        <div class="roadmap-axis-cell">2030+</div>
+      </div>
+
+      <div class="roadmap-phases">
+        <div class="roadmap-phase phase-1">
+          <span class="phase-tag">Phase 1</span>
+          <span class="phase-title">Mobilise</span>
+          <span class="phase-meta">3 months</span>
+        </div>
+        <div class="roadmap-phase phase-2">
+          <span class="phase-tag">Phase 2</span>
+          <span class="phase-title">Co-deliver</span>
+          <span class="phase-meta">12 months</span>
+        </div>
+        <div class="roadmap-phase phase-3">
+          <span class="phase-tag">Phase 3</span>
+          <span class="phase-title">Coach</span>
+          <span class="phase-meta">12 months</span>
+        </div>
+        <div class="roadmap-phase phase-4">
+          <span class="phase-tag">Phase 4</span>
+          <span class="phase-title">Advise</span>
+          <span class="phase-meta">Continuous</span>
+        </div>
+      </div>
+
+      <div class="roadmap-milestones">
+        <div class="milestone">
+          <div class="milestone-marker"></div>
+          <p class="milestone-text"><strong>Supplier live</strong>4 January 2027</p>
+        </div>
+        <div class="milestone">
+          <div class="milestone-marker"></div>
+          <p class="milestone-text"><strong>bp.com Phase 2 live</strong>5–10 wider sites migrated</p>
+        </div>
+        <div class="milestone">
+          <div class="milestone-marker"></div>
+          <p class="milestone-text"><strong>~50% wider estate</strong>migrated onto DCP</p>
+        </div>
+        <div class="milestone">
+          <div class="milestone-marker"></div>
+          <p class="milestone-text"><strong>Full estate migrated</strong>AEM retired</p>
+        </div>
+        <div class="milestone">
+          <div class="milestone-marker"></div>
+          <p class="milestone-text"><strong>Steady state</strong>Quarterly advisory</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUCKET 1 — Onboard, run & maintain -->
+<section class="bucket">
+  <div class="section-inner">
+    <div class="bucket-header">
+      <div class="bucket-num">01</div>
+      <div class="bucket-text">
+        <div class="bucket-label">Bucket 01</div>
+        <h2 class="bucket-title">Onboard, run, and maintain DCP.</h2>
+        <p class="bucket-description">Knowledge transfer from the incumbent partner, transition to run-and-maintain from 4 January 2027, and ongoing platform support across bp.com and the country sites at transition.</p>
+      </div>
+    </div>
+
+    <!-- Sub-block A: Onboarding & transition -->
+    <div class="budget-block">
+      <div class="budget-block-header">
+        <div class="budget-block-title">A. Onboarding &amp; transition</div>
+        <div class="budget-block-meta">3 months · Q4 2026 · One-off</div>
+      </div>
+
+      <div class="assumptions">
+        <div class="assumptions-label">Assumptions</div>
+        <ul class="assumptions-list">
+          <li>Three-month transition running October–December 2026, supplier live 4 January 2027</li>
+          <li>Outgoing partner available for shadowing and knowledge transfer during the period</li>
+          <li>BP product owners available for joint roadmap refresh and decision rituals</li>
+          <li>Workshops facilitated in-person at BP when needed, remote when efficient</li>
+        </ul>
+      </div>
+
+      <table class="role-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Engagement</th>
+            <th class="numeric">Cost (SEK)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="role-name">Client Partner</td><td class="engagement">40% over 3 months</td><td class="numeric">354,000</td></tr>
+          <tr><td class="role-name">Delivery Partner</td><td class="engagement">100% over 3 months</td><td class="numeric">754,000</td></tr>
+          <tr><td class="role-name">Solution Architect</td><td class="engagement">80% over 3 months</td><td class="numeric">707,000</td></tr>
+          <tr><td class="role-name">Engineering Lead</td><td class="engagement">80% over 3 months</td><td class="numeric">707,000</td></tr>
+          <tr><td class="role-name">Senior Engineer · Contentful</td><td class="engagement">100% over 3 months</td><td class="numeric">754,000</td></tr>
+          <tr><td class="role-name">Senior Engineer · React</td><td class="engagement">60% over 3 months</td><td class="numeric">452,000</td></tr>
+          <tr><td class="role-name">Experience Strategist</td><td class="engagement">50% over 3 months</td><td class="numeric">442,000</td></tr>
+          <tr><td class="role-name">QA Specialist</td><td class="engagement">50% over 3 months</td><td class="numeric">442,000</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="total-label">Sub-total — one-off</td>
+            <td></td>
+            <td class="numeric">~4.6M SEK</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Sub-block B: BAU run & maintain -->
+    <div class="budget-block">
+      <div class="budget-block-header">
+        <div class="budget-block-title">B. BAU run &amp; maintain</div>
+        <div class="budget-block-meta">Annual · Recurring from 2027</div>
+      </div>
+
+      <div class="assumptions">
+        <div class="assumptions-label">Assumptions</div>
+        <ul class="assumptions-list">
+          <li>Sufficient capability for CX design changes and incremental enhancements</li>
+          <li>React development to evolve existing digital properties</li>
+          <li>Contentful development for content models and editorial workflows</li>
+          <li>Environment management and hygiene across dev / preview / production</li>
+        </ul>
+      </div>
+
+      <table class="role-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Engagement</th>
+            <th class="numeric">Cost (SEK / year)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="role-name">Delivery Partner</td><td class="engagement">50% annual</td><td class="numeric">1,508,000</td></tr>
+          <tr><td class="role-name">Solution Architect</td><td class="engagement">50% annual</td><td class="numeric">1,768,000</td></tr>
+          <tr><td class="role-name">Senior Engineer · Contentful</td><td class="engagement">100% annual</td><td class="numeric">3,016,000</td></tr>
+          <tr><td class="role-name">Senior Engineer · React</td><td class="engagement">100% annual</td><td class="numeric">3,016,000</td></tr>
+          <tr><td class="role-name">UX Designer</td><td class="engagement">60% annual</td><td class="numeric">2,122,000</td></tr>
+          <tr><td class="role-name">QA Specialist</td><td class="engagement">60% annual</td><td class="numeric">2,122,000</td></tr>
+          <tr><td class="role-name">DevOps / Environment Engineer</td><td class="engagement">40% annual</td><td class="numeric">1,414,000</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="total-label">Sub-total — per year</td>
+            <td></td>
+            <td class="numeric">~15.0M SEK</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- BUCKET 2 — Standing delivery team -->
+<section class="bucket alt">
+  <div class="section-inner">
+    <div class="bucket-header">
+      <div class="bucket-num">02</div>
+      <div class="bucket-text">
+        <div class="bucket-label">Bucket 02</div>
+        <h2 class="bucket-title">Standing delivery team for the 2027 Roadmap and beyond.</h2>
+        <p class="bucket-description">A permanent, multi-disciplinary team acting as the delivery engine for the 2027 Roadmap — strategic leadership, operating model evolution, customer experience design, build &amp; run capability, and resilience &amp; support.</p>
+      </div>
+    </div>
+
+    <div class="budget-block">
+      <div class="budget-block-header">
+        <div class="budget-block-title">Standing delivery team — Year 1</div>
+        <div class="budget-block-meta">Annual · 2027 baseline</div>
+      </div>
+
+      <div class="assumptions">
+        <div class="assumptions-label">Assumptions</div>
+        <ul class="assumptions-list">
+          <li>Year 1 baseline composition; team size and mix flex with roadmap demand</li>
+          <li>Engagement %s reflect average effort across the year, not peak</li>
+          <li>Capability transfer activities built into existing role time, not added as separate roles</li>
+          <li>Annual recurring cost falls in subsequent years as BP capability builds — see trajectory below</li>
+        </ul>
+      </div>
+
+      <table class="role-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Engagement</th>
+            <th class="numeric">Cost (SEK / year)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="role-name">Client Partner</td><td class="engagement">40% annual</td><td class="numeric">1,414,000</td></tr>
+          <tr><td class="role-name">Delivery Partner</td><td class="engagement">100% annual</td><td class="numeric">3,016,000</td></tr>
+          <tr><td class="role-name">Experience Strategy Lead</td><td class="engagement">80% annual</td><td class="numeric">2,829,000</td></tr>
+          <tr><td class="role-name">Solution Architect</td><td class="engagement">80% annual</td><td class="numeric">2,829,000</td></tr>
+          <tr><td class="role-name">Engineering Lead</td><td class="engagement">80% annual</td><td class="numeric">2,829,000</td></tr>
+          <tr><td class="role-name">Senior UX Designer</td><td class="engagement">100% annual</td><td class="numeric">3,536,000</td></tr>
+          <tr><td class="role-name">Senior Engineer · Contentful</td><td class="engagement">100% annual</td><td class="numeric">3,016,000</td></tr>
+          <tr><td class="role-name">Senior Engineer · React</td><td class="engagement">100% annual</td><td class="numeric">3,016,000</td></tr>
+          <tr><td class="role-name">QA Specialist</td><td class="engagement">80% annual</td><td class="numeric">2,829,000</td></tr>
+          <tr><td class="role-name">Operating Model Consultant</td><td class="engagement">50% annual</td><td class="numeric">1,768,000</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="total-label">Sub-total — Year 1</td>
+            <td></td>
+            <td class="numeric">~27.1M SEK</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- Trajectory — how cost falls over time -->
+<section class="trajectory">
+  <div class="section-inner">
+    <div class="section-eyebrow">How the cost evolves</div>
+    <h2 class="section-title">Bucket 02 falls as BP capability grows.</h2>
+    <p class="section-lead">The Year 1 baseline is the starting point, not the steady state. As BP teams take operational ownership through the four phases described in the Process page, Valtech's share of the standing delivery team shrinks — and the annual cost falls with it.</p>
+
+    <div class="trajectory-chart">
+      <div class="trajectory-chart-label">Indicative annual cost of standing delivery team (Bucket 02)</div>
+      <div class="trajectory-rows">
+        <div class="trajectory-row">
+          <div>
+            <div class="trajectory-row-label">2027 · Co-deliver</div>
+            <div class="trajectory-row-sublabel">~60% Valtech share</div>
+          </div>
+          <div class="trajectory-row-bar"><div class="trajectory-row-fill" style="width: 100%"></div></div>
+          <span class="trajectory-row-value">~27.1M SEK</span>
+        </div>
+        <div class="trajectory-row">
+          <div>
+            <div class="trajectory-row-label">2028 · Coach</div>
+            <div class="trajectory-row-sublabel">~30% Valtech share</div>
+          </div>
+          <div class="trajectory-row-bar"><div class="trajectory-row-fill" style="width: 50%"></div></div>
+          <span class="trajectory-row-value">~13.5M SEK</span>
+        </div>
+        <div class="trajectory-row">
+          <div>
+            <div class="trajectory-row-label">2029 · Advise</div>
+            <div class="trajectory-row-sublabel">~10% Valtech share</div>
+          </div>
+          <div class="trajectory-row-bar"><div class="trajectory-row-fill" style="width: 18%"></div></div>
+          <span class="trajectory-row-value">~4.9M SEK</span>
+        </div>
+        <div class="trajectory-row">
+          <div>
+            <div class="trajectory-row-label">2030+ · Steady state</div>
+            <div class="trajectory-row-sublabel">Quarterly advisory cadence</div>
+          </div>
+          <div class="trajectory-row-bar"><div class="trajectory-row-fill" style="width: 10%"></div></div>
+          <span class="trajectory-row-value">~2.7M SEK</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="trajectory-note">Bucket 01 (BAU run &amp; maintain) is shown separately because it is recurring platform support, not roadmap delivery. The BAU figure flexes with platform scope but is not subject to the same anti-dependency curve — running the estate is a continuous operational need, not a transferable capability.</p>
+  </div>
+</section>
+
+<!-- Notes & disclaimers -->
+<section class="notes">
+  <div class="notes-inner">
+    <div class="notes-label">Notes &amp; disclaimers</div>
+    <h2 class="notes-title">These figures are directional and non-binding, as the RFI requires.</h2>
+    <ul class="notes-list">
+      <li>All figures excluding VAT, travel, third-party licenses, hosting, and Contentful subscription</li>
+      <li>Standard FTE basis: 40 hours per week, 52 weeks per year (2,080 hours)</li>
+      <li>Engagement percentages reflect average annual effort, not peak workload</li>
+      <li>Year 1 of Bucket 02 reflects ramp-up; subsequent years flex with the trajectory shown above</li>
+      <li>Team composition will be confirmed at RFP stage based on final scope and timeline</li>
+      <li>Hourly rates: 1,450 SEK for Delivery Partner, Contentful Engineers, and React Engineers; 1,700 SEK for all other roles</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Page foot nav -->
+<nav class="page-foot-nav">
+  <div class="page-foot-nav-inner">
+    <a class="foot-nav-link prev" href="../process/">
+      <span class="foot-nav-link-label">← Back to</span>
+      <span class="foot-nav-link-title">Process</span>
+    </a>
+    <a class="foot-nav-link next disabled" href="#">
+      <span class="foot-nav-link-label">End of workspace</span>
+      <span class="foot-nav-link-title">—</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <p><span class="footer-mark">✱</span>Commercial Strategy productization · Working repository</p>
+    <p>Nordics Strategy Discipline</p>
+  </div>
+</footer>
+
+</body>
+</html>
