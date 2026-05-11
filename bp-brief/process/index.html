@@ -1,1 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process — BP brief · Valtech Nordics Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F1EA;
+    --cream-deep: #EDE6DA;
+    --ink: #0B0B0B;
+    --ink-soft: #2A2A2A;
+    --ink-mute: #6B6B6B;
+    --line: #D9D2C4;
+    --coral: #FF6A4D;
+    --bp-green: #0E7E1F;
+    --bp-green-deep: #0A6217;
+    --bp-lime: #BFFF38;
+    --bp-pale: #D5F09E;
+    --bp-pale-soft: #EAF7CE;
+  }
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  img { display: block; max-width: 100%; }
+
+  /* Site header */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .brand-mark { color: var(--coral); font-size: 22px; line-height: 1; font-weight: 400; }
+  .brand-divider { color: var(--ink-mute); font-weight: 300; }
+  .brand-context { color: var(--ink-mute); font-weight: 400; }
+  .site-nav { display: flex; gap: 28px; font-size: 13px; }
+  .site-nav a { color: var(--ink-mute); text-decoration: none; transition: color 0.15s; }
+  .site-nav a:hover { color: var(--ink); }
+
+  /* Brief sticky sub-nav */
+  .brief-nav {
+    position: sticky;
+    top: 60px;
+    z-index: 40;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+  }
+  .brief-nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 14px 40px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    overflow-x: auto;
+  }
+  .brief-nav-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    white-space: nowrap;
+    padding-right: 20px;
+    border-right: 1px solid var(--line);
+  }
+  .brief-nav a {
+    font-size: 13px;
+    color: var(--ink-mute);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s;
+    font-weight: 400;
+  }
+  .brief-nav a:hover { color: var(--ink); }
+  .brief-nav a.current { color: var(--ink); font-weight: 500; }
+  .brief-nav a.current::before {
+    content: "● ";
+    color: var(--bp-green);
+    font-size: 9px;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  /* Page hero */
+  .page-hero {
+    padding: 120px 40px 88px;
+    border-bottom: 1px solid var(--line);
+  }
+  .page-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .page-hero-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--bp-green);
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .page-hero-title {
+    font-size: clamp(40px, 5.5vw, 68px);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    max-width: 980px;
+    margin-bottom: 24px;
+  }
+  .page-hero-subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 820px;
+  }
+
+  /* Section base */
+  section { padding: 88px 40px; }
+  .section-inner { max-width: 1280px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .section-title {
+    font-size: clamp(28px, 3.4vw, 40px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+    margin-bottom: 28px;
+    max-width: 820px;
+  }
+
+  /* Framework intro */
+  .framework-body {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 880px;
+    font-weight: 300;
+  }
+  .framework-body p { margin-bottom: 18px; }
+  .framework-body p:last-child {
+    margin-bottom: 0;
+    font-size: 22px;
+    color: var(--ink);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    padding-top: 8px;
+  }
+  .framework-illustration {
+    margin-top: 56px;
+  }
+  .framework-illustration-img {
+    width: 100%;
+    height: auto;
+    background: var(--cream-deep);
+    border: 1px solid var(--line);
+  }
+  .framework-illustration-caption {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-mute);
+    margin-top: 18px;
+    max-width: 880px;
+    font-style: italic;
+  }
+
+  /* Phases section */
+  .phases {
+    background: var(--cream-deep);
+  }
+
+  /* Arc chart */
+  .arc-chart {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 32px 36px;
+    margin: 48px 0 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .arc-chart-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .arc-row {
+    display: grid;
+    grid-template-columns: 220px 1fr 60px;
+    gap: 20px;
+    align-items: center;
+  }
+  .arc-row-label {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .arc-row-bar {
+    height: 10px;
+    background: rgba(14, 126, 31, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .arc-row-fill {
+    height: 100%;
+    background: var(--bp-green);
+    border-radius: 5px;
+  }
+  .arc-row-value {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 600;
+    text-align: right;
+  }
+
+  /* Phase cards */
+  .phases-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .phase-card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .phase-left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .phase-num {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bp-green);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .phase-name {
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .phase-time {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-bottom: 12px;
+  }
+  .phase-goal {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .phase-footprint {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .phase-footprint-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .phase-footprint-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .phase-footprint-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(14, 126, 31, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .phase-footprint-fill {
+    height: 100%;
+    background: var(--bp-green);
+    border-radius: 4px;
+  }
+  .phase-footprint-value {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .phase-right {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding-left: 36px;
+    border-left: 1px solid var(--line);
+  }
+  .phase-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .phase-block-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bp-green);
+    font-weight: 600;
+  }
+  .phase-activities {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .phase-activities li {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    padding-left: 18px;
+    position: relative;
+  }
+  .phase-activities li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--bp-green);
+    font-weight: 500;
+  }
+  .phase-outputs {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  /* Mechanisms — numbered list */
+  .mechanisms {
+    background: var(--bp-pale-soft);
+  }
+  .numbered-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 48px;
+    margin-top: 48px;
+  }
+  .numbered-item {
+    border-top: 1px solid rgba(14, 126, 31, 0.25);
+    padding-top: 28px;
+  }
+  .numbered-item-num {
+    font-size: 12px;
+    color: var(--bp-green-deep);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    margin-bottom: 14px;
+  }
+  .numbered-item-title {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .numbered-item-body {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* Closing */
+  .closing {
+    background: var(--cream-deep);
+  }
+  .closing-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    margin-top: 36px;
+  }
+  .closing-lead {
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+  .closing-body p:not(.closing-lead) {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  /* Page foot nav */
+  .page-foot-nav {
+    padding: 36px 40px;
+    border-top: 1px solid var(--line);
+    background: var(--cream);
+  }
+  .page-foot-nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+  .foot-nav-link {
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: color 0.15s;
+  }
+  .foot-nav-link:hover { color: var(--bp-green); }
+  .foot-nav-link-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+  .foot-nav-link-title {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .foot-nav-link.next { text-align: right; }
+
+  /* Footer */
+  footer {
+    background: var(--ink);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 56px 40px;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    font-size: 13px;
+  }
+  .footer-mark { color: var(--coral); font-size: 18px; margin-right: 8px; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .site-header-inner, .brief-nav-inner, section, footer, .page-foot-nav { padding-left: 24px; padding-right: 24px; }
+    section { padding-top: 56px; padding-bottom: 56px; }
+    .page-hero { padding: 64px 24px 56px; }
+    .site-nav { display: none; }
+    .arc-row { grid-template-columns: 1fr 60px; gap: 12px; }
+    .arc-row-label { grid-column: 1 / -1; margin-bottom: -8px; }
+    .phase-card { grid-template-columns: 1fr; gap: 24px; padding: 28px; }
+    .phase-right { padding-left: 0; padding-top: 20px; border-left: none; border-top: 1px solid var(--line); }
+    .numbered-list { grid-template-columns: 1fr; gap: 24px; }
+    .closing-body { grid-template-columns: 1fr; gap: 24px; }
+    .page-foot-nav-inner { flex-direction: column; align-items: stretch; gap: 16px; }
+    .foot-nav-link.next { text-align: left; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Site header -->
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark">✱</span>
+      <span>Valtech Nordics Strategy</span>
+      <span class="brand-divider">·</span>
+      <span class="brand-context">Productization workspace</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html">Home</a>
+      <a href="../../commercial_engine/">Commercial Engine</a>
+      <a href="../" style="color: var(--ink); font-weight: 500;">BP brief</a>
+    </nav>
+  </div>
+</header>
+
+<!-- BP brief sub-nav -->
+<nav class="brief-nav">
+  <div class="brief-nav-inner">
+    <span class="brief-nav-label">BP brief</span>
+    <a href="../">Overview</a>
+    <a href="../rebrief/">Rebrief</a>
+    <a href="../approach/">Approach</a>
+    <a href="./" class="current">Process</a>
+    <a href="../financials/">Financials</a>
+  </div>
+</nav>
+
+<!-- Page hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">Process · 03 of 04</div>
+    <h1 class="page-hero-title">Four phases. A partner footprint engineered to fall.</h1>
+    <p class="page-hero-subtitle">Valtech's four-phase framework, applied to BP's multi-year engagement and shaped around the brief's anti-dependency principle. From mobilisation to background advisory, the partner role decreases by design.</p>
+  </div>
+</section>
+
+<!-- The framework -->
+<section>
+  <div class="section-inner">
+    <div class="section-eyebrow">The framework</div>
+    <h2 class="section-title">From Valtech's Quadruple Diamond to a shrinking arc.</h2>
+    <div class="framework-body">
+      <p>Valtech's standard process for transformative engagements is the four-phase Quadruple Diamond — opportunity validation, north star definition, roadmap, and solution design — designed for strategy work across roughly 14 weeks.</p>
+      <p>For BP, the engagement is delivery-led, not strategy-led: strategy has been set, Phase 1 of the platform is in flight, and the work runs across years rather than weeks. So the four-phase logic stretches — phases become years instead of weeks, embedded delivery replaces discovery diamonds, and partner footprint is engineered to fall through each phase rather than to grow with it.</p>
+      <p>The phases stay. The trajectory inverts.</p>
+    </div>
+
+    <div class="framework-illustration">
+      <img class="framework-illustration-img" src="../images/quadruple_diamond.png" alt="Valtech's Quadruple Diamond framework — four phases across 14 weeks, each phase a diverge-converge cycle viewed through Valtech's four lenses">
+      <p class="framework-illustration-caption">Valtech's Quadruple Diamond, proven across multiple strategic engagements: four phases, each a diverge–converge cycle viewed through the four strategic lenses. For BP, the same logic stretches across years — with Valtech's share of delivery engineered to fall through each phase.</p>
+    </div>
+  </div>
+</section>
+
+<!-- The four phases -->
+<section class="phases">
+  <div class="section-inner">
+    <div class="section-eyebrow">The four phases</div>
+    <h2 class="section-title">From mobilisation to background advisory.</h2>
+
+    <div class="arc-chart">
+      <div class="arc-chart-label">Valtech's share of delivery effort over time</div>
+      <div class="arc-row">
+        <span class="arc-row-label">Phase 1 · Mobilise</span>
+        <div class="arc-row-bar"><div class="arc-row-fill" style="width: 80%"></div></div>
+        <span class="arc-row-value">~80%</span>
+      </div>
+      <div class="arc-row">
+        <span class="arc-row-label">Phase 2 · Co-deliver</span>
+        <div class="arc-row-bar"><div class="arc-row-fill" style="width: 60%"></div></div>
+        <span class="arc-row-value">~60%</span>
+      </div>
+      <div class="arc-row">
+        <span class="arc-row-label">Phase 3 · Coach</span>
+        <div class="arc-row-bar"><div class="arc-row-fill" style="width: 30%"></div></div>
+        <span class="arc-row-value">~30%</span>
+      </div>
+      <div class="arc-row">
+        <span class="arc-row-label">Phase 4 · Advise</span>
+        <div class="arc-row-bar"><div class="arc-row-fill" style="width: 10%"></div></div>
+        <span class="arc-row-value">~10%</span>
+      </div>
+    </div>
+
+    <div class="phases-list">
+
+      <div class="phase-card">
+        <div class="phase-left">
+          <div class="phase-num">PHASE 1</div>
+          <div class="phase-name">Mobilise.</div>
+          <div class="phase-time">Q4 2026 · 3 months</div>
+          <div class="phase-goal">Joining an estate already in flight. Earning context. Establishing the pattern discipline that will hold across the engagement.</div>
+          <div class="phase-footprint">
+            <div class="phase-footprint-label">Valtech's share of delivery effort</div>
+            <div class="phase-footprint-row">
+              <div class="phase-footprint-bar"><div class="phase-footprint-fill" style="width: 80%"></div></div>
+              <span class="phase-footprint-value">~80%</span>
+            </div>
+          </div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-block">
+            <div class="phase-block-label">Activities</div>
+            <ul class="phase-activities">
+              <li>Onboard to the Phase 1 platform, design system, and team rhythms</li>
+              <li>Work alongside the outgoing supplier where possible to earn context</li>
+              <li>Establish working cadence, decision rituals, and shared patterns</li>
+              <li>Refresh the delivery roadmap with BP product owners</li>
+            </ul>
+          </div>
+          <div class="phase-block">
+            <div class="phase-block-label">Outputs</div>
+            <div class="phase-outputs">Shared patterns playbook · Established cadence · Refreshed delivery roadmap</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-left">
+          <div class="phase-num">PHASE 2</div>
+          <div class="phase-name">Co-deliver.</div>
+          <div class="phase-time">2027 · 12 months</div>
+          <div class="phase-goal">First year of full delivery. bp.com evolves, the first wider estate sites migrate, and capability transfer begins through pairing and shadowing.</div>
+          <div class="phase-footprint">
+            <div class="phase-footprint-label">Valtech's share of delivery effort</div>
+            <div class="phase-footprint-row">
+              <div class="phase-footprint-bar"><div class="phase-footprint-fill" style="width: 60%"></div></div>
+              <span class="phase-footprint-value">~60%</span>
+            </div>
+          </div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-block">
+            <div class="phase-block-label">Activities</div>
+            <ul class="phase-activities">
+              <li>Deliver bp.com Phase 2 alongside BP design and engineering</li>
+              <li>Migrate the first 5–10 wider estate sites onto DCP</li>
+              <li>Establish pattern library v1 and governance v1</li>
+              <li>Begin capability transfer through pairing, shadowing, and joint rituals</li>
+            </ul>
+          </div>
+          <div class="phase-block">
+            <div class="phase-block-label">Outputs</div>
+            <div class="phase-outputs">bp.com Phase 2 live · 5–10 wider sites migrated · Pattern library v1 · Governance v1</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-left">
+          <div class="phase-num">PHASE 3</div>
+          <div class="phase-name">Coach.</div>
+          <div class="phase-time">2028 · 12 months</div>
+          <div class="phase-goal">Partner team shrinks. BP teams take operational ownership. The partner role shifts from delivery to coaching, escalation support, and the harder migration cases.</div>
+          <div class="phase-footprint">
+            <div class="phase-footprint-label">Valtech's share of delivery effort</div>
+            <div class="phase-footprint-row">
+              <div class="phase-footprint-bar"><div class="phase-footprint-fill" style="width: 30%"></div></div>
+              <span class="phase-footprint-value">~30%</span>
+            </div>
+          </div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-block">
+            <div class="phase-block-label">Activities</div>
+            <ul class="phase-activities">
+              <li>Embed coaches alongside BP-led delivery squads</li>
+              <li>Advise on BP-led pattern decisions, hold the line on simplification</li>
+              <li>Support complex migration cases and edge-case governance</li>
+              <li>Mature governance to BP-owned, BP-decided</li>
+            </ul>
+          </div>
+          <div class="phase-block">
+            <div class="phase-block-label">Outputs</div>
+            <div class="phase-outputs">~50% of wider estate migrated · BP teams owning pattern decisions · Governance v2 (BP-led)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-left">
+          <div class="phase-num">PHASE 4</div>
+          <div class="phase-name">Advise.</div>
+          <div class="phase-time">2029 onwards · Continuous</div>
+          <div class="phase-goal">Partner on-call. BP owns the estate, the patterns, and the governance. Partner is engaged for new patterns, complex migrations, escalations, and strategic work.</div>
+          <div class="phase-footprint">
+            <div class="phase-footprint-label">Valtech's share of delivery effort</div>
+            <div class="phase-footprint-row">
+              <div class="phase-footprint-bar"><div class="phase-footprint-fill" style="width: 10%"></div></div>
+              <span class="phase-footprint-value">~10%</span>
+            </div>
+          </div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-block">
+            <div class="phase-block-label">Activities</div>
+            <ul class="phase-activities">
+              <li>Strategic advisory at quarterly cadence</li>
+              <li>Complex pattern work and new estate onboarding as needed</li>
+              <li>Escalation support and on-call governance reviews</li>
+              <li>Complete AEM retirement across the estate</li>
+            </ul>
+          </div>
+          <div class="phase-block">
+            <div class="phase-block-label">Outputs</div>
+            <div class="phase-outputs">Full estate migrated · AEM retired · Partner at stable advisory level</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Mechanisms -->
+<section class="mechanisms">
+  <div class="section-inner">
+    <div class="section-eyebrow">What makes the shrinking work</div>
+    <h2 class="section-title">Four mechanisms that turn the principle into practice.</h2>
+
+    <div class="numbered-list">
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">01</div>
+        <div class="numbered-item-title">Capability transfer milestones.</div>
+        <div class="numbered-item-body">Every phase has explicit checkpoints for what BP teams should be able to do unaided by the end. Missed milestones trigger a re-plan, not a slide at the back of a steering committee deck.</div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">02</div>
+        <div class="numbered-item-title">Joint working from day one.</div>
+        <div class="numbered-item-body">Pairing, shadowing, rotation. No work is Valtech-only. Every pattern, decision, and ritual has a BP counterpart from the moment it starts — not added in year three when transfer becomes urgent.</div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">03</div>
+        <div class="numbered-item-title">Governance handovers as events.</div>
+        <div class="numbered-item-body">Each phase ends with an explicit governance handover — written documentation, decision rights transferred, RACI updated. Not a quiet fade-out where ownership ambiguity persists for months.</div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="numbered-item-num">04</div>
+        <div class="numbered-item-title">On-call before exit.</div>
+        <div class="numbered-item-body">By Phase 3, Valtech's role shifts from delivery to escalation. By Phase 4, Valtech is structurally on-call rather than embedded. The exit becomes a continuation of the operating model, not a separate event.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Closing -->
+<section class="closing">
+  <div class="section-inner">
+    <div class="section-eyebrow">Why this matters</div>
+    <h2 class="section-title">The exit is the operating model, not the conclusion.</h2>
+    <div class="closing-body">
+      <p class="closing-lead">A standard engagement plans for completion. This one plans for continuation in a different shape — BP-led delivery, partner-as-advisor. The shrinking footprint isn't where the engagement ends; it is how the engagement runs from week one.</p>
+      <p>Across all four phases, Valtech operates inside BP's leadership group — not alongside it. Joint steering at every phase boundary. Shared roadmap ownership. Shared accountability for outcomes, not just deliverables. The shrinking at the delivery layer is enabled by the closeness at the top.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Page foot nav -->
+<nav class="page-foot-nav">
+  <div class="page-foot-nav-inner">
+    <a class="foot-nav-link prev" href="../approach/">
+      <span class="foot-nav-link-label">← Back to</span>
+      <span class="foot-nav-link-title">Approach</span>
+    </a>
+    <a class="foot-nav-link next" href="../financials/">
+      <span class="foot-nav-link-label">Next →</span>
+      <span class="foot-nav-link-title">Financials</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <p><span class="footer-mark">✱</span>Commercial Strategy productization · Working repository</p>
+    <p>Nordics Strategy Discipline</p>
+  </div>
+</footer>
+
+</body>
+</html>
