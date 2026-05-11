@@ -416,6 +416,64 @@
     color: var(--ink-soft);
   }
 
+  /* Team section */
+  .team {
+    background: var(--cream);
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .team-card {
+    background: var(--cream-deep);
+    border: 1px solid var(--line);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .team-photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(135deg, #C8BFAE 0%, #B4A993 100%);
+    object-fit: cover;
+    margin-bottom: 4px;
+  }
+  .team-years {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--bp-green);
+    font-weight: 600;
+  }
+  .team-role {
+    font-size: 13px;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+  .team-name {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .team-bio {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .team-note {
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-style: italic;
+    margin-top: 32px;
+    text-align: center;
+  }
+
   /* Closing */
   .closing {
     background: var(--cream-deep);
@@ -503,6 +561,7 @@
     .arc-row-label { grid-column: 1 / -1; margin-bottom: -8px; }
     .phase-card { grid-template-columns: 1fr; gap: 24px; padding: 28px; }
     .phase-right { padding-left: 0; padding-top: 20px; border-left: none; border-top: 1px solid var(--line); }
+    .team-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
     .numbered-list { grid-template-columns: 1fr; gap: 24px; }
     .closing-body { grid-template-columns: 1fr; gap: 24px; }
     .page-foot-nav-inner { flex-direction: column; align-items: stretch; gap: 16px; }
@@ -726,6 +785,60 @@
       </div>
 
     </div>
+  </div>
+</section>
+
+<!-- The team -->
+<section class="team">
+  <div class="section-inner">
+    <div class="section-eyebrow">The team</div>
+    <h2 class="section-title">A senior core that grows the BP side as it shrinks itself.</h2>
+
+    <div class="team-grid">
+
+      <div class="team-card">
+        <img class="team-photo" src="../images/team_kristoffer.jpg" alt="Kristoffer Nielsen-Refs">
+        <div class="team-years">20 years of experience</div>
+        <div class="team-role">VP Strategy</div>
+        <div class="team-name">Kristoffer Nielsen-Refs</div>
+        <p class="team-bio">Leads strategic direction across the engagement. Kristoffer brings senior consulting experience across global enterprise clients, anchoring the constructive challenge that defines how Valtech partners with clients at this level.</p>
+      </div>
+
+      <div class="team-card">
+        <img class="team-photo" src="../images/team_madeleine.jpg" alt="Madeleine Frick">
+        <div class="team-years">18 years of experience</div>
+        <div class="team-role">Experience Strategy Lead</div>
+        <div class="team-name">Madeleine Frick</div>
+        <p class="team-bio">Leads experience and design across the engagement. Madeleine combines strategic CX direction with hands-on design system leadership, having shaped global brand experiences across multiple industries.</p>
+      </div>
+
+      <div class="team-card">
+        <img class="team-photo" src="../images/team_anders.jpg" alt="Anders Busch">
+        <div class="team-years">15 years of experience</div>
+        <div class="team-role">Senior Management Consultant</div>
+        <div class="team-name">Anders Busch</div>
+        <p class="team-bio">Leads the organisational side of the engagement — governance, ways of working, and capability transfer milestones. Anders specialises in moving fragmented teams into shared operating models without losing local nuance.</p>
+      </div>
+
+      <div class="team-card">
+        <img class="team-photo" src="../images/team_sune.jpg" alt="Sune Børsen">
+        <div class="team-years">22 years of experience</div>
+        <div class="team-role">Martech Strategy Director</div>
+        <div class="team-name">Sune Børsen</div>
+        <p class="team-bio">Leads martech and platform strategy. Sune brings deep expertise across Contentful and modern composable architectures, with a track record of opinionated pattern discipline that scales across complex content estates.</p>
+      </div>
+
+      <div class="team-card">
+        <img class="team-photo" src="../images/team_karin.jpg" alt="Karin Gutesten">
+        <div class="team-years">25 years of experience</div>
+        <div class="team-role">Delivery Director</div>
+        <div class="team-name">Karin Gutesten</div>
+        <p class="team-bio">Accountable for overall delivery — quality, expectations, and progress communicated clearly to BP leadership. Karin has led some of Valtech's most complex enterprise platform engagements and is known for protecting pattern discipline at scale.</p>
+      </div>
+
+    </div>
+
+    <p class="team-note">Indicative core team for Phase 1 and 2. Specialists, engineers, and additional designers scale flexibly across the four phases. Final composition subject to availability of consultants and final engagement scope.</p>
   </div>
 </section>
 
