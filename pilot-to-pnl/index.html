@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Strategy Lab — AI &amp; Partner Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --cream: #EDE8DF;
+  --cream-warm: #F5F1E8;
+  --ink: #0F0F0F;
+  --ink-80: rgba(15, 15, 15, 0.80);
+  --ink-60: rgba(15, 15, 15, 0.60);
+  --ink-40: rgba(15, 15, 15, 0.40);
+  --ink-15: rgba(15, 15, 15, 0.15);
+  --ink-08: rgba(15, 15, 15, 0.08);
+  --indigo: #1E30A0;
+  --spark: #9FFF4D;
+  --coral: #FF5C5C;
+  --max-w: 1200px;
+  --prose-w: 760px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.55;
+  font-weight: 400;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 40px; }
+.prose      { max-width: var(--prose-w); margin: 0 auto; padding: 0 40px; }
+
+/* Top nav */
+.topnav {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--ink-08);
+}
+.topnav a {
+  display: inline-block;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink-60);
+  transition: color 0.18s ease;
+}
+.topnav a:hover { color: var(--indigo); }
+
+/* Section marker */
+.marker {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink-60);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 56px;
+  margin-bottom: 64px;
+}
+.marker__star { color: var(--ink); font-weight: 500; }
+.marker__num { color: var(--ink-40); }
+
+/* Hero */
+.hero {
+  position: relative;
+  min-height: 88vh;
+  background: #0a0a0a;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.hero__image {
+  position: absolute; inset: 0;
+  background-image: url('images/ailab_3.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.62;
+  filter: saturate(0.85) contrast(1.05);
+}
+.hero__overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10,10,10,0.45) 0%, rgba(10,10,10,0.35) 35%, rgba(10,10,10,0.78) 100%),
+    linear-gradient(90deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0) 60%);
+}
+.hero__top {
+  position: relative;
+  padding: 36px 40px 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--cream);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+.hero__top a {
+  color: var(--cream);
+  opacity: 0.85;
+  transition: opacity 0.18s ease;
+}
+.hero__top a:hover { opacity: 1; }
+.hero__top .right { opacity: 0.7; }
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  padding: 0 40px 80px;
+  max-width: var(--max-w);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero__category {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--spark);
+  font-weight: 500;
+  margin-bottom: 28px;
+}
+.hero__title {
+  font-size: clamp(56px, 9vw, 132px);
+  line-height: 0.93;
+  letter-spacing: -0.035em;
+  color: var(--cream);
+  font-weight: 600;
+  margin-bottom: 32px;
+  max-width: 14ch;
+}
+.hero__lede {
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.45;
+  color: rgba(237, 232, 223, 0.88);
+  max-width: 640px;
+  font-weight: 400;
+}
+.hero__footer {
+  position: relative;
+  z-index: 2;
+  padding: 0 40px 32px;
+  max-width: var(--max-w);
+  width: 100%;
+  margin: 0 auto;
+  color: rgba(237, 232, 223, 0.6);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+/* Sections */
+section { padding-bottom: 120px; }
+section.alt { background: var(--cream-warm); }
+section.alt + section { padding-top: 0; }
+section.dark { background: var(--ink); color: var(--cream); }
+
+.section__head { margin-bottom: 56px; }
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--indigo);
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; }
+
+h2 {
+  font-size: clamp(36px, 5vw, 68px);
+  line-height: 1.02;
+  margin-bottom: 32px;
+  max-width: 18ch;
+}
+h2.wide { max-width: 22ch; }
+h3 {
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  margin-bottom: 12px;
+}
+
+p {
+  font-size: 17px;
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+p:last-child { margin-bottom: 0; }
+p strong { font-weight: 600; }
+
+/* Problem section — stat block */
+.statblock {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 40px;
+  align-items: baseline;
+  padding: 56px 0;
+  border-top: 1px solid var(--ink-15);
+  border-bottom: 1px solid var(--ink-15);
+  margin: 48px 0;
+}
+.statblock__num {
+  font-size: clamp(80px, 11vw, 144px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--coral);
+  font-weight: 600;
+}
+.statblock__cap {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-80);
+}
+.statblock__cap em {
+  display: block;
+  margin-top: 14px;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--ink-60);
+  letter-spacing: 0.01em;
+}
+
+/* Model section */
+.model-row {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  gap: 72px;
+  align-items: center;
+}
+.model-row img {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  max-height: 540px;
+  object-fit: cover;
+  display: block;
+}
+.model__subhead {
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--indigo);
+  font-weight: 500;
+  margin-bottom: 28px;
+  letter-spacing: -0.005em;
+}
+.model__signature {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--ink-15);
+  letter-spacing: -0.005em;
+}
+
+/* Lifecycle */
+.lifecycle {
+  background: #fff;
+  border: 1px solid var(--ink-15);
+  padding: 56px 32px 40px;
+  margin-top: 24px;
+  overflow-x: auto;
+}
+.lifecycle__svg {
+  width: 100%;
+  height: auto;
+  min-width: 920px;
+  display: block;
+  margin: 0 auto;
+}
+.lifecycle__legend {
+  display: flex;
+  gap: 32px;
+  margin-top: 32px;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--ink-08);
+  font-size: 13px;
+  color: var(--ink-60);
+  flex-wrap: wrap;
+}
+.lifecycle__legend span { display: inline-flex; align-items: center; gap: 10px; }
+.lifecycle__legend i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  font-style: normal;
+}
+.lifecycle__legend i.go { background: var(--indigo); }
+.lifecycle__legend i.park {
+  background: transparent;
+  border: 1.5px dashed var(--coral);
+}
+.lifecycle__legend i.gate {
+  width: 12px; height: 12px;
+  background: var(--indigo);
+  transform: rotate(45deg);
+}
+
+/* Why it works — three outcomes */
+.outcomes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 32px;
+}
+.outcome {
+  background: #fff;
+  border: 1px solid var(--ink-15);
+  padding: 40px 32px 36px;
+  display: flex;
+  flex-direction: column;
+}
+.outcome__rule {
+  width: 40px;
+  height: 4px;
+  background: var(--indigo);
+  margin-bottom: 28px;
+}
+.outcome.coral .outcome__rule { background: var(--coral); }
+.outcome.spark .outcome__rule { background: var(--ink); }
+
+.outcome h3 {
+  font-size: 26px;
+  margin-bottom: 16px;
+  letter-spacing: -0.015em;
+}
+.outcome p {
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--ink-80);
+  margin-bottom: 28px;
+  flex: 1;
+}
+.outcome ul {
+  list-style: none;
+  border-top: 1px solid var(--ink-08);
+  padding-top: 20px;
+}
+.outcome li {
+  font-size: 13px;
+  letter-spacing: 0.005em;
+  padding: 5px 0;
+  color: var(--ink);
+  position: relative;
+  padding-left: 18px;
+}
+.outcome li::before {
+  content: '·';
+  position: absolute;
+  left: 5px;
+  color: var(--indigo);
+  font-weight: 700;
+  font-size: 16px;
+  top: 4px;
+  line-height: 1;
+}
+
+/* Delivery */
+.delivery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px 80px;
+  margin-top: 8px;
+}
+.delivery-grid > div { padding: 24px 0; }
+.delivery-grid h3 {
+  font-size: 16px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.delivery-grid p {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.team-row {
+  margin-top: 80px;
+  padding-top: 56px;
+  border-top: 1px solid var(--ink-15);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+}
+.team-card {
+  border-left: 1px solid var(--ink-15);
+  padding-left: 24px;
+}
+.team-card:first-child { border-left: none; padding-left: 0; }
+.team-card .role {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.team-card .who { font-size: 19px; line-height: 1.3; font-weight: 600; letter-spacing: -0.005em; margin-bottom: 8px; }
+.team-card .note { font-size: 14.5px; line-height: 1.45; color: var(--ink-80); }
+
+/* Thank you */
+section.thanks { padding-bottom: 0; }
+.thanks-inner { padding-bottom: 100px; }
+.thanks h2 { font-size: clamp(48px, 7vw, 96px); margin-bottom: 56px; }
+.thanks-legal {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink-60);
+  max-width: 720px;
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--ink-15);
+}
+.thanks-legal p { font-size: 12px; margin-bottom: 12px; color: var(--ink-60); }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .container, .prose { padding: 0 24px; }
+  .hero__top, .hero__content, .hero__footer { padding-left: 24px; padding-right: 24px; }
+  .model-row { grid-template-columns: 1fr; gap: 32px; }
+  .model-row img { min-height: 280px; max-height: 360px; }
+  .outcomes { grid-template-columns: 1fr; }
+  .delivery-grid { grid-template-columns: 1fr; gap: 0; }
+  .team-row { grid-template-columns: 1fr; gap: 0; }
+  .team-card { border-left: none; padding-left: 0; border-top: 1px solid var(--ink-15); padding-top: 24px; margin-top: 24px; }
+  .team-card:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .statblock { grid-template-columns: 1fr; gap: 24px; }
+  .marker { padding-top: 40px; margin-bottom: 40px; }
+  section { padding-bottom: 80px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 01 — Hero -->
+<header class="hero">
+  <div class="hero__image" role="presentation"></div>
+  <div class="hero__overlay" role="presentation"></div>
+
+  <div class="hero__top">
+    <a href="../">✱ — Back to overview</a>
+    <span class="right">03 — Extensive program</span>
+  </div>
+
+  <div class="hero__content">
+    <div class="hero__category">✱ AI Strategy &nbsp; Valtech &nbsp; 01</div>
+    <h1 class="hero__title">AI Strategy Lab</h1>
+    <p class="hero__lede">A managed program for running AI initiatives at the pace AI actually requires — with the discipline of a portfolio and the safety of a sandbox.</p>
+  </div>
+
+  <div class="hero__footer">Valtech | AI &amp; Partner Strategy</div>
+</header>
+
+
+<!-- 02 — The problem -->
+<section>
+  <div class="prose">
+    <div class="marker"><span class="marker__star">✱</span><span>AI Strategy</span><span class="marker__num">Valtech &nbsp; 02</span></div>
+    <div class="eyebrow">The problem we keep watching</div>
+    <h2 class="wide">Corporate innovation moves in quarters. AI moves in weeks.</h2>
+    <p>Enterprises don't lack AI ambition. They lack a way to act on it. Initiatives stall waiting for a "proper data foundation" to be in place. Pilots that prove value never get past the procurement and compliance gauntlet. And when something does ship, attribution to the P&amp;L is so diluted across functions that no one can claim it worked.</p>
+
+    <div class="statblock">
+      <div class="statblock__num">95%</div>
+      <div class="statblock__cap">
+        of enterprise GenAI investment is delivering zero measurable P&amp;L impact — not because the technology fails, but because the operating environment doesn't let it succeed.
+        <em>Source: MIT NANDA, State of AI in Business 2025.</em>
+      </div>
+    </div>
+
+    <p>The answer isn't more AI strategy decks. Enterprises need a place where AI initiatives can move at the pace they actually require — outside the constraints of core operations, compliance and IT platforms — without abandoning the rigour that gets them through to scale.</p>
+    <p>Waiting for a full data foundation transformation before reaping AI value is itself the most expensive choice. By the time the foundation is ready, the window has moved.</p>
+  </div>
+</section>
+
+
+<!-- 03 — The model -->
+<section class="alt">
+  <div class="container">
+    <div class="marker"><span class="marker__star">✱</span><span>AI Strategy</span><span class="marker__num">Valtech &nbsp; 03</span></div>
+
+    <div class="model-row">
+      <div>
+        <img src="images/ailab_2.png" alt="A small team collaborating around a laptop in a modern, open work environment">
+      </div>
+      <div>
+        <div class="eyebrow">The model</div>
+        <h2>A faster, smaller, less-encumbered version of your organization.</h2>
+        <p class="model__subhead">Running on your behalf. Built around your initiatives. Owned by you.</p>
+        <p>AI Strategy Lab is a managed program inside your business. Each initiative is run as its own branded venture — a small, dedicated team with defined milestones, gate decisions, and KPIs calibrated to the nature of that specific initiative.</p>
+        <p>The structure imports the discipline of a venture portfolio. A client-owned investment board allocates and reallocates resources across a lean portfolio of three to five initiatives. Each progresses gate by gate, or gets parked — capital freed, learning retained. Initiatives that cross all gates land back inside the core organization with proven economics and P&amp;L attribution intact.</p>
+        <p class="model__signature">Valtech runs the program. You own everything we build.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 04 — Lifecycle -->
+<section>
+  <div class="container">
+    <div class="marker"><span class="marker__star">✱</span><span>AI Strategy</span><span class="marker__num">Valtech &nbsp; 04</span></div>
+
+    <div class="prose" style="padding: 0; max-width: var(--prose-w);">
+      <div class="eyebrow">How it works</div>
+      <h2 class="wide">Four stages. Three gates. One decision rule.</h2>
+      <p>Each initiative moves through four stages, with a gate decision at every transition: proceed, refine, or park. Decisions are made by your investment board against milestone-specific KPIs — process measures early, leading indicators mid-cycle, lagging P&amp;L indicators only at the scale gate.</p>
+      <p><strong>Park is not failure.</strong> It's freed capital and retained learning, kept available to the portfolio.</p>
+    </div>
+
+    <div class="lifecycle">
+      <svg class="lifecycle__svg" viewBox="0 0 1200 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="lifecycle-title lifecycle-desc">
+        <title id="lifecycle-title">AI Strategy Lab lifecycle</title>
+        <desc id="lifecycle-desc">Four stages — Discovery, Sandbox, Pilot and Scale — separated by three gate decisions. Each gate can route the initiative forward or park it.</desc>
+
+        <!-- Header -->
+        <text x="600" y="36" text-anchor="middle" fill="#1E30A0" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="2">PORTFOLIO LIFECYCLE</text>
+
+        <!-- Main backbone line -->
+        <line x1="195" y1="200" x2="1005" y2="200" stroke="#1E30A0" stroke-width="1.5"/>
+
+        <!-- STAGE 1: DISCOVERY -->
+        <g>
+          <rect x="105" y="135" width="180" height="130" fill="#EDE8DF" stroke="#0F0F0F" stroke-width="1"/>
+          <text x="120" y="160" fill="#1E30A0" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.6">01 — STAGE</text>
+          <text x="120" y="192" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.5">Discovery</text>
+          <text x="120" y="220" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="12.5">Frame the problem.</text>
+          <text x="120" y="238" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="12.5">Validate the value</text>
+          <text x="120" y="256" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="12.5">proposition.</text>
+          <text x="120" y="290" fill="rgba(15,15,15,0.5)" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.4">PROCESS KPIs</text>
+        </g>
+
+        <!-- GATE 1 -->
+        <g>
+          <text x="330" y="115" text-anchor="middle" fill="#1E30A0" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.4">DECISION</text>
+          <polygon points="330,180 358,200 330,220 302,200" fill="#1E30A0"/>
+          <text x="330" y="204" text-anchor="middle" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="11" font-weight="600">G1</text>
+        </g>
+
+        <!-- Park path from Gate 1 -->
+        <g>
+          <line x1="330" y1="220" x2="330" y2="335" stroke="#FF5C5C" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <rect x="265" y="335" width="130" height="56" fill="#FFFFFF" stroke="#FF5C5C" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="330" y="358" text-anchor="middle" fill="#FF5C5C" font-family="Inter, sans-serif" font-size="11.5" font-weight="600" letter-spacing="0.5">PARK</text>
+          <text x="330" y="375" text-anchor="middle" fill="rgba(15,15,15,0.5)" font-family="Inter, sans-serif" font-size="10.5">Learning retained</text>
+        </g>
+
+        <!-- STAGE 2: SANDBOX -->
+        <g>
+          <rect x="375" y="135" width="180" height="130" fill="#EDE8DF" stroke="#0F0F0F" stroke-width="1"/>
+          <text x="390" y="160" fill="#1E30A0" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.6">02 — STAGE</text>
+          <text x="390" y="192" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.5">Sandbox</text>
+          <text x="390" y="220" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="12.5">Build prototype.</text>
+          <text x="390" y="238" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="12.5">Test boundaries.</text>
+          <text x="390" y="256" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="12.5">Prove feasibility.</text>
+          <text x="390" y="290" fill="rgba(15,15,15,0.5)" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.4">PROCESS + LEADING</text>
+        </g>
+
+        <!-- GATE 2 -->
+        <g>
+          <text x="600" y="115" text-anchor="middle" fill="#1E30A0" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.4">DECISION</text>
+          <polygon points="600,180 628,200 600,220 572,200" fill="#1E30A0"/>
+          <text x="600" y="204" text-anchor="middle" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="11" font-weight="600">G2</text>
+        </g>
+
+        <!-- Park path from Gate 2 -->
+        <g>
+          <line x1="600" y1="220" x2="600" y2="335" stroke="#FF5C5C" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <rect x="535" y="335" width="130" height="56" fill="#FFFFFF" stroke="#FF5C5C" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="600" y="358" text-anchor="middle" fill="#FF5C5C" font-family="Inter, sans-serif" font-size="11.5" font-weight="600" letter-spacing="0.5">PARK</text>
+          <text x="600" y="375" text-anchor="middle" fill="rgba(15,15,15,0.5)" font-family="Inter, sans-serif" font-size="10.5">Learning retained</text>
+        </g>
+
+        <!-- STAGE 3: PILOT -->
+        <g>
+          <rect x="645" y="135" width="180" height="130" fill="#EDE8DF" stroke="#0F0F0F" stroke-width="1"/>
+          <text x="660" y="160" fill="#1E30A0" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.6">03 — STAGE</text>
+          <text x="660" y="192" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.5">Pilot</text>
+          <text x="660" y="220" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="12.5">Run live with users.</text>
+          <text x="660" y="238" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="12.5">Measure adoption.</text>
+          <text x="660" y="256" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="12.5">Refine the model.</text>
+          <text x="660" y="290" fill="rgba(15,15,15,0.5)" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.4">LEADING KPIs</text>
+        </g>
+
+        <!-- GATE 3 -->
+        <g>
+          <text x="870" y="115" text-anchor="middle" fill="#1E30A0" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.4">DECISION</text>
+          <polygon points="870,180 898,200 870,220 842,200" fill="#1E30A0"/>
+          <text x="870" y="204" text-anchor="middle" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="11" font-weight="600">G3</text>
+        </g>
+
+        <!-- Park path from Gate 3 -->
+        <g>
+          <line x1="870" y1="220" x2="870" y2="335" stroke="#FF5C5C" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <rect x="805" y="335" width="130" height="56" fill="#FFFFFF" stroke="#FF5C5C" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="870" y="358" text-anchor="middle" fill="#FF5C5C" font-family="Inter, sans-serif" font-size="11.5" font-weight="600" letter-spacing="0.5">PARK</text>
+          <text x="870" y="375" text-anchor="middle" fill="rgba(15,15,15,0.5)" font-family="Inter, sans-serif" font-size="10.5">Learning retained</text>
+        </g>
+
+        <!-- STAGE 4: SCALE -->
+        <g>
+          <rect x="915" y="135" width="180" height="130" fill="#1E30A0" stroke="#1E30A0" stroke-width="1"/>
+          <text x="930" y="160" fill="#9FFF4D" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.6">04 — STAGE</text>
+          <text x="930" y="192" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.5">Scale</text>
+          <text x="930" y="220" fill="#EDE8DF" font-family="Inter, sans-serif" font-size="12.5">Hand back to core.</text>
+          <text x="930" y="238" fill="#EDE8DF" font-family="Inter, sans-serif" font-size="12.5">P&amp;L attribution</text>
+          <text x="930" y="256" fill="#EDE8DF" font-family="Inter, sans-serif" font-size="12.5">intact.</text>
+          <text x="930" y="290" fill="#9FFF4D" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.4">LAGGING P&amp;L KPIs</text>
+        </g>
+
+        <!-- Track labels -->
+        <text x="105" y="370" fill="rgba(15,15,15,0.4)" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.4">PARK TRACK</text>
+        <line x1="105" y1="380" x2="180" y2="380" stroke="rgba(15,15,15,0.15)" stroke-width="1"/>
+        <text x="105" y="100" fill="rgba(15,15,15,0.4)" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1.4">FORWARD TRACK</text>
+        <line x1="105" y1="108" x2="200" y2="108" stroke="rgba(15,15,15,0.15)" stroke-width="1"/>
+
+        <!-- Sandbox boundary annotation -->
+        <g>
+          <line x1="195" y1="425" x2="825" y2="425" stroke="#0F0F0F" stroke-width="1"/>
+          <line x1="195" y1="421" x2="195" y2="429" stroke="#0F0F0F" stroke-width="1"/>
+          <line x1="825" y1="421" x2="825" y2="429" stroke="#0F0F0F" stroke-width="1"/>
+          <text x="510" y="445" text-anchor="middle" fill="#0F0F0F" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="1.2">REGULATORY SANDBOX</text>
+          <text x="510" y="461" text-anchor="middle" fill="rgba(15,15,15,0.55)" font-family="Inter, sans-serif" font-size="10.5">Pre-negotiated carve-outs for data scope, customer exposure, decision authority</text>
+        </g>
+      </svg>
+
+      <div class="lifecycle__legend">
+        <span><i class="go"></i>Forward path (proceed)</span>
+        <span><i class="park"></i>Park (freed capital, retained learning)</span>
+        <span><i class="gate"></i>Gate decision by investment board</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 05 — Why it works -->
+<section class="alt">
+  <div class="container">
+    <div class="marker"><span class="marker__star">✱</span><span>AI Strategy</span><span class="marker__num">Valtech &nbsp; 05</span></div>
+
+    <div class="section__head">
+      <div class="eyebrow">Why it works</div>
+      <h2 class="wide">Three outcomes the standard AI program can't deliver.</h2>
+    </div>
+
+    <div class="outcomes">
+      <article class="outcome">
+        <div class="outcome__rule"></div>
+        <h3>Mitigate risk</h3>
+        <p>You commit small, learn fast, and kill discipline is built into the model — not retrofitted after the fact. Tiered funding means no single initiative carries existential weight. The portfolio absorbs failure so the program survives it.</p>
+        <ul>
+          <li>Stage-gated funding</li>
+          <li>Kill discipline at every gate</li>
+          <li>Sandbox boundaries pre-negotiated</li>
+          <li>Lean portfolio: three to five initiatives</li>
+        </ul>
+      </article>
+
+      <article class="outcome">
+        <div class="outcome__rule"></div>
+        <h3>Move fast</h3>
+        <p>Initiatives operate inside a pre-negotiated regulatory sandbox with explicit carve-outs for data, customer exposure and decision authority. Teams draw on Valtech's global SME bench — no procurement cycles, no vendor onboarding when a specialist is needed for two weeks.</p>
+        <ul>
+          <li>Regulatory sandbox with explicit carve-outs</li>
+          <li>Flexible access to Valtech's SME bench</li>
+          <li>Dedicated co-staffed teams</li>
+          <li>No client-side procurement overhead</li>
+        </ul>
+      </article>
+
+      <article class="outcome">
+        <div class="outcome__rule"></div>
+        <h3>Scale what wouldn't otherwise scale</h3>
+        <p>The Lab is built to make AI initiatives possible <em>despite</em> the constraints of core enterprise operations, compliance and IT platforms — not after they're resolved. Shared platform assets compound across initiatives; each one starts further along than the last.</p>
+        <ul>
+          <li>Designed around core-system constraints</li>
+          <li>Shared platform assets compound</li>
+          <li>Lab speed, not committee speed</li>
+          <li>P&amp;L attribution preserved through branding</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<!-- 06 — Delivery -->
+<section>
+  <div class="container">
+    <div class="marker"><span class="marker__star">✱</span><span>AI Strategy</span><span class="marker__num">Valtech &nbsp; 06</span></div>
+
+    <div class="section__head">
+      <div class="eyebrow">Delivery</div>
+      <h2 class="wide">What an engagement looks like.</h2>
+    </div>
+
+    <div class="delivery-grid">
+      <div>
+        <h3>Commercial model</h3>
+        <p>Time-and-materials at standard Valtech rates for engaged consultants and specialists. No fixed program fee — resourcing is approved initiative by initiative by the investment board, scaled to the stage and to the work in front of it.</p>
+      </div>
+      <div>
+        <h3>Governance</h3>
+        <p>A client-owned investment board, convened on a regular cadence to take gate decisions. Valtech runs the program operationally; the client holds decision rights.</p>
+      </div>
+      <div>
+        <h3>Talent commitment</h3>
+        <p>Client team members are engaged at 50% of their time on a given initiative, with a written reversion-and-acceleration guarantee from their sponsor. Their original role is preserved; time on the initiative counts toward career progression.</p>
+      </div>
+      <div>
+        <h3>What you keep</h3>
+        <p>All product IP — every solution built belongs to you. The format, methodology and reusable platform assets stay with Valtech, available to all initiatives in the program.</p>
+      </div>
+    </div>
+
+    <div class="team-row">
+      <div class="team-card">
+        <div class="role">Program Lead</div>
+        <div class="who">Valtech Strategy Director</div>
+        <div class="note">Runs the program, supports the investment board, owns the Lab method and the shared assets.</div>
+      </div>
+      <div class="team-card">
+        <div class="role">Initiative Teams</div>
+        <div class="who">Co-staffed: client &amp; Valtech</div>
+        <div class="note">Dedicated small teams per initiative. Client at 50% commitment; Valtech right-sizes its specialist mix per stage.</div>
+      </div>
+      <div class="team-card">
+        <div class="role">SME Bench Access</div>
+        <div class="who">Valtech global specialists</div>
+        <div class="note">Domain, technical and AI specialists engaged flexibly — days, not procurement cycles.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 07 — Thank you -->
+<section class="thanks">
+  <div class="container">
+    <div class="marker"><span class="marker__star">✱</span><span>AI Strategy</span><span class="marker__num">Valtech &nbsp; 07</span></div>
+
+    <div class="thanks-inner">
+      <h2>Thank you</h2>
+
+      <div class="thanks-legal">
+        <p>This presentation is provided with the understanding and expectation that its recipient will keep it confidential. Neither party is obliged to enter into any form of contractual arrangement with the other. This presentation does not create a contractual relationship between Valtech and the recipient, nor does it form the basis for any contract or contract terms including, without limitation, any statements regarding indicative pricing, timelines, or services. It will not be binding unless expressly agreed to by the parties in a definitive agreement.</p>
+        <p>© 2026 Valtech Group Holding Limited or its affiliates. All rights reserved. Confidential.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

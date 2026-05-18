@@ -1,1 +1,1625 @@
-Contained for now
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scania — Generative Engine Optimization Audit | Valtech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-soft: #131313;
+    --cream: #EDE8DF;
+    --ink: #0F0F0F;
+    --indigo: #1E30A0;
+    --indigo-deep: #0d1a6e;
+    --spark: #c8ff3d;
+    --spark-soft: #9FFF4D;
+    --coral: #FF5C5C;
+    --muted: #9a9a9a;
+    --muted-2: #6b6b6b;
+    --line: rgba(255,255,255,0.08);
+    --line-strong: rgba(255,255,255,0.18);
+    --pass-bg: rgba(159,255,77,0.07);
+    --pass-text: #9FFF4D;
+    --miss-bg: rgba(255,92,92,0.07);
+    --miss-text: #FF8585;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: #f2f2f2;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* === LAYOUT === */
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 64px; }
+  @media (max-width: 800px) { .wrap { padding: 0 24px; } }
+
+  /* === TOP UTILITY BAR === */
+  .util {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .util-inner {
+    max-width: 1280px; margin: 0 auto; padding: 14px 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; color: var(--muted); letter-spacing: 0.02em;
+  }
+  .util-inner .center { color: #f2f2f2; font-weight: 400; }
+  .star {
+    display: inline-block; width: 16px; height: 16px;
+    background: currentColor;
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 1v22M1 12h22M4 4l16 16M20 4L4 20'/></svg>") center/contain no-repeat;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5'><path d='M12 1v22M1 12h22M4 4l16 16M20 4L4 20'/></svg>") center/contain no-repeat;
+  }
+  .logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: #f2f2f2; text-decoration: none; font-weight: 500;
+  }
+  .logo svg { width: 18px; height: 18px; }
+  @media (max-width: 800px) { .util-inner { padding: 14px 24px; } .util-inner .center { display: none; } }
+
+  /* === HERO === */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 64px 80px;
+    background:
+      linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.15) 35%, rgba(10,10,10,0.85) 100%),
+      url('scaniatruck.png') center 45%/cover no-repeat;
+    background-color: #1a1208;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 60%, transparent 0%, rgba(10,10,10,0.6) 100%);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; z-index: 2; max-width: 1280px - 128px; width: 100%; margin: 0 auto; }
+  .hero h1 {
+    font-size: clamp(40px, 6.4vw, 92px);
+    line-height: 0.98;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    color: #fff;
+    max-width: 1100px;
+  }
+  .hero h1 .sub {
+    display: block;
+    font-size: clamp(28px, 4vw, 56px);
+    margin-top: 6px;
+    color: #f2f2f2;
+  }
+  .hero-meta {
+    margin-top: 56px;
+    display: flex; flex-wrap: wrap; gap: 40px;
+    color: #d9d9d9; font-size: 14px;
+  }
+  .hero-meta strong { display: block; color: #fff; font-weight: 500; margin-bottom: 4px; }
+  .hero-meta a { color: var(--spark); text-decoration: none; }
+  .ai-tag {
+    position: absolute; right: 64px; bottom: 24px;
+    font-size: 11px; color: rgba(255,255,255,0.5); font-style: italic;
+  }
+  @media (max-width: 800px) {
+    .hero { padding: 0 24px 60px; }
+    .ai-tag { right: 24px; }
+  }
+
+  /* === SECTION DOTS / DISCREET SEPARATOR === */
+  .sep {
+    display: flex; align-items: center; gap: 20px;
+    padding: 80px 0 40px;
+    color: var(--muted-2);
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .sep .num { color: var(--coral); font-weight: 400; }
+  .sep .line { flex: 1; height: 1px; background: var(--line); }
+
+  /* === SECTION HEADERS === */
+  .section { padding: 40px 0 80px; }
+  .section h2 {
+    font-size: clamp(34px, 4.4vw, 58px);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    color: #fff;
+  }
+  .section h2 .accent { color: var(--spark); }
+  .section h2 .coral { color: var(--coral); }
+  .section h3 {
+    font-size: 22px; font-weight: 400; letter-spacing: -0.005em;
+    margin-bottom: 14px; color: #fff;
+  }
+  .section .lead {
+    font-size: 18px; color: #d9d9d9; max-width: 780px;
+    font-weight: 300; line-height: 1.55;
+  }
+
+  /* === EXECUTIVE SUMMARY === */
+  .exec {
+    padding: 100px 0 60px;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .exec .left h2 {
+    font-size: clamp(40px, 5vw, 72px);
+    font-weight: 300; line-height: 1.02; letter-spacing: -0.025em;
+    margin-bottom: 32px;
+  }
+  .exec .pull {
+    font-style: italic; color: #d9d9d9;
+    font-size: 18px; line-height: 1.5; max-width: 360px;
+  }
+  .exec .right p { margin-bottom: 18px; color: #d9d9d9; font-size: 16px; line-height: 1.65; }
+  .exec .right strong { color: #fff; font-weight: 500; }
+  .exec .right .bullets { padding-left: 0; list-style: none; margin: 18px 0; }
+  .exec .right .bullets li {
+    padding: 10px 0 10px 18px; position: relative;
+    color: #d9d9d9; font-size: 16px; line-height: 1.5;
+  }
+  .exec .right .bullets li::before {
+    content: ""; position: absolute; left: 0; top: 19px;
+    width: 8px; height: 1px; background: var(--spark);
+  }
+  .exec .right .bullets b { color: #fff; font-weight: 500; }
+  @media (max-width: 900px) { .exec { grid-template-columns: 1fr; gap: 32px; padding: 60px 0 40px; } }
+
+  /* === APPROACH PYRAMID === */
+  .approach { padding: 60px 0 40px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+  .pyramid-wrap { display: flex; justify-content: center; }
+  .pyramid-wrap svg { width: 100%; max-width: 560px; height: auto; }
+  @media (max-width: 900px) { .approach { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* === THREE-PYRAMID GRID === */
+  .three-pyr {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(8, auto);
+    gap: 0 32px;
+    margin-top: 40px;
+  }
+  .pyr-card {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 8;
+    border-top: 1px solid var(--line);
+  }
+  .pyr-card .mini-pyr { display: block; width: 160px; height: auto; margin: 18px 0 18px; }
+  .pyr-card h4 {
+    font-size: 20px; font-weight: 400; color: #fff; margin-bottom: 4px;
+  }
+  .pyr-card .small { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+  .pyr-card .arrow {
+    color: var(--spark); font-size: 14px; font-weight: 500; margin: 16px 0 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .pyr-card .desc {
+    font-size: 14px; color: #d9d9d9; line-height: 1.5; padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .pyr-card .focus-title { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin: 18px 0 10px; }
+  .pyr-card ul { list-style: none; }
+  .pyr-card ul li {
+    font-size: 13px; color: #c9c9c9; padding: 4px 0 4px 14px;
+    position: relative; line-height: 1.45;
+  }
+  .pyr-card ul li::before {
+    content: ""; position: absolute; left: 0; top: 11px;
+    width: 4px; height: 4px; background: #777; border-radius: 1px;
+  }
+  .pyr-card .footnote {
+    font-size: 13px; color: var(--muted); margin-top: 24px;
+    padding-top: 20px; border-top: 1px solid var(--line); line-height: 1.55;
+  }
+  @media (max-width: 900px) {
+    .three-pyr {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+    }
+    .pyr-card {
+      grid-template-rows: repeat(8, auto);
+      grid-row: auto;
+    }
+  }
+
+  /* === VENN 3-CIRCLE === */
+  .venn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 40px 0; }
+  .venn-row h2 { font-size: clamp(28px, 3.6vw, 48px); font-weight: 300; line-height: 1.1; }
+  .venn-row .lead { margin-top: 24px; font-size: 18px; color: #d9d9d9; line-height: 1.5; max-width: 480px; }
+  @media (max-width: 900px) { .venn-row { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* === STATS GRID === */
+  .stats {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 0; padding: 60px 0;
+    border-top: 1px solid var(--line);
+  }
+  .stats .title-cell {
+    grid-row: span 2;
+    padding: 32px 40px 32px 0;
+    font-size: clamp(34px, 4.4vw, 58px);
+    font-weight: 300; line-height: 1.05; letter-spacing: -0.02em;
+    align-self: start;
+  }
+  .stats .title-cell .accent { color: var(--spark); }
+  .stat-cell {
+    padding: 32px 24px;
+    border-left: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .stat-cell:nth-child(2), .stat-cell:nth-child(3) { border-top: 0; }
+  .stat-cell .pct {
+    font-size: clamp(40px, 5vw, 64px); font-weight: 300;
+    color: var(--spark); letter-spacing: -0.02em; line-height: 1;
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .stat-cell .pct .arrow { font-size: 0.7em; }
+  .stat-cell .note {
+    margin-top: 18px; color: #d9d9d9; font-size: 14px; line-height: 1.5;
+  }
+  @media (max-width: 800px) {
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stats .title-cell { grid-column: span 2; grid-row: span 1; padding: 24px 0; }
+    .stat-cell { border-left: 0; }
+    .stat-cell:nth-child(even) { border-left: 1px solid var(--line); }
+  }
+
+  /* === CHART ROW === */
+  .chart-row {
+    display: grid; grid-template-columns: 1fr 1.3fr;
+    gap: 60px; align-items: center;
+    padding: 60px 0;
+  }
+  .chart-row .left h3 {
+    font-size: clamp(26px, 3.2vw, 38px);
+    font-weight: 300; line-height: 1.15; margin-bottom: 32px;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .chart-row .left h3 .icon { font-size: 0.7em; padding-top: 4px; }
+  .chart-row .left h3 .muted { color: var(--muted); }
+  .chart-row .left h3 .spark { color: var(--spark); }
+  .chart-row .left .div { height: 1px; background: var(--line); margin: 8px 0; }
+  .chart-card {
+    background: var(--cream); border-radius: 14px; padding: 28px;
+  }
+  .chart-card img { width: 100%; display: block; border-radius: 6px; }
+  @media (max-width: 900px) { .chart-row { grid-template-columns: 1fr; } }
+
+  /* === BIG QUOTE === */
+  .quote {
+    padding: 100px 0 60px;
+    font-size: clamp(36px, 5.6vw, 76px);
+    font-weight: 300; letter-spacing: -0.02em; line-height: 1.05;
+    color: #fff;
+  }
+  .quote .spark { color: var(--spark); }
+
+  /* === WHAT THIS MEANS === */
+  .means { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; padding: 40px 0 60px; }
+  .means h2 { font-size: clamp(34px, 4.4vw, 58px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.05; }
+  .means h2 .spark { color: var(--spark); }
+  .mean-item {
+    display: grid; grid-template-columns: 60px 1fr 1fr; gap: 24px;
+    padding: 26px 0; border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .mean-item:first-child { border-top: 1px solid var(--line); }
+  .mean-item .icon-cell { display: flex; align-items: center; justify-content: flex-start; }
+  .mean-item .ico {
+    width: 36px; height: 36px;
+    stroke: #fff; fill: none; stroke-width: 1.5;
+  }
+  .mean-item .main { font-size: 18px; color: #fff; font-weight: 400; line-height: 1.35; }
+  .mean-item .sub { font-size: 14px; color: var(--muted); line-height: 1.5; }
+  @media (max-width: 900px) {
+    .means { grid-template-columns: 1fr; gap: 32px; }
+    .mean-item { grid-template-columns: 40px 1fr; }
+    .mean-item .sub { grid-column: 2; }
+  }
+
+  /* === SEO vs GEO === */
+  .seogeo {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 32px;
+    padding: 40px 0 80px;
+    align-items: start;
+  }
+  .seogeo h3.col-title {
+    font-size: clamp(48px, 5.2vw, 80px);
+    font-weight: 300; letter-spacing: -0.025em; color: #fff;
+    margin-bottom: 32px;
+  }
+  .seogeo .col ul { list-style: none; }
+  .seogeo .col ul li {
+    font-size: 14px; color: #d9d9d9; padding: 6px 0 6px 14px;
+    position: relative; line-height: 1.5;
+  }
+  .seogeo .col ul li::before {
+    content: ""; position: absolute; left: 0; top: 13px;
+    width: 4px; height: 4px; background: var(--muted-2); border-radius: 1px;
+  }
+  .seogeo .col ul li b { color: var(--spark); font-weight: 500; }
+  .seogeo .venn-col {
+    position: relative;
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .seogeo .venn-col svg.venn { width: 100%; max-width: 380px; height: auto; display: block; }
+  .seogeo .connector {
+    width: 1px; height: 28px; background: rgba(255,255,255,0.35);
+    margin: 0 auto;
+  }
+  .seogeo .shared {
+    list-style: none;
+    max-width: 380px;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .seogeo .shared li {
+    font-size: 14px; color: #d9d9d9;
+    padding: 5px 0 5px 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .seogeo .shared li::before {
+    content: ""; position: absolute; left: 0; top: 12px;
+    width: 4px; height: 4px; background: var(--muted-2); border-radius: 1px;
+  }
+  @media (max-width: 900px) {
+    .seogeo { grid-template-columns: 1fr; }
+    .seogeo .venn-col { padding-top: 0; }
+  }
+
+  /* === HOW GEO WORKS === */
+  .how { padding: 40px 0 80px; }
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto 1fr auto auto;
+    gap: 0 32px;
+    margin-top: 40px;
+  }
+  .how-card {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 4;
+  }
+  .how-card h4 { font-size: 22px; font-weight: 400; color: #fff; margin-bottom: 18px; line-height: 1.2; }
+  .how-card .body-wrap { display: flex; flex-direction: column; }
+  .how-card .body { font-size: 14px; color: #d9d9d9; line-height: 1.55; margin-bottom: 12px; }
+  .how-card .body:last-child { margin-bottom: 0; }
+  .how-card .result {
+    background: var(--indigo); color: #fff;
+    padding: 18px 20px; border-radius: 14px; margin-top: 24px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .how-card .result .label {
+    font-size: 12px; color: rgba(255,255,255,0.7);
+    margin-bottom: 8px;
+  }
+  .how-card .result .text {
+    font-size: 13px; color: #fff; line-height: 1.45;
+  }
+  .how-card .num {
+    font-size: 32px; font-weight: 300; color: #fff;
+    margin-top: 24px; padding-top: 14px; border-top: 1px solid var(--line);
+  }
+  @media (max-width: 900px) {
+    .how-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: none;
+      gap: 32px;
+    }
+    .how-card {
+      grid-template-rows: auto 1fr auto auto;
+      grid-row: auto;
+    }
+  }
+  @media (max-width: 600px) {
+    .how-grid { grid-template-columns: 1fr; }
+  }
+
+  /* === LLMS.TXT MOCK === */
+  .llms { display: grid; grid-template-columns: 1fr 1.6fr; gap: 60px; align-items: start; padding: 40px 0 80px; }
+  .llms h2 { font-size: clamp(34px, 4.4vw, 58px); font-weight: 300; line-height: 1.05; letter-spacing: -0.02em; }
+  .llms h3 { color: var(--spark); font-size: 20px; margin: 32px 0 16px; font-weight: 500; }
+  .llms p, .llms li { font-size: 15px; color: #d9d9d9; line-height: 1.55; }
+  .llms ul { list-style: none; margin-top: 8px; }
+  .llms ul li {
+    padding: 8px 0 8px 14px; position: relative;
+  }
+  .llms ul li::before {
+    content: ""; position: absolute; left: 0; top: 16px;
+    width: 4px; height: 4px; background: var(--muted-2); border-radius: 1px;
+  }
+  .browser {
+    background: #1d1d1f; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .browser-bar {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 16px; background: #2a2a2c;
+    border-bottom: 1px solid #000;
+  }
+  .browser-bar .dots { display: flex; gap: 6px; }
+  .browser-bar .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .browser-bar .dot.r { background: #ff5f57; }
+  .browser-bar .dot.y { background: #febc2e; }
+  .browser-bar .dot.g { background: #28c840; }
+  .browser-bar .url {
+    flex: 1; background: #1d1d1f; border-radius: 6px;
+    padding: 5px 12px; font-size: 12px; color: #ccc;
+    font-family: 'Inter', sans-serif;
+  }
+  .browser-body {
+    background: #f6f6f6; color: #1a1a1a;
+    padding: 22px 26px;
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 10.5px; line-height: 1.55;
+    max-height: 460px; overflow: auto;
+    white-space: pre-wrap;
+  }
+  .browser-body .h { color: #000; font-weight: 600; }
+  .browser-body .link { color: #1E30A0; }
+  .browser-body .em { color: #555; font-weight: 600; }
+  @media (max-width: 900px) { .llms { grid-template-columns: 1fr; } }
+
+  /* === LIGHT SECTION (data/audit) === */
+  .light {
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 24px;
+    padding: 80px 64px;
+    margin: 40px 0;
+  }
+  .light h2 {
+    color: var(--ink); font-weight: 300;
+    font-size: clamp(34px, 4.4vw, 58px); letter-spacing: -0.02em; line-height: 1.05;
+    margin-bottom: 24px;
+  }
+  .light h3 { color: var(--ink); }
+  .light .lead { color: #333; font-size: 18px; max-width: 780px; line-height: 1.5; }
+  .light .small { font-size: 13px; color: #555; }
+  @media (max-width: 800px) { .light { padding: 48px 28px; border-radius: 16px; } }
+
+  /* === GEO READINESS SCORES === */
+  .scores {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin: 48px 0 28px;
+  }
+  .score-card {
+    background: #fff; border-radius: 8px; padding: 36px 24px;
+    text-align: center; min-height: 220px;
+    display: flex; flex-direction: column; justify-content: center;
+    border: 1px solid #e0ddd5;
+  }
+  .score-card .num {
+    font-size: 72px; font-weight: 300; line-height: 1;
+    margin-bottom: 4px;
+  }
+  .score-card .of {
+    font-size: 14px; color: #555; margin-bottom: 28px;
+  }
+  .score-card .label {
+    font-size: 15px; color: #333; line-height: 1.3;
+  }
+  .score-card.good .num { color: var(--indigo); }
+  .score-card.bad .num { color: var(--coral); }
+  .score-card.mid .num { color: var(--indigo); }
+  .score-card.warn .num { color: #555; }
+  .overall {
+    font-size: 16px; color: var(--ink);
+    display: flex; align-items: center; gap: 20px;
+    padding: 8px 0 24px;
+  }
+  .overall .big { font-size: 48px; font-weight: 300; }
+  .robots-banner {
+    background: rgba(159,255,77,0.18);
+    border: 1px solid rgba(70,140,30,0.3);
+    border-radius: 6px;
+    padding: 18px 22px;
+    margin-top: 20px;
+  }
+  .robots-banner .title {
+    font-weight: 600; color: #2d5d12; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .robots-banner .body { color: #2d5d12; font-size: 14px; }
+  @media (max-width: 800px) { .scores { grid-template-columns: 1fr 1fr; } }
+
+  /* === STATUS GRID === */
+  .status {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-top: 36px;
+  }
+  .status-card {
+    border-radius: 6px; padding: 18px 22px;
+    border: 1px solid;
+  }
+  .status-card.pass {
+    background: rgba(70,140,30,0.06); border-color: rgba(70,140,30,0.25);
+  }
+  .status-card.miss {
+    background: rgba(220,38,38,0.05); border-color: rgba(220,38,38,0.25);
+  }
+  .status-card .badge {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .status-card.pass .badge { color: #2d5d12; }
+  .status-card.miss .badge { color: #a02020; }
+  .status-card .name {
+    font-size: 18px; color: var(--ink); font-weight: 400; margin-bottom: 4px;
+  }
+  .status-card .desc { font-size: 13px; color: #555; line-height: 1.45; }
+  @media (max-width: 800px) { .status { grid-template-columns: 1fr; } }
+
+  /* === THREE GAPS === */
+  .gaps {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; margin-top: 36px;
+  }
+  .gap-card {
+    background: #fff; border: 1px solid #e0ddd5;
+    border-radius: 8px; padding: 32px 28px;
+  }
+  .gap-card .num {
+    font-size: 36px; color: var(--coral); font-weight: 300;
+    margin-bottom: 14px;
+  }
+  .gap-card .divider {
+    height: 1px; background: var(--coral); margin-bottom: 22px;
+  }
+  .gap-card h4 {
+    font-size: 20px; color: var(--ink); font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .gap-card p {
+    font-size: 14px; color: #444; line-height: 1.55;
+  }
+  @media (max-width: 800px) { .gaps { grid-template-columns: 1fr; } }
+
+  /* === COMPETITOR TABLE === */
+  .comp-head {
+    display: grid; grid-template-columns: 2fr 1fr;
+    gap: 32px; align-items: start; margin-bottom: 28px;
+  }
+  .comp-head .badge {
+    background: var(--coral); color: #fff;
+    border-radius: 8px; padding: 24px;
+    text-align: center;
+  }
+  .comp-head .badge .big { font-size: 56px; font-weight: 300; line-height: 1; }
+  .comp-head .badge .sub { font-size: 14px; margin-top: 6px; }
+  .comp-table {
+    width: 100%; border-collapse: collapse; font-size: 14px;
+    background: #fff; border-radius: 6px; overflow: hidden;
+    border: 1px solid #e0ddd5;
+  }
+  .comp-table th, .comp-table td {
+    padding: 14px 16px; text-align: left;
+    border-bottom: 1px solid #e8e4d8;
+  }
+  .comp-table th {
+    background: #1a1a1a; color: #fff;
+    font-weight: 500; font-size: 13px; letter-spacing: 0.02em;
+  }
+  .comp-table td.miss { color: #a02020; }
+  .comp-table tr:last-child td { border-bottom: 0; }
+  .comp-table td:first-child { color: var(--ink); font-weight: 400; }
+
+  /* === SCANIA LOSING (Query opportunities) === */
+  .losing { margin-top: 36px; }
+  .loss-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px; padding: 22px 0;
+    border-bottom: 1px solid #d9d5c8;
+  }
+  .loss-row:first-child { border-top: 1px solid #d9d5c8; }
+  .loss-row .q {
+    font-size: 16px; font-weight: 500; color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .loss-row .today { color: var(--coral); font-size: 14px; line-height: 1.5; }
+  .loss-row .opp { color: var(--indigo); font-size: 14px; line-height: 1.5; padding-top: 4px; }
+  @media (max-width: 800px) { .loss-row { grid-template-columns: 1fr; gap: 8px; } }
+
+  /* === WHY MOVE === */
+  .why-list { margin-top: 36px; border-top: 2px solid var(--coral); }
+  .why-row {
+    display: grid; grid-template-columns: 60px 1fr;
+    gap: 24px; padding: 30px 0;
+    border-bottom: 1px solid #d9d5c8;
+  }
+  .why-row .num {
+    font-size: 36px; color: var(--coral); font-weight: 300; line-height: 1;
+  }
+  .why-row h4 {
+    font-size: 20px; color: var(--ink); font-weight: 400; margin-bottom: 10px;
+  }
+  .why-row p { font-size: 15px; color: #444; line-height: 1.55; }
+  .why-cta {
+    background: var(--coral); color: #fff;
+    padding: 18px 24px; border-radius: 6px;
+    margin-top: 24px; font-weight: 500; font-size: 15px;
+  }
+
+  /* === KPI TABLE === */
+  .kpi-table {
+    width: 100%; border-collapse: collapse; font-size: 14px;
+    background: #fff; border-radius: 6px; overflow: hidden;
+    border: 1px solid #e0ddd5; margin-top: 36px;
+  }
+  .kpi-table th, .kpi-table td {
+    padding: 16px 18px; text-align: left;
+    border-bottom: 1px solid #e8e4d8;
+  }
+  .kpi-table th {
+    background: #1a1a1a; color: #fff;
+    font-weight: 500; font-size: 13px;
+  }
+  .kpi-table tr:last-child td { border-bottom: 0; }
+  .kpi-table td:first-child { color: var(--ink); font-weight: 400; }
+  .kpi-pass {
+    background: rgba(159,255,77,0.2);
+    padding: 4px 10px; border-radius: 4px;
+    display: inline-block; color: #2d5d12; font-weight: 500;
+  }
+
+  /* === BUDGET === */
+  .budget {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px; margin-top: 40px;
+  }
+  .budget .col h4 {
+    font-size: 14px; font-weight: 600; color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .budget .col p, .budget .col li {
+    font-size: 14px; color: #333; line-height: 1.55;
+  }
+  .budget .col ul { list-style: none; margin-top: 4px; }
+  .budget .col ul li {
+    padding: 4px 0 4px 14px; position: relative;
+  }
+  .budget .col ul li::before {
+    content: "—"; position: absolute; left: 0; color: #888;
+  }
+  .budget .col + .col { padding-left: 8px; }
+  .budget-amount {
+    font-size: 22px; color: var(--ink); font-weight: 400;
+    margin-top: 4px;
+  }
+  .lead-card {
+    background: #e8e3d8; border-radius: 16px; padding: 32px 28px;
+  }
+  .lead-card .photo {
+    width: 90px; height: 90px; border-radius: 50%;
+    background: linear-gradient(135deg, #c4b89e 0%, #8a7d62 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 32px; font-weight: 300;
+    margin-bottom: 18px; letter-spacing: -0.02em;
+  }
+  .lead-card .name { font-weight: 600; color: var(--ink); }
+  .lead-card .name + span { font-weight: 400; }
+  .lead-card p { font-size: 13px; color: #444; line-height: 1.55; margin-top: 12px; }
+  .lead-card a { color: var(--coral); text-decoration: none; font-size: 13px; word-break: break-all; }
+  @media (max-width: 900px) { .budget { grid-template-columns: 1fr; } }
+
+  /* === FOOTER === */
+  .footer {
+    padding: 120px 0 80px;
+    border-top: 1px solid var(--line);
+    margin-top: 80px;
+  }
+  .footer .thanks {
+    font-size: clamp(60px, 11vw, 180px);
+    font-weight: 300; letter-spacing: -0.04em; line-height: 1;
+    margin-bottom: 60px;
+  }
+  .footer .meta {
+    font-size: 12px; color: var(--muted-2); line-height: 1.55;
+    max-width: 720px;
+  }
+
+  /* utility */
+  .center-text { text-align: center; }
+  .mb24 { margin-bottom: 24px; }
+  .mt40 { margin-top: 40px; }
+
+  /* mini-pyramid highlights */
+  .pyr-h-bottom .seg-bottom { opacity: 1; }
+  .pyr-h-bottom .seg-mid, .pyr-h-bottom .seg-top { opacity: 0.18; }
+  .pyr-h-mid .seg-mid { opacity: 1; }
+  .pyr-h-mid .seg-bottom, .pyr-h-mid .seg-top { opacity: 0.18; }
+  .pyr-h-top .seg-top { opacity: 1; }
+  .pyr-h-top .seg-bottom, .pyr-h-top .seg-mid { opacity: 0.18; }
+</style>
+</head>
+<body>
+
+<!-- ===== UTILITY BAR ===== -->
+<div class="util">
+  <div class="util-inner">
+    <a class="logo" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/>
+      </svg>
+      Valtech
+    </a>
+    <div class="center">Proposal Scania: GEO audit</div>
+    <div>May 12, 2026</div>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1>
+      Proposal to Scania
+      <span class="sub">Generative Engine Optimization [GEO]<br/>— Audit &amp; Recommendations</span>
+    </h1>
+    <div class="hero-meta">
+      <div>
+        <strong>Carl Tottie</strong>
+        Head of Growth, VP Nordics
+      </div>
+      <div>
+        <a href="mailto:carl.tottie@valtech.com">carl.tottie@valtech.com</a><br/>
+        +46 70 866 24 22
+      </div>
+    </div>
+  </div>
+  <div class="ai-tag">✦ AI generated image</div>
+</section>
+
+<!-- ===== EXECUTIVE SUMMARY ===== -->
+<div class="wrap">
+  <section class="exec">
+    <div class="left">
+      <h2>Executive<br/>Summary</h2>
+      <p class="pull"><em>Generative engines are becoming the primary gateway to discovery.</em></p>
+    </div>
+    <div class="right">
+      <p>Customers no longer click through search results — they ask AI, and AI decides which brands get cited.</p>
+      <p>Today, Scania's content is crawlable and trusted, but largely invisible inside AI-generated answers. The issue is not access or quality — it is structure, clarity, and machine-readable context.</p>
+      <p>This proposal outlines how Valtech will assess and <strong>strengthen Scania's Generative Engine Optimization (GEO) maturity</strong> — ensuring Scania is understood, cited, and trusted by AI systems such as ChatGPT, Google AI Overviews, and future generative interfaces.</p>
+      <p>Our audit and recommendations focus on three critical levers:</p>
+      <ul class="bullets">
+        <li><b>Technical optimization</b> — making Scania's content fully accessible, parseable, and citation-ready for AI engines</li>
+        <li><b>Content optimization</b> — structuring information so models can extract, summarize, and reference Scania accurately</li>
+        <li><b>Brand visibility</b> — reinforcing authority signals so Scania becomes the default cited source in its category</li>
+      </ul>
+      <p>The outcome is clear: <strong>protect existing visibility, capture first-mover advantage, and ensure Scania remains discoverable where decisions are increasingly made — inside AI answers.</strong></p>
+    </div>
+  </section>
+
+  <!-- discreet separator -->
+  <div class="sep">
+    <span class="num">01</span>
+    <span>Introduction — Valtech's approach &amp; "the why"</span>
+    <span class="line"></span>
+  </div>
+
+  <!-- ===== APPROACH / PYRAMID ===== -->
+  <section class="approach">
+    <div>
+      <h2>Our approach</h2>
+      <p class="lead">A layered framework. Each tier strengthens the one above — technical foundations enable content that earns brand visibility inside AI answers.</p>
+    </div>
+    <div class="pyramid-wrap">
+      <svg viewBox="0 0 560 510" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="pyrGrad" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#FF5C5C"/>
+            <stop offset="35%" stop-color="#FFB04A"/>
+            <stop offset="60%" stop-color="#FFE74A"/>
+            <stop offset="78%" stop-color="#9FFF4D"/>
+            <stop offset="100%" stop-color="#3DC8FF"/>
+          </linearGradient>
+        </defs>
+        <!-- Equilateral pyramid: apex (280,30), base from (20,480) to (540,480). Base width 520, height 450 → ratio √3/2 -->
+        <polygon points="280,30 540,480 20,480" fill="url(#pyrGrad)"/>
+        <!-- Band dividers (top/mid at y=180, mid/bot at y=330) -->
+        <line x1="193" y1="180" x2="367" y2="180" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+        <line x1="107" y1="330" x2="453" y2="330" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+        <!-- Number labels OUTSIDE pyramid on left, aligned to each band's headline (01 top → 03 bottom) -->
+        <text x="50" y="130" fill="#fff" font-family="Inter" font-size="22" font-weight="300" text-anchor="end" dominant-baseline="middle">03</text>
+        <text x="50" y="255" fill="#fff" font-family="Inter" font-size="22" font-weight="300" text-anchor="end" dominant-baseline="middle">02</text>
+        <text x="50" y="395" fill="#fff" font-family="Inter" font-size="22" font-weight="300" text-anchor="end" dominant-baseline="middle">01</text>
+        <!-- Top band: Brand Visibility — main headline at y=130 -->
+        <text x="280" y="115" fill="#0a0a0a" font-family="Inter" font-size="18" font-weight="500" text-anchor="middle">Brand</text>
+        <text x="280" y="138" fill="#0a0a0a" font-family="Inter" font-size="18" font-weight="500" text-anchor="middle">Visibility</text>
+        <text x="280" y="162" fill="#0a0a0a" font-family="Inter" font-size="13" font-weight="400" text-anchor="middle">The Signal of Trust</text>
+        <!-- Mid band: Content Optimization — main headline at y=255 -->
+        <text x="280" y="248" fill="#0a0a0a" font-family="Inter" font-size="22" font-weight="500" text-anchor="middle">Content Optimization</text>
+        <text x="280" y="273" fill="#0a0a0a" font-family="Inter" font-size="13" font-weight="400" text-anchor="middle">The Voice of the Brand</text>
+        <!-- Bot band: Technical Optimization — main headline at y=395 -->
+        <text x="280" y="388" fill="#0a0a0a" font-family="Inter" font-size="22" font-weight="500" text-anchor="middle">Technical Optimization</text>
+        <text x="280" y="413" fill="#0a0a0a" font-family="Inter" font-size="13" font-weight="400" text-anchor="middle">The Foundation</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== THREE PYRAMID DETAIL CARDS ===== -->
+  <section class="section" style="padding-top:20px;">
+    <div class="three-pyr">
+
+      <div class="pyr-card">
+        <svg class="mini-pyr pyr-h-bottom" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="pg1" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#FF5C5C"/>
+              <stop offset="40%" stop-color="#FFB04A"/>
+            </linearGradient>
+          </defs>
+          <polygon class="seg-top" points="100,14 70,66 130,66" fill="#3a3a3a"/>
+          <polygon class="seg-mid" points="70,66 130,66 160,118 40,118" fill="#3a3a3a"/>
+          <polygon class="seg-bottom" points="40,118 160,118 190,170 10,170" fill="url(#pg1)"/>
+        </svg>
+        <h4>Technical Optimization</h4>
+        <div class="small">The Foundation</div>
+        <div class="arrow">→ Technical Optimization</div>
+        <p class="desc">If search engines or LLMs can't crawl, index, or interpret our page — we don't exist.</p>
+        <div class="focus-title">We focus on:</div>
+        <ul>
+          <li>Structured data (Schema.org)</li>
+          <li>Clean URL structures</li>
+          <li>Indexing permissions (robots.txt, meta tags, HREFLang, canonicals)</li>
+          <li>Site performance (Core Web Vitals, loading speed)</li>
+          <li>Internationalisation</li>
+        </ul>
+        <p class="footnote">Generative engines like ChatGPT or Google AIO rely heavily on structured, trusted sources. Pages with proper schema markup and clear semantics are far more likely to be cited, summarized, or recommended.</p>
+      </div>
+
+      <div class="pyr-card">
+        <svg class="mini-pyr pyr-h-mid" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="pg2" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#FFB04A"/>
+              <stop offset="100%" stop-color="#FFE74A"/>
+            </linearGradient>
+          </defs>
+          <polygon class="seg-top" points="100,14 70,66 130,66" fill="#3a3a3a"/>
+          <polygon class="seg-mid" points="70,66 130,66 160,118 40,118" fill="url(#pg2)"/>
+          <polygon class="seg-bottom" points="40,118 160,118 190,170 10,170" fill="#3a3a3a"/>
+        </svg>
+        <h4>Content Optimization</h4>
+        <div class="small">The Voice of the Brand</div>
+        <div class="arrow">→ Content Optimization</div>
+        <p class="desc">So our content matches search intent with clarity and depth, by users and algorithms.</p>
+        <div class="focus-title">We focus on:</div>
+        <ul>
+          <li>Copy that maps to user and search intent</li>
+          <li>Strategic topic coverage (not just branded terms)</li>
+          <li>Improving titles, meta descriptions, headings (H1–H3 on-page)</li>
+          <li>Information architecture / website and content structure</li>
+          <li>Internal linking</li>
+        </ul>
+        <p class="footnote">GEO isn't about keyword stuffing. It rewards clarity, depth, and accuracy. LLMs surface content that teaches, explains, or solves — not just ranks. Content clusters, FAQs, and explanatory depth win in this model.</p>
+      </div>
+
+      <div class="pyr-card">
+        <svg class="mini-pyr pyr-h-top" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="pg3" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#9FFF4D"/>
+              <stop offset="100%" stop-color="#3DC8FF"/>
+            </linearGradient>
+          </defs>
+          <polygon class="seg-top" points="100,14 70,66 130,66" fill="url(#pg3)"/>
+          <polygon class="seg-mid" points="70,66 130,66 160,118 40,118" fill="#3a3a3a"/>
+          <polygon class="seg-bottom" points="40,118 160,118 190,170 10,170" fill="#3a3a3a"/>
+        </svg>
+        <h4>Brand Visibility</h4>
+        <div class="small">The Signal of Trust</div>
+        <div class="arrow">→ Branding Visibility</div>
+        <p class="desc">When our brand shows up consistently and recognizably across every touchpoint, we stay top-of-mind when decisions are made.</p>
+        <div class="focus-title">We focus on:</div>
+        <ul>
+          <li>E-E-A-T</li>
+          <li>Consistent brand messaging in 3rd parties</li>
+          <li>Monitoring of brand mentions</li>
+          <li>Voice of the customer</li>
+          <li>External backlinks (earned media, citations)</li>
+          <li>Clear UX paths between related content</li>
+        </ul>
+        <p class="footnote">LLMs rely on link graphs to assess credibility. If a page is isolated — no matter how good the content — it risks being ignored by AI. Connected content is cited content.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== GEO MULTI-DISCIPLINARY VENN ===== -->
+  <section class="venn-row">
+    <div>
+      <h2>GEO is most successful when approached as a multidisciplinary practice.</h2>
+      <p class="lead">Presenting one unified, authoritative voice, for both humans and machines.</p>
+    </div>
+    <div>
+      <svg viewBox="0 0 520 460" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="cSEO" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FF8B5C" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#FF5C5C" stop-opacity="0.55"/>
+          </radialGradient>
+          <radialGradient id="cContent" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFE74A" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#c8ff3d" stop-opacity="0.55"/>
+          </radialGradient>
+          <radialGradient id="cBrand" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#3DC8FF" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#1E30A0" stop-opacity="0.55"/>
+          </radialGradient>
+        </defs>
+        <circle cx="170" cy="180" r="135" fill="url(#cSEO)" style="mix-blend-mode:screen"/>
+        <circle cx="350" cy="180" r="135" fill="url(#cContent)" style="mix-blend-mode:screen"/>
+        <circle cx="260" cy="320" r="135" fill="url(#cBrand)" style="mix-blend-mode:screen"/>
+
+        <!-- Outer circle labels — each placed at the visual center of its non-overlapping cap, fully inside its circle -->
+        <text x="131" y="145" fill="#fff" font-family="Inter" font-size="18" font-weight="400" text-anchor="middle">SEO strategy</text>
+        <text x="389" y="145" fill="#0a0a0a" font-family="Inter" font-size="18" font-weight="400" text-anchor="middle">Content strategy</text>
+        <text x="260" y="378" fill="#fff" font-family="Inter" font-size="18" font-weight="400" text-anchor="middle">Brand and UX</text>
+
+        <!-- Inner intersection labels — placed in pairwise lens and centroid -->
+        <text x="260" y="168" fill="#fff" font-family="Inter" font-size="13" text-anchor="middle">Tech SEO</text>
+        <text x="205" y="262" fill="#fff" font-family="Inter" font-size="13" text-anchor="middle">Digital PR</text>
+        <text x="315" y="262" fill="#fff" font-family="Inter" font-size="13" text-anchor="middle">CX</text>
+        <text x="260" y="232" fill="#fff" font-family="Inter" font-size="14" font-weight="500" text-anchor="middle">GEO</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== STATS GRID ===== -->
+  <section class="stats">
+    <div class="title-cell">
+      Generative engines<br/>are <span class="accent">the new gatekeepers</span>
+    </div>
+    <div class="stat-cell">
+      <div class="pct"><span class="arrow">↑</span>3,500%</div>
+      <p class="note">3,500% traffic surge from generative AI to US retail sites (Adobe, 2024–2025)</p>
+    </div>
+    <div class="stat-cell">
+      <div class="pct"><span class="arrow">↑</span>26%</div>
+      <p class="note">By 2026, 25% of search queries will migrate to AI assistants (Gartner).</p>
+    </div>
+    <div class="stat-cell">
+      <div class="pct"><span class="arrow">↑</span>80%</div>
+      <p class="note">80% of users now rely on AI summaries for 40%+ of info needs (Bain)</p>
+    </div>
+    <div class="stat-cell">
+      <div class="pct"><span class="arrow">↑</span>50%</div>
+      <p class="note">Gartner predicts a 50% drop in traditional organic search traffic by 2028</p>
+    </div>
+  </section>
+
+  <!-- ===== CHART ROW ===== -->
+  <section class="chart-row">
+    <div class="left">
+      <h3><span class="icon">↓</span><span><span style="color:#fff">Organic search traffic is</span> <span class="muted">declining</span></span></h3>
+      <div class="div"></div>
+      <h3 style="margin-top:32px"><span class="icon" style="color:var(--spark)">↑</span><span><span style="color:#fff">Referral traffic from AI platforms is</span> <span class="spark">increasing</span></span></h3>
+    </div>
+    <div class="chart-card">
+      <img src="projectedvisitors.png" alt="Projected Annual Visitors by Source — SemRush"/>
+    </div>
+  </section>
+
+  <!-- ===== BIG QUOTE ===== -->
+  <section class="quote">
+    If you're not present in AI answers, customers don't see you<br/>
+    <span class="spark">— even when they search for you.</span>
+  </section>
+
+  <!-- ===== WHAT THIS MEANS ===== -->
+  <section class="means">
+    <h2>What this means for <span class="spark">your brand</span> today</h2>
+    <div>
+      <div class="mean-item">
+        <div class="icon-cell">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.7.6 1 1.4 1 2.3v0h6v0c0-.9.3-1.7 1-2.3A7 7 0 0 0 12 2z"/></svg>
+        </div>
+        <div class="main">AI already answers for you</div>
+        <div class="sub">What it says is not always correct or aligned.</div>
+      </div>
+      <div class="mean-item">
+        <div class="icon-cell">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M3 11l18-8v18l-18-8z"/><path d="M11 19v3"/></svg>
+        </div>
+        <div class="main">Visibility now depends on being cited in AI answers</div>
+        <div class="sub">Traditional organic signals are no longer enough.</div>
+      </div>
+      <div class="mean-item">
+        <div class="icon-cell">
+          <svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="12" r="3"/><path d="M14 12h7M11 9V2M11 22v-7"/></svg>
+        </div>
+        <div class="main">Brands that do nothing lose authority to aggregators, resellers, or competitors</div>
+        <div class="sub">This is the killer commercial point.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SEO vs GEO ===== -->
+  <section class="seogeo">
+    <div class="col">
+      <h3 class="col-title">SEO</h3>
+      <ul>
+        <li><b>Goal:</b> Rank &amp; drive clicks</li>
+        <li>Keyword → page matching &amp; on-page optimization</li>
+        <li>Snippets (titles/meta), rich results, image/video SEO</li>
+        <li>Backlinks &amp; topical authority building</li>
+        <li>Technical crawl/index (robots, canonicals, sitemaps)</li>
+        <li>Page experience/performance (Core Web Vitals)</li>
+        <li>CTR optimization &amp; SERP share of voice</li>
+        <li>KPIs: rankings, organic clicks, sessions, CTR</li>
+      </ul>
+    </div>
+
+    <div class="venn-col">
+      <svg class="venn" viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="135" cy="140" r="115" fill="#bcbcbc" fill-opacity="0.45"/>
+        <circle cx="245" cy="140" r="115" fill="#9FFF4D" fill-opacity="0.65"/>
+        <!-- Drop a tick from the lower intersection point of the two circles -->
+        <line x1="190" y1="241" x2="190" y2="278" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+      </svg>
+      <div class="connector"></div>
+      <ul class="shared">
+        <li>High-quality, trustworthy content</li>
+        <li>Technical hygiene: crawlability, rendering, multilingual/hreflang</li>
+        <li>Information architecture &amp; internal linking</li>
+        <li>Brand/entity credibility &amp; third-party mentions</li>
+        <li>Structured data as a best practice (where supported)</li>
+        <li>Analytics, experimentation, and governance</li>
+        <li>Content ops: briefs, templates, editorial standards</li>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3 class="col-title">GEO</h3>
+      <ul>
+        <li><b>Goal:</b> Be used &amp; cited in AI answers</li>
+        <li>Entity clarity &amp; relationships (brand, products, people, locations)</li>
+        <li>Schema depth at scale + componentized markup patterns</li>
+        <li>Answer-ready content blocks (Q&amp;A, definitions, comparisons, steps)</li>
+        <li>Inclusion measurement: AI inclusion rate, answer share, citation count</li>
+        <li>Prompt/LLM panel monitoring &amp; competitive benchmarking</li>
+        <li>PR/Digital PR alignment to earn authoritative mentions models ingest</li>
+        <li>KPIs: AI referral traffic, inclusion &amp; citation frequency, coverage across AI surfaces</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- ===== HOW GEO WORKS ===== -->
+  <section class="how">
+    <h2>How GEO Works</h2>
+    <div class="how-grid">
+      <div class="how-card">
+        <h4>Entities &amp; Structured Data</h4>
+        <div class="body-wrap">
+          <p class="body">GEO starts by making your entities and relationships machine-legible (brand, products, people, locations) and propagating structured data across templates, not one-off pages.</p>
+          <p class="body">This lets gen engines and AI summaries reliably understand who/what you are and when to cite you.</p>
+        </div>
+        <div class="result">
+          <div class="label">Results to expect</div>
+          <div class="text">Higher click-through rates to pages with rich content and structured data than pages without</div>
+        </div>
+        <div class="num">01</div>
+      </div>
+      <div class="how-card">
+        <h4>Answer-Ready Content Patterns</h4>
+        <div class="body-wrap">
+          <p class="body">We embed Q&amp;A blocks, definitions, comparisons, and step-by-steps so models can lift clean, concise answers, complete with source context and signals of trust.</p>
+          <p class="body">This is how you get used (and cited) when users don't click through.</p>
+        </div>
+        <div class="result">
+          <div class="label">Results to expect</div>
+          <div class="text">35% more organic clicks for brands cited in AI Overviews</div>
+        </div>
+        <div class="num">02</div>
+      </div>
+      <div class="how-card">
+        <h4>Internal Linking &amp; Entity Clusters</h4>
+        <div class="body-wrap">
+          <p class="body">We refactor internal links and IA to mirror real-world relationships (topic → subtopic → product), reinforcing entity clarity and discoverability.</p>
+          <p class="body">This improves how crawlers (and models) navigate and interpret context.</p>
+        </div>
+        <div class="result">
+          <div class="label">Results to expect</div>
+          <div class="text">Increase in traffic due to multiple internal-linking and deeper internal links to key pages</div>
+        </div>
+        <div class="num">03</div>
+      </div>
+      <div class="how-card">
+        <h4>Measure Inclusion</h4>
+        <div class="body-wrap">
+          <p class="body">Traditional rankings/CTR miss what happens inside AI answers, so we track AI inclusion rate, citation frequency, and answer share vs. competitors, then tune content and authority signals accordingly.</p>
+        </div>
+        <div class="result">
+          <div class="label">Results to expect</div>
+          <div class="text">More brand mentions in AI-generated results across a wider range of relevant topics.</div>
+        </div>
+        <div class="num">04</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LLMS.TXT MOCK ===== -->
+  <section class="llms">
+    <div>
+      <h2>GEO in Action: Valtech's llms.txt</h2>
+      <h3>What is llms.txt?</h3>
+      <p>A new file format — like robots.txt or sitemap.xml — but for AI language models (LLMs).</p>
+      <ul>
+        <li>Helps LLMs like ChatGPT, Gemini, Claude understand a website's most important content.</li>
+        <li>Lives at the root of your domain and it is an early but powerful tool in the GEO toolbox.</li>
+        <li>It tells LLMs: "Here's who we are. Here's what matters. Use this, not your guess."</li>
+        <li>This is one of the first steps to future-proof your digital visibility.</li>
+      </ul>
+    </div>
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="dots">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        </div>
+        <div class="url">valtech.com/llms.txt</div>
+      </div>
+      <div class="browser-body"><span class="h"># Valtech.com Website Structure and Section Overview</span>
+
+<span class="em">## Home</span>
+- [<span class="link">Homepage</span>](https://www.valtech.com/): The homepage introduces Valtech as a global digital agency focused on experience innovation, commerce, and transformation. It highlights recent work, key offerings, and company values.
+
+<span class="em">## Our Work</span>
+- [<span class="link">Work</span>](https://www.valtech.com/work/): Showcases Valtech's portfolio of client work, including success stories, cross-industry innovation, and partnerships driving customer experience excellence.
+
+  <span class="em">**Subsections:**</span>
+  - [<span class="link">Cases</span>](https://www.valtech.com/work/): Case studies of digital transformation projects and client collaborations.
+  - [<span class="link">Industries</span>](https://www.valtech.com/industries/): Overview of industries served (retail, automotive, finance, healthcare, etc.).
+  - [<span class="link">Our partners</span>](https://www.valtech.com/partners/): Strategic technology partners such as Adobe, Optimizely, Sitecore, and Salesforce.
+
+<span class="em">## Offerings</span>
+- [<span class="link">Offerings</span>](https://www.valtech.com/offerings/): Details Valtech's primary service lines and expertise areas, providing a comprehensive look at how the company helps clients innovate and grow.
+
+  <span class="em">**Subsections:**</span>
+  - [<span class="link">Experience Elevation</span>](https://www.valtech.com/offerings/experience-elevation/): Enhancing customer experiences across channels and platforms.
+  - [<span class="link">Commerce Acceleration</span>](https://www.valtech.com/offerings/commerce-acceleration/): Accelerating growth through modern, scalable commerce solutions.
+  - [<span class="link">Enterprise Transformation</span>](https://www.valtech.com/offerings/enterprise-transformation/): Guiding organizations through digital transformation and modernization.
+  - [<span class="link">Marketing Creative</span>](https://www.valtech.com/offerings/marketing-creativity-performance/): Integrating creativity and technology for marketing performance.
+  - [<span class="link">Data AI Revolution</span>](https://www.valtech.com/offerings/data-and-ai-revolution/): Leveraging data and AI to power innovation and personalization.
+
+<span class="em">## Careers</span>
+- [<span class="link">Careers</span>](https://www.valtech.com/valtech-as-workplace/): Information for prospective employees about working at Valtech, current openings, and the inclusive, creative work environment.
+
+<span class="em">## Our Insights</span>
+- [<span class="link">Insights</span>](https://www.valtech.com/blog/): A hub for thought leadership, featuring blogs, research, podcasts, and event insights across Valtech's global network.
+
+<span class="em">## About Us</span>
+- [<span class="link">About</span>](https://www.valtech.com/about/): Covers corporate identity, mission, and structure — providing a window into Valtech's global operations, leadership, and purpose.
+</div>
+    </div>
+  </section>
+
+  <!-- discreet separator -->
+  <div class="sep">
+    <span class="num">02</span>
+    <span>Scania.com — a first look · Current GEO readiness</span>
+    <span class="line"></span>
+  </div>
+</div>
+
+<!-- ===== LIGHT BLOCK: GEO READINESS SCORE ===== -->
+<div class="wrap">
+  <div class="light">
+    <h2>GEO Readiness Score — scania.com</h2>
+
+    <div class="scores">
+      <div class="score-card good">
+        <div class="num">82</div>
+        <div class="of">/100</div>
+        <div class="label">Technical<br/>Accessibility</div>
+      </div>
+      <div class="score-card bad">
+        <div class="num">48</div>
+        <div class="of">/100</div>
+        <div class="label">Content<br/>Structure</div>
+      </div>
+      <div class="score-card mid">
+        <div class="num">65</div>
+        <div class="of">/100</div>
+        <div class="label">Authority<br/>Signals</div>
+      </div>
+      <div class="score-card warn">
+        <div class="num">55</div>
+        <div class="of">/100</div>
+        <div class="label">Data Quality<br/>&amp; Freshness</div>
+      </div>
+    </div>
+
+    <div class="overall">
+      <span>Overall GEO Readiness</span>
+      <span class="big">63 / 100</span>
+    </div>
+
+    <div class="robots-banner">
+      <div class="title">✓ robots.txt verified April 30, 2026</div>
+      <div class="body">User-agent: * / Allow: / — GPTBot, PerplexityBot, ClaudeBot and Google-Extended are all permitted. The door is open.</div>
+    </div>
+  </div>
+
+  <!-- ===== LIGHT BLOCK: DOOR IS OPEN ===== -->
+  <div class="light">
+    <h2>The door is open. Now give AI something to cite.</h2>
+    <p class="lead">robots.txt verified April 30, 2026 — all AI crawlers permitted. The access problem does not exist. The citation problem does.</p>
+
+    <div class="status">
+      <div class="status-card pass">
+        <div class="badge">PASS</div>
+        <div class="name">AI Bot Access</div>
+        <div class="desc">User-agent: * / Allow: /</div>
+      </div>
+      <div class="status-card pass">
+        <div class="badge">PASS</div>
+        <div class="name">robots.txt config</div>
+        <div class="desc">Only internal CMS paths blocked<br/>All public content accessible to AI</div>
+      </div>
+      <div class="status-card pass">
+        <div class="badge">PASS</div>
+        <div class="name">HTTPS</div>
+        <div class="desc">Full HTTPS across all pages<br/>No mixed content issues</div>
+      </div>
+      <div class="status-card pass">
+        <div class="badge">PASS</div>
+        <div class="name">Sitemap</div>
+        <div class="desc">sitemap-index.xml present<br/>Referenced in robots.txt</div>
+      </div>
+      <div class="status-card miss">
+        <div class="badge">MISSING</div>
+        <div class="name">llms.txt</div>
+        <div class="desc">No /llms.txt at scania.com root<br/>AI systems have no priority guide</div>
+      </div>
+      <div class="status-card miss">
+        <div class="badge">MISSING</div>
+        <div class="name">Structured Data</div>
+        <div class="desc">Zero JSON-LD schema on any page<br/>Homepage, products, sustainability — all empty</div>
+      </div>
+      <div class="status-card miss">
+        <div class="badge">MISSING</div>
+        <div class="name">FAQPage schema</div>
+        <div class="desc">No FAQ schema anywhere<br/>AI cannot extract Q&amp;A answers</div>
+      </div>
+      <div class="status-card miss">
+        <div class="badge">MISSING</div>
+        <div class="name">Product schema</div>
+        <div class="desc">No schema on truck or bus pages<br/>Specs in blocked PDF path</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LIGHT BLOCK: THREE GAPS ===== -->
+  <div class="light">
+    <h2>Three gaps — no technical blockers</h2>
+    <p class="lead">robots.txt is clean. The remaining gaps are all content and schema — solvable in weeks, not months.</p>
+
+    <div class="gaps">
+      <div class="gap-card">
+        <div class="num">01</div>
+        <div class="divider"></div>
+        <h4>No llms.txt</h4>
+        <p>AI systems crawl scania.com freely — but have no curated guide to priority pages. A single Markdown file at /llms.txt pointing to product pages, sustainability hub and newsroom fixes this in one day.</p>
+      </div>
+      <div class="gap-card">
+        <div class="num">02</div>
+        <div class="divider"></div>
+        <h4>No structured data</h4>
+        <p>Zero JSON-LD schema across the entire site. AI bots can read Scania's content but cannot reliably extract structured facts — specs, commitments, quotes — to cite in answers. FAQPage and Product schema are the highest-priority fix.</p>
+      </div>
+      <div class="gap-card">
+        <div class="num">03</div>
+        <div class="divider"></div>
+        <h4>Specs locked in PDF</h4>
+        <p>Technical documentation is blocked in robots.txt at /content/dam/.../technical-documentation. Converting key specs to HTML product pages with Product schema makes them both accessible and AI-parseable — and solves the robots.txt block in the same step.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- discreet separator -->
+  <div class="sep">
+    <span class="num">03</span>
+    <span>Competitive landscape — Scania vs Volvo, Mercedes-Benz, MAN, IVECO &amp; International</span>
+    <span class="line"></span>
+  </div>
+
+  <!-- ===== LIGHT BLOCK: COMPETITOR TABLE ===== -->
+  <div class="light">
+    <div class="comp-head">
+      <div>
+        <h2>The entire sector is behind on GEO</h2>
+        <p class="lead">Live audit of all five competitors confirms: zero GEO implementation across the board. No FAQPage schema. No Product schema. No llms.txt. No AI bot configuration. This is a category-wide gap — and a first-mover opportunity for whoever acts first.</p>
+      </div>
+      <div class="badge">
+        <div class="big">0 / 6</div>
+        <div class="sub">brands with GEO<br/>implementation</div>
+      </div>
+    </div>
+
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Competitor</th>
+          <th>Schema</th>
+          <th>llms.txt</th>
+          <th>AI bots</th>
+          <th>Structured data</th>
+          <th>Assessment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Volvo Trucks</td>
+          <td class="miss">None</td>
+          <td class="miss">Missing</td>
+          <td class="miss">Not configured</td>
+          <td class="miss">None</td>
+          <td>Strong brand globally — first to act wins</td>
+        </tr>
+        <tr>
+          <td>Mercedes-Benz Trucks</td>
+          <td class="miss">None</td>
+          <td class="miss">Missing</td>
+          <td class="miss">Not configured</td>
+          <td class="miss">None</td>
+          <td>Strong digital presence — no GEO layer</td>
+        </tr>
+        <tr>
+          <td>MAN</td>
+          <td class="miss">None</td>
+          <td class="miss">Missing</td>
+          <td class="miss">Not configured</td>
+          <td class="miss">None</td>
+          <td>VW Group — may move fast once GEO is prioritised</td>
+        </tr>
+        <tr>
+          <td>IVECO Group</td>
+          <td class="miss">None</td>
+          <td class="miss">Missing</td>
+          <td class="miss">Not configured</td>
+          <td class="miss">None</td>
+          <td>Smaller digital team — slower to react</td>
+        </tr>
+        <tr>
+          <td>International</td>
+          <td class="miss">None</td>
+          <td class="miss">Missing</td>
+          <td class="miss">Not configured</td>
+          <td class="miss">None</td>
+          <td>North America focus — lower EU AI search risk</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small" style="margin-top:14px; font-style: italic;">Audited April 2026. Schema and llms.txt verified via live crawl of homepage and robots.txt.</p>
+  </div>
+
+  <!-- ===== LIGHT BLOCK: WHAT SCANIA IS LOSING ===== -->
+  <div class="light">
+    <h2>What Scania is losing to competitors in AI search</h2>
+    <p class="lead">When buyers ask AI assistants about trucks, powertrains, or sustainability — no manufacturer is winning. The brand that implements GEO first captures this share of voice by default.</p>
+
+    <div class="losing">
+      <div class="loss-row">
+        <div>
+          <div class="q">"Best electric truck for long-haul in Europe 2026"</div>
+          <div class="today">Today: No clear winner — AI gives generic answer</div>
+        </div>
+        <div class="opp">Opportunity: Scania could own this with Product + FAQ schema</div>
+      </div>
+      <div class="loss-row">
+        <div>
+          <div class="q">"Which truck manufacturer has the lowest CO2 emissions?"</div>
+          <div class="today">Today: No clear winner — AI cannot extract structured data</div>
+        </div>
+        <div class="opp">Opportunity: Sustainability FAQ schema = Scania cited first</div>
+      </div>
+      <div class="loss-row">
+        <div>
+          <div class="q">"Scania vs Volvo on fuel efficiency"</div>
+          <div class="today">Today: Wikipedia and third-party sites cited</div>
+        </div>
+        <div class="opp">Opportunity: Competitor comparison content = Scania controls narrative</div>
+      </div>
+      <div class="loss-row">
+        <div>
+          <div class="q">"How does Scania Super engine work?"</div>
+          <div class="today">Today: Generic descriptions, no scania.com citation</div>
+        </div>
+        <div class="opp">Opportunity: HowTo + Product schema = direct citation from scania.com</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LIGHT BLOCK: WHY MOVE NOW ===== -->
+  <div class="light">
+    <h2>Why Scania should move now</h2>
+
+    <div class="why-list">
+      <div class="why-row">
+        <div class="num">01</div>
+        <div>
+          <h4>First-mover advantage</h4>
+          <p>All five major competitors have zero GEO implementation. The first brand to publish llms.txt, FAQPage schema and Product schema becomes the default AI citation source for heavy truck queries — a position that is hard to displace once established.</p>
+        </div>
+      </div>
+      <div class="why-row">
+        <div class="num">02</div>
+        <div>
+          <h4>Scania's content is already there</h4>
+          <p>Scania has strong sustainability content, detailed technical specs, and a busy newsroom. The gap is not content — it is structure. Adding schema and llms.txt to existing pages is weeks of work, not months.</p>
+        </div>
+      </div>
+      <div class="why-row">
+        <div class="num">03</div>
+        <div>
+          <h4>The window is closing</h4>
+          <p>As AI search matures, early citations build compounding authority. Volvo and MAN have larger digital teams and will move once GEO reaches their roadmaps. Scania's advantage exists today — it will narrow in 12–18 months.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-cta">Recommended: Begin Phase 1 implementation before end of Q2 2026 — before competitors act.</div>
+  </div>
+
+  <!-- discreet separator -->
+  <div class="sep">
+    <span class="num">04</span>
+    <span>Measuring success — KPIs and monitoring framework</span>
+    <span class="line"></span>
+  </div>
+
+  <!-- ===== LIGHT BLOCK: KPIs ===== -->
+  <div class="light">
+    <h2>What we track and how</h2>
+    <table class="kpi-table">
+      <thead>
+        <tr>
+          <th>KPI</th>
+          <th>Baseline (Apr 2026)</th>
+          <th>Target (90 days)</th>
+          <th>Tool</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AI bot access (robots.txt)</td>
+          <td><span class="kpi-pass">✓ Confirmed – all bots allowed</span></td>
+          <td>Maintain – monitor after any change</td>
+          <td>Google Robots Testing Tool</td>
+        </tr>
+        <tr>
+          <td>Pages with FAQPage schema</td>
+          <td>0</td>
+          <td>15+</td>
+          <td>Rich Results Test</td>
+        </tr>
+        <tr>
+          <td>Pages with Product schema</td>
+          <td>0</td>
+          <td>All truck + bus pages</td>
+          <td>Rich Results Test</td>
+        </tr>
+        <tr>
+          <td>llms.txt published</td>
+          <td>No</td>
+          <td>Yes – within 1 week</td>
+          <td>Manual: scania.com/llms.txt</td>
+        </tr>
+        <tr>
+          <td>AI Overview impressions (GSC)</td>
+          <td>Not tracked</td>
+          <td>Baseline established</td>
+          <td>Google Search Console</td>
+        </tr>
+        <tr>
+          <td>Brand citations in AI search</td>
+          <td>Not tracked</td>
+          <td>Baseline established</td>
+          <td>Semrush AI Toolkit</td>
+        </tr>
+        <tr>
+          <td>Share of voice vs Volvo (AI)</td>
+          <td>Not tracked</td>
+          <td>Baseline established</td>
+          <td>Otterly.ai</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- discreet separator -->
+  <div class="sep">
+    <span class="num">05</span>
+    <span>Budget and Timeline — roles, costs and deliverables</span>
+    <span class="line"></span>
+  </div>
+
+  <!-- ===== LIGHT BLOCK: BUDGET ===== -->
+  <div class="light">
+    <h2>Budget and Timeline</h2>
+
+    <div class="budget">
+      <div class="col">
+        <h4>Week 1–2</h4>
+        <p>Engagement kick-off – alignment and planning<br/>Stakeholder interviews (up to 4 × 1 hour)<br/>Report generation, analysis and recommendations<br/>Audit presentation and hand-over</p>
+
+        <h4 style="margin-top:22px">Week 3–4</h4>
+        <p>Hands-on support to Scania's execution teams on:</p>
+        <ul>
+          <li>Llms.txt at scania.com root</li>
+          <li>Organization schema to homepage</li>
+          <li>Article schema to all newsroom content</li>
+          <li>FAQ Page schema to top 5 product pages</li>
+          <li>Ongoing support and advisory</li>
+        </ul>
+
+        <h4 style="margin-top:22px">Week 12</h4>
+        <p>Updated audit, analysis of actions vs. targets, follow-up meetings with stakeholder and team, additional advisory, coaching and support.</p>
+
+        <h4 style="margin-top:22px">Budget</h4>
+        <div class="budget-amount">128 000 SEK (Fixed price)</div>
+      </div>
+
+      <div class="col">
+        <h4>Miscellaneous</h4>
+        <ul>
+          <li>Assignment start: TBD / two weeks notice</li>
+          <li>The Total Budget (Fixed price) is based on Valtech's current understanding of the requested scope, level of ambition, and overall prerequisites. Any changes to these assumptions or deliverables presented in this document may impact the timeline, budget, and scope of delivery.</li>
+          <li>50% of the Total Budget is invoiced on assignment start, the remaining 50% upon assignment completion.</li>
+          <li>All prices are excluding VAT, costs for required travel, licenses, hosting, etc.</li>
+          <li>This assignment will be performed under the Contract No. 8150 between <em>Scania CV AB</em> (556084-0976) and <em>Netgroup Engineering i Göteborg AB</em> (556577-0897), including affiliates under TRATON. Valtech AB is a qualified member of Netgroup.</li>
+        </ul>
+      </div>
+
+      <div class="col">
+        <div class="lead-card">
+          <h4 style="font-size:15px;margin-bottom:14px;">Assignment Lead</h4>
+          <div class="photo">CG</div>
+          <p><span class="name">Caroline Gadd</span> <span>holds the role as Global SEO &amp; GEO Lead at Valtech, based in Stockholm, Sweden. She specializes in search strategy, Generative Engine Optimization (GEO), and AI-driven visibility, helping organizations strengthen their digital presence as search and discovery rapidly evolve. Caroline works closely with clients to improve technical foundations, content structure, and brand authority so their content is discoverable, understandable, and trusted by both users and AI-powered search engines.</span></p>
+          <p style="margin-top:14px"><a href="https://www.linkedin.com/in/carolineandersongadd/">linkedin.com/in/carolineandersongadd</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER / THANK YOU ===== -->
+  <section class="footer">
+    <div class="thanks">Thank you</div>
+    <p class="meta">
+      All materials, concepts and ideas included in this presentation are protected by copyright laws and are the property of Valtech Group Holding Limited or its affiliates ("Valtech"). You may not copy, reproduce, distribute, publish, display, perform, modify, create derivative works, transmit, or in any way exploit any such content, sell or offer it for sale, or use such content for the purpose contemplated by Valtech part of this RFP without awarding the contract to, or having the prior permission of, Valtech.<br/><br/>
+      © 2026 Valtech Group Holding Limited or its affiliates. All rights reserved. Confidential.
+    </p>
+  </section>
+</div>
+
+</body>
+</html>
